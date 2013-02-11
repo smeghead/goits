@@ -1,0 +1,21 @@
+{{define "content"}}
+  <h1>Projects</h1>
+  <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>name</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{range .projects}}
+      <tr>
+        <td>{{.Id}}</td>
+        <td>{{.Name}}</td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
