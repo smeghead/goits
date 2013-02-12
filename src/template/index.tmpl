@@ -1,21 +1,17 @@
 {{define "content"}}
-  <h1>Projects</h1>
-  <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>name</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{range .projects}}
-      <tr>
-        <td>{{.Id}}</td>
-        <td>{{.Name}}</td>
-      </tr>
-    {{end}}
-    </tbody>
-  </table>
+<div class="row-fluid">
+  <div class="span3">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        {{range .projects}}
+          <li><a href="/{{.Name|urlquery}}">{{.Name}}</a></li>
+        {{end}}
+      </ul>
+    </div>
+  </div>
+  <div class="span9">
+    <h1>VISI SONOR</h1>
+  </div>
+</div>
 {{end}}
 <!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
