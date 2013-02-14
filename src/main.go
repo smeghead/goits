@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	handler "./handler"
+	"./handler"
 )
 
 func main() {
@@ -11,6 +11,8 @@ func main() {
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./js/"))))
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("./img/"))))
 
-	http.HandleFunc("/", handler.TopHandler)
+	handler.InitRoutes()
+
+	http.HandleFunc("/", handler.RouteHandler)
 	http.ListenAndServe(":8080", nil)
 }
