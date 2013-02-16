@@ -3,14 +3,19 @@
   <div class="span3">
     <div class="well sidebar-nav">
       <ul class="nav nav-list">
-        {{range .projects}}
-          <li><a href="/{{.Name|urlquery}}">{{.Name}}</a></li>
+        <li class="nav-header">project list</li>
+        {{range .projectInfos}}
+          {{if .IsManage}}
+          {{else}}
+            <li><a href="/{{.Name|urlquery}}">{{.Name}}</a></li>
+          {{end}}
         {{end}}
       </ul>
     </div>
   </div>
   <div class="span9">
-    <h1>VISI SONOR</h1>
+    <h1>{{.project.ProjectName|html}}</h1>
+    {{.wiki.Content}}
   </div>
 </div>
 {{end}}
