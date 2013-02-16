@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{{.project.ProjectName|html}} | Visi-sonor</title>
+    <title>{{.topProject.Name|html}} {{.project.Name|html}} | Visi-sonor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -35,12 +35,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">{{.project.ProjectName|html}}</a>
+          <a class="brand" href="/">{{.topProject.Name|html}}</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="{{.project.Url}}">サブプロジェクト トップ</a></li>
+              <li><a href="{{.project.Url}}/list">チケット</a></li>
+              <li><a href="{{.project.Url}}/register">登録</a></li>
+              <li><a href="{{.project.Url}}/search">検索</a></li>
+              <li><a href="{{.project.Url}}/statistics">統計情報</a></li>
+              <li><a href="{{.project.Url}}/register_at_once">一括登録</a></li>
+              <li><a href="{{.project.Url}}/help">ヘルプ</a></li>
+              <li><a href="{{.project.Url}}/manage">管理</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

@@ -3,15 +3,22 @@ package handler
 import (
     "fmt"
     "net/http"
-    _ "./data"
+    "net/url"
+    "regexp"
+    "./data"
 )
 
 func RegisterRoutesProject() {
-    RegisterRoute("^/project", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Println("xx %s", r.URL)
+    RegisterRoute("^/[^/]+", func(w http.ResponseWriter, r *http.Request) {
+        projectNameRaw := regexp.MustCompile("^/([^/]+)").FindStringSubmatch(r.URL.RequestURI())[1]
+        projectName, _ := url.QueryUnescape(projectNameRaw)
+        fmt.Println("project", projectName)
+
         params := make(map[string]interface{})
-        
-        Tmpl(w, "project", params)
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = data.GetProject(projectName)
+
+        TmplProject(w, "project", params)
     })
 }
 

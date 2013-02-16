@@ -7,6 +7,7 @@ import (
     "strconv"
     "errors"
     "reflect"
+    "net/url"
 )
 
 type ProjectInfo struct {
@@ -19,7 +20,8 @@ func (p *ProjectInfo) IsManage() bool {
 }
 
 type Project struct {
-    ProjectName string
+    Url string
+    Name string
     HomeDescription string
     HomeUrl string
     UploadMaxSize int
@@ -127,13 +129,14 @@ func GetProjectInfos() []ProjectInfo {
 
 func GetProject(databaseName string) Project {
     project := Project{}
+    project.Url = url.QueryEscape(databaseName)
     _, err := query(databaseName, "select name, value from setting", []interface{}{}, func(rows *sql.Rows) interface{} {
         var name string
         var value string
         rows.Scan(&name, &value)
         switch name {
         case "project_name":
-            project.ProjectName = value
+            project.Name = value
         case "home_description":
             project.HomeDescription = value
         case "home_url":

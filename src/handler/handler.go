@@ -38,8 +38,12 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println("404:", path)
 }
 
-func Tmpl(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-    t, _ := template.ParseFiles("template/layout.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+func TmplTop(w http.ResponseWriter, templateName string, params map[string]interface{}) {
+    t, _ := template.ParseFiles("template/layout_top.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+    t.Execute(w, params)
+}
+func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
+    t, _ := template.ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
     t.Execute(w, params)
 }
 
