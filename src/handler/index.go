@@ -7,7 +7,7 @@ import (
 )
 
 func RegisterRoutesIndex() {
-    RegisterRoute("^/$", func(w http.ResponseWriter, r *http.Request) {
+    RegisterRoute("^/$", func(w http.ResponseWriter, r *http.Request, captures []string) {
         fmt.Println("index")
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")

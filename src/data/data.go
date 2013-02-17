@@ -5,106 +5,9 @@ import (
     "fmt"
     _ "github.com/mattn/go-sqlite3"
     "strconv"
-    "errors"
-    "reflect"
+    "strings"
     "net/url"
 )
-
-type ProjectInfo struct {
-    Id int
-    Name string
-    Sort int
-}
-func (p *ProjectInfo) IsManage() bool {
-    return p.Name == "top"
-}
-
-type Project struct {
-    Url string
-    Name string
-    HomeDescription string
-    HomeUrl string
-    UploadMaxSize int
-    Locale string
-}
-
-type Wiki struct {
-    Id int
-    Name string
-    Content string
-}
-
-func getDatabaseId(databaseName string) (int, error) {
-    if databaseName == "manage" {
-        return 1, nil
-    }
-
-    db, err := sql.Open("sqlite3", "./db/1.db")
-    if err != nil {
-        fmt.Println(err)
-        return -1, err
-    }
-    defer db.Close()
-
-    stmt, err := db.Prepare("select id from project_info where name = ?")
-    if err != nil {
-        fmt.Println(err)
-        return -1, err
-    }
-    defer stmt.Close()
-
-    var id int
-    err = stmt.QueryRow(databaseName).Scan(&id)
-    if err != nil {
-        fmt.Println(err)
-        return -1, err
-    }
-    return id, nil
-}
-
-func query(databaseName string, statement string, params []interface{}, callback func(rows *sql.Rows) interface{}) ([]interface{}, error) {
-    databaseId, err := getDatabaseId(databaseName)
-    if err != nil {
-        fmt.Println(err)
-        return nil, errors.New("failed to retreive databaseId.")
-    }
-    db, err := sql.Open("sqlite3", fmt.Sprintf("./db/%d.db", databaseId))
-    if err != nil {
-        fmt.Println(err)
-        return nil, errors.New("failed to open database")
-    }
-    defer db.Close()
-
-    fmt.Println(statement)
-    stmt, err := db.Prepare(statement)
-    if err != nil {
-        fmt.Println(err)
-        return nil, errors.New("failed to create statement")
-    }
-    defer stmt.Close()
-
-    //execute `rows, err := stmt.Query(arg1, arg2, ...)` by reflect
-    values := []reflect.Value{}
-    for _, p := range params { values = append(values, reflect.ValueOf(p)) }
-    returnValues := reflect.ValueOf(stmt).MethodByName("Query").Call(values)
-    rows := returnValues[0].Interface().(*sql.Rows)
-    if !returnValues[1].IsNil() {
-        err = returnValues[1].Interface().(error)
-    }
-    if err != nil {
-        fmt.Println(err)
-        return nil, errors.New("failed to execute query")
-    }
-    defer rows.Close()
-
-    results := []interface{}{}
-    for rows.Next() {
-        results = append(results, callback(rows))
-    }
-    rows.Close()
-
-    return results, nil
-}
 
 func GetProjectInfos() []ProjectInfo {
     results, err := query(
@@ -183,6 +86,199 @@ func GetWiki(databaseName string, wikiName string) Wiki {
     return wiki
 }
 
+func getElementTypes(databaseName string) []ElementType {
+    statement := "select id, type, ticket_property, reply_property, required, name, " +
+                 "  description, display_in_list, sort, default_value, auto_add_item " +
+                 "from element_type " +
+                 "where deleted = 0 order by sort"
+    params := []interface{}{}
+
+    results, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+        var id int
+        var element_type int
+        var ticket_property bool
+        var reply_property bool
+        var required bool
+        var name string
+        var description string
+        var display_in_list bool
+        var sort int
+        var default_value string
+        var auto_add_item bool
+
+        rows.Scan(&id, &element_type, &ticket_property, &reply_property, &required, &name,
+            &description, &display_in_list, &sort, &default_value, &auto_add_item)
+        return ElementType{id, element_type, ticket_property, reply_property, required, name,
+            description, auto_add_item, default_value, display_in_list, sort}
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    elementTypes := make([]ElementType, len(results))
+    for i, p := range results { elementTypes[i] = p.(ElementType) }
+    return elementTypes
+}
+
+func createColumnsExp(elementTypes []ElementType, table_name string) string {
+    columns := []string{}
+    for _, elem := range elementTypes {
+        columns = append(columns, fmt.Sprintf("%s.field%d", table_name, elem.Id))
+    }
+    return strings.Join(columns, ", ")
+}
+
+func GetNewestTickets(databaseName string, limit int) []Message {
+    statement := fmt.Sprintf("select t.id " +
+            "from ticket as t " +
+            "inner join message as m on m.id = t.last_message_id " +
+            "order by m.registerdate desc " +
+            "limit %d ", limit)
+    params := []interface{} {}
+
+    results, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+        fmt.Println("newest tickets got")
+        var id int
+        rows.Scan(&id)
+        return Message{id, []Element{}}
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+
+    elementTypes := getElementTypes(databaseName)
+
+    tickets := []Message{}
+    for _, t := range results {
+        ticket := t.(Message)
+        statement := fmt.Sprintf(
+            "select t.id, org_m.field%d, %s " + 
+            "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  " +
+            "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date " +
+            "from ticket as t " +
+            "inner join message as last_m on last_m.id = t.last_message_id " +
+            "inner join message as org_m on org_m.id = t.original_message_id " +
+            "where t.id = ?", ELEM_ID_SENDER, createColumnsExp(elementTypes, "last_m"))
+        params := []interface{} {ticket.Id}
+
+        _, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+            fmt.Println("newest each ticket got")
+            pockets, _ := scanDynamicRows(rows)
+
+            fmt.Println(strings.Join(pockets, ","))
+            elements := []Element{}
+
+            i := 0
+            /* ID */
+            elements = append(elements, Element{ELEM_ID_ID, pockets[i], false})
+            i++
+            /* 初回投稿者 */
+            elements = append(elements, Element{ELEM_ID_ORG_SENDER, pockets[i], false})
+            i++
+            /* 動的カラム */
+            for _, elmType := range elementTypes {
+                elements = append(elements, Element{elmType.Id, pockets[i], false})
+                i++
+            }
+            /* 投稿日時 */
+            elements = append(elements, Element{ELEM_ID_REGISTERDATE, pockets[i], false})
+            i++
+            /* 最終更新日時 */
+            elements = append(elements, Element{ELEM_ID_LASTREGISTERDATE, pockets[i], false})
+            i++
+            /* 最終更新日時からの経過日数 */
+            elements = append(elements, Element{ELEM_ID_LASTREGISTERDATE_PASSED, pockets[i], false})
+            i++
+
+            ticket.Elements = elements
+            return nil
+        })
+        if err != nil {
+            fmt.Println(err)
+            panic(err)
+        }
+        tickets = append(tickets, ticket)
+    }
+    return tickets
+
+//    strcat(sql, sql_suf);
+
+//List* db_get_last_elements_4_list(Database* db, const int ticket_id, List* elements)
+//{
+//    char sql[DEFAULT_LENGTH] = "";
+//    char sql_suf[DEFAULT_LENGTH] = "";
+//    sqlite3_stmt *stmt = NULL;
+//    int r;
+//    char columns[DEFAULT_LENGTH] = "";
+//    List* element_types_a = NULL;
+//    Iterator* it;
+//
+//    list_alloc(element_types_a, ElementType, element_type_new, element_type_free);
+//    element_types_a = db_get_element_types_4_list(db, NULL, element_types_a);
+//    create_columns_exp(element_types_a, "last_m", columns);
+//    sprintf(sql, "select t.id, org_m.field%d ", ELEM_ID_SENDER);
+//    strcat(sql, columns);
+//    sprintf(sql_suf, 
+//            "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  "
+//            "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date "
+//            "from ticket as t "
+//            "inner join message as last_m on last_m.id = t.last_message_id "
+//            "inner join message as org_m on org_m.id = t.original_message_id "
+//            "where t.id = ?");
+//    strcat(sql, sql_suf);
+//    if (sqlite3_prepare(db->handle, sql, strlen(sql), &stmt, NULL) == SQLITE_ERROR) goto error;
+//    sqlite3_reset(stmt);
+//    sqlite3_bind_int(stmt, 1, ticket_id);
+//
+//    while (SQLITE_ROW == (r = sqlite3_step(stmt))) {
+//        int i = 0;
+//        Element* e;
+//        /* ID */
+//        e = list_new_element(elements);
+//        e->element_type_id = ELEM_ID_ID;
+//        set_str_val(e, sqlite3_column_text(stmt, i++));
+//        list_add(elements, e);
+//        /* 初回投稿者 */
+//        e = list_new_element(elements);
+//        e->element_type_id = ELEM_ID_ORG_SENDER;
+//        set_str_val(e, sqlite3_column_text(stmt, i++));
+//        list_add(elements, e);
+//        foreach (it, element_types_a) {
+//            ElementType* et = it->element;
+//            e = list_new_element(elements);
+//            e->element_type_id = et->id;
+//            set_str_val(e, sqlite3_column_text(stmt, i++));
+//            list_add(elements, e);
+//        }
+//        /* 投稿日時 */
+//        e = list_new_element(elements);
+//        e->element_type_id = ELEM_ID_REGISTERDATE;
+//        set_str_val(e, sqlite3_column_text(stmt, i++));
+//        list_add(elements, e);
+//        /* 最終更新日時 */
+//        e = list_new_element(elements);
+//        e->element_type_id = ELEM_ID_LASTREGISTERDATE;
+//        set_str_val(e, sqlite3_column_text(stmt, i++));
+//        list_add(elements, e);
+//        /* 最終更新日時からの経過日数 */
+//        e = list_new_element(elements);
+//        e->element_type_id = ELEM_ID_LASTREGISTERDATE_PASSED;
+//        set_str_val(e, sqlite3_column_text(stmt, i++));
+//        list_add(elements, e);
+//    }
+//    if (SQLITE_DONE != r)
+//        goto error;
+//
+//    sqlite3_finalize(stmt);
+//    list_free(element_types_a);
+//
+//    return elements;
+//ERROR_LABEL(db->handle)
+//}
+
+
+}
 //package main
 //
 //import (

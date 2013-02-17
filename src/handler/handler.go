@@ -3,18 +3,19 @@ package handler
 import (
     "fmt"
     "net/http"
+    "net/url"
     "text/template"
     "regexp"
 )
 
 type Route struct {
     pattern *regexp.Regexp
-    h func(http.ResponseWriter, *http.Request)
+    h func(http.ResponseWriter, *http.Request, []string)
 }
 
 var _routes []Route
 
-func RegisterRoute(patternString string, handler func(http.ResponseWriter, *http.Request)) {
+func RegisterRoute(patternString string, handler func(http.ResponseWriter, *http.Request, []string)) {
     fmt.Println("RegisterRoute:", patternString)
     _routes = append(_routes, Route{regexp.MustCompile(patternString), handler})
 }
@@ -26,12 +27,22 @@ func InitRoutes() {
 }
 
 func RouteHandler(w http.ResponseWriter, r *http.Request) {
-    path := r.URL.String()
+    path := r.URL.RequestURI()
 
     for _, route := range _routes {
-        if route.pattern.Match([]byte(path)) {
+        matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())
+        if len(matches) > 0 {
             fmt.Println("------------hit pattern:", route.pattern, "path", path)
-            route.h(w, r)
+            //get submatch
+            captures := []string{}
+            matchLen := len(matches)
+            if matchLen > 1 {
+                for i := 1; i < matchLen; i++ {
+                    matchString, _ := url.QueryUnescape(matches[i])
+                    captures = append(captures, matchString)
+                }
+            }
+            route.h(w, r, captures)
             return
         }
     }
