@@ -1,6 +1,8 @@
 package data
 
-import (
+const (
+        LIST_COUNT_PER_LIST_PAGE = 15
+        LIST_COUNT_PER_SEARCH_PAGE = 30
 )
 
 type ProjectInfo struct {
@@ -22,7 +24,7 @@ type Project struct {
 }
 
 type Element struct {
-    ElementTypeId int
+    ElementType ElementType
     StrVal string
     IsFile bool
 }
@@ -72,7 +74,7 @@ type ElementFile struct {
 }
 
 const (
-    ELEM_TYPE_TEXT = 0
+    ELEM_TYPE_TEXT = iota
     ELEM_TYPE_TEXTAREA
     ELEM_TYPE_CHECKBOX
     ELEM_TYPE_LIST_SINGLE
@@ -83,6 +85,12 @@ const (
     ELEM_TYPE_NUM
     /* this values match database value, so, if you add ELEM_TYPE, add list of tail. DBの値と連動しているので、追加する場合は、後に追加する必要がある。*/
 )
+
+var ELEMENT_TYPE_ID ElementType = ElementType{ELEM_ID_ID, 0, true, false, true, "ID", "", false, "", true, 0}
+var ELEMENT_TYPE_REGISTERDATE ElementType = ElementType{ELEM_ID_REGISTERDATE, 0, true, false, true, "register date", "", false, "", true, 0}
+var ELEMENT_TYPE_LASTREGISTERDATE ElementType = ElementType{ELEM_ID_LASTREGISTERDATE, 0, true, false, true, "last register date", "", false, "", true, 0}
+var ELEMENT_TYPE_ORG_SENDER ElementType = ElementType{ELEM_ID_ORG_SENDER, 0, true, false, true, "org sender", "", false, "", false, 0}
+var ELEMENT_TYPE_LASTREGISTREDATE_PASSED ElementType = ElementType{ELEM_ID_LASTREGISTERDATE_PASSED, 0, true, false, true, "last register date passed", "", false, "", true, 0}
 
 const (
     ELEM_ID_ID = -1
@@ -104,7 +112,7 @@ type Condition struct {
 }
 
 const (
-    CONDITION_TYPE_NORMAL = 0
+    CONDITION_TYPE_NORMAL = iota
     CONDITION_TYPE_DATE_FROM
     CONDITION_TYPE_DATE_TO
     CONDITION_TYPE_DAYS
@@ -153,3 +161,4 @@ type UserRanking struct {
     Name string
     Count int
 }
+/* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

@@ -53,7 +53,27 @@
     </div>
 
     <div class="container-fluid">
-      {{template "content" .}}
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">statuses</li>
+              {{range .states}}
+                <li><a href="/{{.Name|urlquery}}">{{.Name|html}}({{.Count|html}})</a></li>
+              {{end}}
+            </ul>
+            <ul class="nav nav-list">
+              <li class="nav-header">new tickets</li>
+              {{range .newestTickets}}
+                <li><a href="/{{.Id}}">{{with index .Elements 2}}{{.StrVal|html}}{{end}}</a></li>
+              {{end}}
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          {{template "content" .}}
+        </div>
+      </div>
     </div> <!-- /container -->
 
     <!-- Le javascript

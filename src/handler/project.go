@@ -16,6 +16,7 @@ func RegisterRoutesProject() {
         params["project"] = data.GetProject(projectName)
         params["wiki"] = data.GetWiki(projectName, "top")
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
 
         TmplProject(w, "project", params)
     })
@@ -27,7 +28,20 @@ func RegisterRoutesProject() {
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
         params["project"] = data.GetProject(projectName)
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
 
+        notClosedStates := data.GetStates(projectName, true)
+        ticketsByStatus := []interface{}{}
+        for _, s := range notClosedStates {
+            statusResult := map[string]interface{}{}
+            statusResult["State"] = s
+            statusResult["SearchResult"] = data.GetTicketsByStatus(projectName, s.Name)
+            ticketsByStatus = append(ticketsByStatus, statusResult)
+        }
+        params["notClosedStates"] = notClosedStates
+        params["ticketsByStatus"] = ticketsByStatus
+        params["elementTypes"] = data.GetElementTypes(projectName)
         TmplProject(w, "project_list", params)
 
 //void list_action()

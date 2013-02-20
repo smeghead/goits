@@ -30,10 +30,10 @@ func GetProjectInfos() []ProjectInfo {
     return projectInfos
 }
 
-func GetProject(databaseName string) Project {
+func GetProject(projectName string) Project {
     project := Project{}
-    project.Url = url.QueryEscape(databaseName)
-    _, err := query(databaseName, "select name, value from setting", []interface{}{}, func(rows *sql.Rows) interface{} {
+    project.Url = fmt.Sprintf("/%s", url.QueryEscape(projectName))
+    _, err := query(projectName, "select name, value from setting", []interface{}{}, func(rows *sql.Rows) interface{} {
         var name string
         var value string
         rows.Scan(&name, &value)
@@ -59,7 +59,7 @@ func GetProject(databaseName string) Project {
     return project
 }
 
-func GetWiki(databaseName string, wikiName string) Wiki {
+func GetWiki(projectName string, wikiName string) Wiki {
     wiki := Wiki{}
     statement := "select w.id, w.name, w.content " +
             "from wiki as w " +
@@ -68,7 +68,7 @@ func GetWiki(databaseName string, wikiName string) Wiki {
             "limit 1 "
     params := []interface{} {wikiName}
 
-    _, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+    _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
         fmt.Println("wiki got")
         var id int
         var name string
@@ -86,14 +86,14 @@ func GetWiki(databaseName string, wikiName string) Wiki {
     return wiki
 }
 
-func getElementTypes(databaseName string) []ElementType {
+func GetElementTypes(projectName string) []ElementType {
     statement := "select id, type, ticket_property, reply_property, required, name, " +
                  "  description, display_in_list, sort, default_value, auto_add_item " +
                  "from element_type " +
                  "where deleted = 0 order by sort"
     params := []interface{}{}
 
-    results, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
         var id int
         var element_type int
         var ticket_property bool
@@ -128,7 +128,59 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
     return strings.Join(columns, ", ")
 }
 
-func GetNewestTickets(databaseName string, limit int) []Message {
+func getElements(projectName string, ticketId int, elementTypes []ElementType) []Element {
+    fmt.Println("getElements ticket id", ticketId)
+    statement := fmt.Sprintf(
+        "select t.id, org_m.field%d, %s " + 
+        "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  " +
+        "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date " +
+        "from ticket as t " +
+        "inner join message as last_m on last_m.id = t.last_message_id " +
+        "inner join message as org_m on org_m.id = t.original_message_id " +
+        "where t.id = ?", ELEM_ID_SENDER, createColumnsExp(elementTypes, "last_m"))
+    params := []interface{} {ticketId}
+
+    elements := []Element{}
+    _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        fmt.Println("each ticket got")
+        pockets, _ := scanDynamicRows(rows)
+
+        fmt.Println(strings.Join(pockets, ","))
+
+        i := 0
+        /* ID */
+        elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], false})
+        i++
+        /* 初回投稿者 */
+        elements = append(elements, Element{ELEMENT_TYPE_ORG_SENDER, pockets[i], false})
+        i++
+        /* 動的カラム */
+        for _, elmType := range elementTypes {
+            elements = append(elements, Element{elmType, pockets[i], false})
+            i++
+        }
+        /* 投稿日時 */
+        elements = append(elements, Element{ELEMENT_TYPE_REGISTERDATE, pockets[i], false})
+        i++
+        /* 最終更新日時 */
+        elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTERDATE, pockets[i], false})
+        i++
+        /* 最終更新日時からの経過日数 */
+        elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTREDATE_PASSED, pockets[i], false})
+        i++
+
+        return nil
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    return elements
+}
+
+func GetNewestTickets(projectName string, limit int) []Message {
+    elementTypes := GetElementTypes(projectName)
+
     statement := fmt.Sprintf("select t.id " +
             "from ticket as t " +
             "inner join message as m on m.id = t.last_message_id " +
@@ -136,149 +188,235 @@ func GetNewestTickets(databaseName string, limit int) []Message {
             "limit %d ", limit)
     params := []interface{} {}
 
-    results, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
         fmt.Println("newest tickets got")
         var id int
         rows.Scan(&id)
-        return Message{id, []Element{}}
+        elements := getElements(projectName, id, elementTypes)
+        return Message{id, elements}
     })
     if err != nil {
         fmt.Println(err)
         panic(err)
     }
 
-    elementTypes := getElementTypes(databaseName)
-
-    tickets := []Message{}
-    for _, t := range results {
-        ticket := t.(Message)
-        statement := fmt.Sprintf(
-            "select t.id, org_m.field%d, %s " + 
-            "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  " +
-            "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date " +
-            "from ticket as t " +
-            "inner join message as last_m on last_m.id = t.last_message_id " +
-            "inner join message as org_m on org_m.id = t.original_message_id " +
-            "where t.id = ?", ELEM_ID_SENDER, createColumnsExp(elementTypes, "last_m"))
-        params := []interface{} {ticket.Id}
-
-        _, err := query(databaseName, statement, params, func(rows *sql.Rows) interface{} {
-            fmt.Println("newest each ticket got")
-            pockets, _ := scanDynamicRows(rows)
-
-            fmt.Println(strings.Join(pockets, ","))
-            elements := []Element{}
-
-            i := 0
-            /* ID */
-            elements = append(elements, Element{ELEM_ID_ID, pockets[i], false})
-            i++
-            /* 初回投稿者 */
-            elements = append(elements, Element{ELEM_ID_ORG_SENDER, pockets[i], false})
-            i++
-            /* 動的カラム */
-            for _, elmType := range elementTypes {
-                elements = append(elements, Element{elmType.Id, pockets[i], false})
-                i++
-            }
-            /* 投稿日時 */
-            elements = append(elements, Element{ELEM_ID_REGISTERDATE, pockets[i], false})
-            i++
-            /* 最終更新日時 */
-            elements = append(elements, Element{ELEM_ID_LASTREGISTERDATE, pockets[i], false})
-            i++
-            /* 最終更新日時からの経過日数 */
-            elements = append(elements, Element{ELEM_ID_LASTREGISTERDATE_PASSED, pockets[i], false})
-            i++
-
-            ticket.Elements = elements
-            return nil
-        })
-        if err != nil {
-            fmt.Println(err)
-            panic(err)
-        }
-        tickets = append(tickets, ticket)
-    }
+    tickets := make([]Message, len(results))
+    for i, p := range results { tickets[i] = p.(Message) }
     return tickets
-
-//    strcat(sql, sql_suf);
-
-//List* db_get_last_elements_4_list(Database* db, const int ticket_id, List* elements)
-//{
-//    char sql[DEFAULT_LENGTH] = "";
-//    char sql_suf[DEFAULT_LENGTH] = "";
-//    sqlite3_stmt *stmt = NULL;
-//    int r;
-//    char columns[DEFAULT_LENGTH] = "";
-//    List* element_types_a = NULL;
-//    Iterator* it;
-//
-//    list_alloc(element_types_a, ElementType, element_type_new, element_type_free);
-//    element_types_a = db_get_element_types_4_list(db, NULL, element_types_a);
-//    create_columns_exp(element_types_a, "last_m", columns);
-//    sprintf(sql, "select t.id, org_m.field%d ", ELEM_ID_SENDER);
-//    strcat(sql, columns);
-//    sprintf(sql_suf, 
-//            "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  "
-//            "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date "
-//            "from ticket as t "
-//            "inner join message as last_m on last_m.id = t.last_message_id "
-//            "inner join message as org_m on org_m.id = t.original_message_id "
-//            "where t.id = ?");
-//    strcat(sql, sql_suf);
-//    if (sqlite3_prepare(db->handle, sql, strlen(sql), &stmt, NULL) == SQLITE_ERROR) goto error;
-//    sqlite3_reset(stmt);
-//    sqlite3_bind_int(stmt, 1, ticket_id);
-//
-//    while (SQLITE_ROW == (r = sqlite3_step(stmt))) {
-//        int i = 0;
-//        Element* e;
-//        /* ID */
-//        e = list_new_element(elements);
-//        e->element_type_id = ELEM_ID_ID;
-//        set_str_val(e, sqlite3_column_text(stmt, i++));
-//        list_add(elements, e);
-//        /* 初回投稿者 */
-//        e = list_new_element(elements);
-//        e->element_type_id = ELEM_ID_ORG_SENDER;
-//        set_str_val(e, sqlite3_column_text(stmt, i++));
-//        list_add(elements, e);
-//        foreach (it, element_types_a) {
-//            ElementType* et = it->element;
-//            e = list_new_element(elements);
-//            e->element_type_id = et->id;
-//            set_str_val(e, sqlite3_column_text(stmt, i++));
-//            list_add(elements, e);
-//        }
-//        /* 投稿日時 */
-//        e = list_new_element(elements);
-//        e->element_type_id = ELEM_ID_REGISTERDATE;
-//        set_str_val(e, sqlite3_column_text(stmt, i++));
-//        list_add(elements, e);
-//        /* 最終更新日時 */
-//        e = list_new_element(elements);
-//        e->element_type_id = ELEM_ID_LASTREGISTERDATE;
-//        set_str_val(e, sqlite3_column_text(stmt, i++));
-//        list_add(elements, e);
-//        /* 最終更新日時からの経過日数 */
-//        e = list_new_element(elements);
-//        e->element_type_id = ELEM_ID_LASTREGISTERDATE_PASSED;
-//        set_str_val(e, sqlite3_column_text(stmt, i++));
-//        list_add(elements, e);
-//    }
-//    if (SQLITE_DONE != r)
-//        goto error;
-//
-//    sqlite3_finalize(stmt);
-//    list_free(element_types_a);
-//
-//    return elements;
-//ERROR_LABEL(db->handle)
-//}
-
-
 }
+
+func GetStates(projectName string, notClose bool) []State {
+    condition := ""
+    if notClose {
+        condition = "where l.close = 0 "
+    }
+    statement := fmt.Sprintf(
+            "select m.field%d as name, count(t.id) as count " +
+            "from ticket as t " +
+            "inner join message as m " +
+            " on m.id = t.last_message_id " +
+            "inner join list_item as l " +
+            " on l.element_type_id = %d and l.name = m.m.field%d " +
+            "%s " +
+            "group by m.field%d " +
+            "order by l.sort ", ELEM_ID_STATUS, ELEM_ID_STATUS, ELEM_ID_STATUS, condition, ELEM_ID_STATUS)
+    params := []interface{}{}
+
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        var id int
+        var name string
+        var count int
+
+        rows.Scan(&name, &count)
+        return State{id, name, count}
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    states := make([]State, len(results))
+    for i, p := range results { states[i] = p.(State) }
+    return states
+}
+
+func validConditionSize(conditions []Condition) int {
+    size := 0
+    for _, c := range conditions {
+        if validCondition(c) {
+            size++
+        }
+    }
+    return size
+}
+
+func validCondition(c Condition) bool {
+    return len(c.Value) > 0 || len(c.CookieValue) > 0
+}
+
+func getConditionValidValue(c Condition) string {
+    if len(c.Value) > 0 {
+        return c.Value
+    } else {
+        return c.CookieValue
+    }
+    return ""
+}
+
+func getSearchSqlString(projectName string, conditions []Condition, sort Condition, keywords []string) string {
+    sqlString := "select t.id as id " +
+        "from ticket as t " +
+        "inner join message as m on m.id = t.last_message_id " +
+        "inner join message as org_m on org_m.id = t.original_message_id "
+
+    if len(keywords) > 0 {
+        sqlString += "inner join message as m_all on m_all.ticket_id = t.id "
+    }
+
+    if validConditionSize(conditions) > 0 || len(keywords) > 0 {
+        sqlString += "where "
+    }
+
+    if validConditionSize(conditions) > 0 {
+        conds := []string{}
+        for _, cond := range conditions {
+            if cond.ElementTypeId < 0 {
+                continue
+            }
+            if !validCondition(cond) {
+                continue
+            }
+            switch cond.ConditionType {
+            case CONDITION_TYPE_DATE_FROM:
+                conds = append(conds,
+                    fmt.Sprintf(
+                        "(length(m.field%d) > 0 and m.field%d >= ?)",
+                        cond.ElementTypeId,
+                        cond.ElementTypeId))
+            case CONDITION_TYPE_DATE_TO:
+                conds = append(conds,
+                    fmt.Sprintf("(length(m.field%d) > 0 and m.field%d <= ?)",
+                        cond.ElementTypeId,
+                        cond.ElementTypeId))
+            default:
+                senderTablePrefix := ""
+                if cond.ElementTypeId == ELEM_ID_SENDER {
+                    senderTablePrefix = "org_"
+                }
+                conds = append(conds,
+                    fmt.Sprintf("(%sm.field%d like '%%' || ? || '%%')",
+                        senderTablePrefix, /* 投稿者は初回投稿者が検索対象になる。 */
+                        cond.ElementTypeId))
+            }
+        }
+        sqlString += strings.Join(conds, " and ")
+
+        conds = []string{}
+        for _, cond := range conditions {
+            if cond.ElementTypeId > 0 {
+                continue
+            }
+            if !validCondition(cond) {
+                continue
+            }
+
+            name := ""
+            switch cond.ElementTypeId {
+                case ELEM_ID_REGISTERDATE:
+                    name = "org_m.registerdate"
+                case ELEM_ID_LASTREGISTERDATE:
+                    name = "m.registerdate"
+            }
+
+            switch cond.ConditionType {
+                case CONDITION_TYPE_DATE_FROM:
+                    conds = append(conds, fmt.Sprintf("(%s >= ?)", name))
+                case CONDITION_TYPE_DATE_TO:
+                    conds = append(conds, fmt.Sprintf("(%s <= ?)", name))
+                case CONDITION_TYPE_DAYS:
+                    conds = append(conds, fmt.Sprintf("(%s >= datetime(current_timestamp, 'utc', '-%s days', 'localtime'))",
+                            name,
+                            getConditionValidValue(cond)))
+            }
+        }
+        sqlString += strings.Join(conds, " and ")
+    }
+
+//    if len(keywords) > 0 {
+//        String* columns_a = string_new(0);
+//        List* element_types_a;
+//        list_alloc(element_types_a, ElementType, element_type_new, element_type_free);
+//        element_types_a = db_get_element_types_all(db, NULL, element_types_a);
+//        columns_a = create_columns_like_exp(element_types_a, "m_all", keywords, columns_a);
+//        if (valid_condition_size(conditions))
+//            string_append(sql_string, " and ");
+//        string_appendf(sql_string, "(%s)", string_rawstr(columns_a));
+//        string_free(columns_a);
+//        list_free(element_types_a);
+//    }
+
+    sqlString += " group by t.id order by "
+
+    if sort.ElementTypeId != 0 {
+        sort_type := "asc"
+        if sort.Value == "reverse" {
+            sort_type = "desc"
+        }
+        switch sort.ElementTypeId {
+            case -1:
+                sqlString += fmt.Sprintf("t.id %s, ", sort_type)
+            case -2:
+                sqlString += fmt.Sprintf("t.registerdate %s, ", sort_type)
+            case -3:
+                sqlString += fmt.Sprintf("m.registerdate %s, ", sort_type)
+            case ELEM_ID_SENDER:
+                sqlString += fmt.Sprintf("org_m.field%d %s, ", sort.ElementTypeId, sort_type)
+            default:
+                sqlString += fmt.Sprintf("m.field%d %s, ", sort.ElementTypeId, sort_type)
+        }
+    }
+    sqlString += "t.registerdate desc, t.id desc "
+
+    return sqlString
+}
+
+func GetTicketsByStatus(projectName string, status string) SearchResult {
+    keywords := []string{}
+    conditions := []Condition{Condition{ELEM_ID_STATUS, 0, status, ""}}
+    sort := Condition{}
+
+    elementTypes := GetElementTypes(projectName)
+
+    statement := getSearchSqlString(projectName, conditions, sort, keywords)
+    statement += " limit ? "
+
+    params := []interface{}{status, LIST_COUNT_PER_LIST_PAGE}
+
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        var id int
+        rows.Scan(&id)
+        fmt.Println("ticket id:" , id)
+        elements := getElements(projectName, id, elementTypes)
+        fmt.Println("elements count:" , len(elements))
+        return Message{id, elements}
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    tickets := make([]Message, len(results))
+    for i, p := range results { tickets[i] = p.(Message) }
+
+
+    sums := []int{}
+    //TODO 数値項目の合計
+    //sums := set_tickets_number_sum(db, conditions, NULL, keywords_a, result);
+
+    return SearchResult{len(tickets), 0, tickets, nil, sums}
+}
+
+
+
+
 //package main
 //
 //import (
