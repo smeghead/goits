@@ -28,6 +28,9 @@ func InitRoutes() {
 
 func RouteHandler(w http.ResponseWriter, r *http.Request) {
     path := r.URL.RequestURI()
+    if path == "/favicon.ico" {
+        return
+    }
 
     for _, route := range _routes {
         matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())

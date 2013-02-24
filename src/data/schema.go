@@ -1,5 +1,11 @@
 package data
 
+import (
+    "fmt"
+    "strconv"
+    "strings"
+)
+
 const (
         LIST_COUNT_PER_LIST_PAGE = 15
         LIST_COUNT_PER_SEARCH_PAGE = 30
@@ -28,9 +34,24 @@ type Element struct {
     StrVal string
     IsFile bool
 }
+func (e *Element) GetSelectedItemId() string {
+    if e.ElementType.ListItems == nil {
+        return ""
+    }
+    for _, item := range e.ElementType.ListItems {
+        if strings.Index(e.StrVal, item.Name) > -1 {
+            return strconv.Itoa(item.Id)
+        }
+    }
+    return ""
+}
+func (e *Element) HasTicketLink() bool {
+    fmt.Println(e.ElementType.Type, e.StrVal)
+    return e.ElementType.Id == ELEM_ID_ID || e.ElementType.Id == ELEM_ID_TITLE
+}
 
 type SettingFile struct {
-    name string
+    Name string
     FileName string
     Size int
     MimeType string
@@ -44,9 +65,8 @@ type Message struct {
 
 type ListItem struct {
     Id int
-    ElementTypeId int
     Name string
-    Close int
+    Close bool
     Sort int
 }
 
@@ -62,6 +82,7 @@ type ElementType struct {
     DefaultValue string
     DisplayInList bool
     Sort int
+    ListItems []ListItem
 }
 
 type ElementFile struct {
@@ -86,11 +107,11 @@ const (
     /* this values match database value, so, if you add ELEM_TYPE, add list of tail. DBの値と連動しているので、追加する場合は、後に追加する必要がある。*/
 )
 
-var ELEMENT_TYPE_ID ElementType = ElementType{ELEM_ID_ID, 0, true, false, true, "ID", "", false, "", true, 0}
-var ELEMENT_TYPE_REGISTERDATE ElementType = ElementType{ELEM_ID_REGISTERDATE, 0, true, false, true, "register date", "", false, "", true, 0}
-var ELEMENT_TYPE_LASTREGISTERDATE ElementType = ElementType{ELEM_ID_LASTREGISTERDATE, 0, true, false, true, "last register date", "", false, "", true, 0}
-var ELEMENT_TYPE_ORG_SENDER ElementType = ElementType{ELEM_ID_ORG_SENDER, 0, true, false, true, "org sender", "", false, "", false, 0}
-var ELEMENT_TYPE_LASTREGISTREDATE_PASSED ElementType = ElementType{ELEM_ID_LASTREGISTERDATE_PASSED, 0, true, false, true, "last register date passed", "", false, "", true, 0}
+var ELEMENT_TYPE_ID ElementType = ElementType{ELEM_ID_ID, 0, true, false, true, "ID", "", false, "", true, 0, nil}
+var ELEMENT_TYPE_REGISTERDATE ElementType = ElementType{ELEM_ID_REGISTERDATE, 0, true, false, true, "register date", "", false, "", true, 0, nil}
+var ELEMENT_TYPE_LASTREGISTERDATE ElementType = ElementType{ELEM_ID_LASTREGISTERDATE, 0, true, false, true, "last register date", "", false, "", true, 0, nil}
+var ELEMENT_TYPE_ORG_SENDER ElementType = ElementType{ELEM_ID_ORG_SENDER, 0, true, false, true, "org sender", "", false, "", false, 0, nil}
+var ELEMENT_TYPE_LASTREGISTREDATE_PASSED ElementType = ElementType{ELEM_ID_LASTREGISTERDATE_PASSED, 0, true, false, true, "last register date passed", "", false, "", true, 0, nil}
 
 const (
     ELEM_ID_ID = -1

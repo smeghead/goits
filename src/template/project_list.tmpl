@@ -1,46 +1,52 @@
 {{define "content"}}
+
+{{$project := .project}}
 <div class="row-fluid">
   <div class="span12">
-    <h1>{{.project.Name}}</h1>
+    <h1>{{$project.Name|html}}</h1>
     <div id="ticket_list">
       <h3>ticket list by status</h3>
       <div class="description">display unclosed tickets.</div>
-        {{range .notClosedStates}}
-          <a href="#state{{.Id}}" title="link to part of this page">{{.Name}} ({{.Count}})</a>&nbsp;
-        {{end}}
-      </div>
-        {{$elementTypes := .elementTypes}}
-        {{range .ticketsByStatus}}
-          <h4 class="status">{{.State.Name}} ({{.State.Count}})</h4>
-          <table class="table table-striped">
-            <thead>
+      {{range .notClosedStates}}
+        <a href="#state{{.Id}}" title="link to part of this page">{{.Name|html}} ({{.Count}})</a>&nbsp;
+      {{end}}
+      {{$elementTypes := .elementTypes}}
+      {{range .ticketsByStatus}}
+        <h4 class="status">{{.State.Name|html}} ({{.State.Count}})</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              {{range $elementTypes}}
+                {{if .DisplayInList}}
+                  <th>{{.Name|html}}</th>
+                {{end}}
+              {{end}}
+              <th>registered</th>
+              <th>modified</th>
+              <th>passed days</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .SearchResult.Messages}}
+              {{$ticket := .}}
               <tr>
-                <th>ID</th>
-                {{range $elementTypes}}
-                  {{if .DisplayInList}}
-                    <th>{{.Name|html}}</th>
+                {{range .Elements}}
+                  {{if .ElementType.DisplayInList}}
+                    <td class="field{{.ElementType.Id}} field{{.ElementType.Id}}-{{.GetSelectedItemId}}">
+                      {{if .HasTicketLink}}
+                        <a href="{{$project.Url}}/ticket/{{$ticket.Id}}">{{.StrVal|html}}</a>
+                      {{else}}
+                        {{.StrVal|html}}
+                      {{end}}
+                    </td>
                   {{end}}
                 {{end}}
-                <th>registered</th>
-                <th>modified</th>
-                <th>passed days</th>
               </tr>
-            </thead>
-            <tbody>
-              {{range .SearchResult.Messages}}
-                <tr>
-                  {{range .Elements}}
-                    {{if .ElementType.DisplayInList}}
-                      <td>
-                        {{.StrVal|html}}
-                      </td>
-                    {{end}}
-                  {{end}}
-                </tr>
-              {{end}}
-            </tbody>
-          </table>
-        {{end}}
+            {{end}}
+          </tbody>
+        </table>
+      {{end}}
     </div>
 </div>
 {{end}}

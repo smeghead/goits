@@ -108,8 +108,30 @@ func GetElementTypes(projectName string) []ElementType {
 
         rows.Scan(&id, &element_type, &ticket_property, &reply_property, &required, &name,
             &description, &display_in_list, &sort, &default_value, &auto_add_item)
+
+        var listItems []ListItem
+        switch element_type {
+        case ELEM_TYPE_CHECKBOX, ELEM_TYPE_LIST_SINGLE, ELEM_TYPE_LIST_MULTI, ELEM_TYPE_LIST_SINGLE_RADIO:
+            statement := "select id, name, close, sort from list_item where element_type_id = ? order by sort"
+            params := []interface{}{id}
+
+            results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+                var id int
+                var name string
+                var close bool
+                var sort int
+                rows.Scan(&id, &name, &close, &sort)
+                return ListItem{id, name, close, sort}
+            })
+            if err != nil {
+                fmt.Println(err)
+                panic(err)
+            }
+            listItems = make([]ListItem, len(results))
+            for i, p := range results { listItems[i] = p.(ListItem) }
+        }
         return ElementType{id, element_type, ticket_property, reply_property, required, name,
-            description, auto_add_item, default_value, display_in_list, sort}
+            description, auto_add_item, default_value, display_in_list, sort, listItems}
     })
     if err != nil {
         fmt.Println(err)
@@ -414,6 +436,28 @@ func GetTicketsByStatus(projectName string, status string) SearchResult {
     return SearchResult{len(tickets), 0, tickets, nil, sums}
 }
 
+func GetSettingFile(projectName string, name string) SettingFile {
+    settingFile := SettingFile{}
+
+    statement := "select name, file_name, size, mime_type, content " +
+        "from setting_file " +
+        "where name = ? "
+    _, err := query(projectName, statement, []interface{}{name}, func(rows *sql.Rows) interface{} {
+        var name string
+        var filename string
+        var size int
+        var mime_type string
+        var content string
+        rows.Scan(&name, &filename, &size, &mime_type, &content)
+        settingFile = SettingFile{name, filename, size, mime_type, content}
+        return nil
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    return settingFile
+}
 
 
 
