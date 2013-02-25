@@ -215,7 +215,7 @@ func GetNewestTickets(projectName string, limit int) []Message {
         var id int
         rows.Scan(&id)
         elements := getElements(projectName, id, elementTypes)
-        return Message{id, elements}
+        return Message{id, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
     })
     if err != nil {
         fmt.Println(err)
@@ -419,7 +419,7 @@ func GetTicketsByStatus(projectName string, status string) SearchResult {
         fmt.Println("ticket id:" , id)
         elements := getElements(projectName, id, elementTypes)
         fmt.Println("elements count:" , len(elements))
-        return Message{id, elements}
+        return Message{id, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
     })
     if err != nil {
         fmt.Println(err)
@@ -459,6 +459,10 @@ func GetSettingFile(projectName string, name string) SettingFile {
     return settingFile
 }
 
+func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Message {
+    elements := getElements(projectName, ticketId, elementTypes)
+    return Message{ticketId, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
+}
 
 
 //package main

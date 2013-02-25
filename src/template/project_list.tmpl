@@ -3,23 +3,23 @@
 {{$project := .project}}
 <div class="row-fluid">
   <div class="span12">
-    <h1>{{$project.Name|html}}</h1>
+    <h1>{{$project.Name}}</h1>
     <div id="ticket_list">
       <h3>ticket list by status</h3>
       <div class="description">display unclosed tickets.</div>
       {{range .notClosedStates}}
-        <a href="#state{{.Id}}" title="link to part of this page">{{.Name|html}} ({{.Count}})</a>&nbsp;
+        <a href="#state{{.Id}}" title="link to part of this page">{{.Name}} ({{.Count}})</a>&nbsp;
       {{end}}
       {{$elementTypes := .elementTypes}}
       {{range .ticketsByStatus}}
-        <h4 class="status">{{.State.Name|html}} ({{.State.Count}})</h4>
+        <h4 class="status">{{.State.Name}} ({{.State.Count}})</h4>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>ID</th>
               {{range $elementTypes}}
                 {{if .DisplayInList}}
-                  <th>{{.Name|html}}</th>
+                  <th>{{.Name}}</th>
                 {{end}}
               {{end}}
               <th>registered</th>
@@ -35,9 +35,9 @@
                   {{if .ElementType.DisplayInList}}
                     <td class="field{{.ElementType.Id}} field{{.ElementType.Id}}-{{.GetSelectedItemId}}">
                       {{if .HasTicketLink}}
-                        <a href="{{$project.Url}}/ticket/{{$ticket.Id}}">{{.StrVal|html}}</a>
+                        <a href="{{$project.Url}}/ticket/{{$ticket.Id}}">{{.StrVal}}</a>
                       {{else}}
-                        {{.StrVal|html}}
+                        {{.StrVal}}
                       {{end}}
                     </td>
                   {{end}}

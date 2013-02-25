@@ -6,15 +6,15 @@
         <li class="nav-header">project list</li>
         {{range .projectInfos}}
           {{if not .IsManage}}
-            <li><a href="/{{.Name|urlquery}}">{{.Name|html}}</a></li>
+            <li><a href="/{{.Name|urlquery}}">{{.Name}}</a></li>
           {{end}}
         {{end}}
       </ul>
     </div>
   </div>
   <div class="span9">
-    <h1>{{.topProject.Name|html}}</h1>
-    {{.wiki.Content}}
+    <h1>{{.topProject.Name}}</h1>
+    {{.wikiContent}}
   </div>
 </div>
 {{end}}

@@ -4,6 +4,7 @@ import (
     "fmt"
     "net/http"
     "./data"
+    "html/template"
 )
 
 func RegisterRoutesIndex() {
@@ -11,7 +12,7 @@ func RegisterRoutesIndex() {
         fmt.Println("index")
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
-        params["wiki"] = data.GetWiki("manage", "top")
+        params["wikiContent"] = template.HTML(data.GetWiki("manage", "top").Content)
         params["projectInfos"] = data.GetProjectInfos()
 
         TmplTop(w, "index", params)

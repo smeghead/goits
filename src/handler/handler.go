@@ -4,7 +4,7 @@ import (
     "fmt"
     "net/http"
     "net/url"
-    "text/template"
+    "html/template"
     "regexp"
 )
 

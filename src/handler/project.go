@@ -59,6 +59,22 @@ func RegisterRoutesProject() {
         w.Write([]byte(file.Content))
     })
 
+    RegisterRoute("^/([^/]+)/ticket/(\\d+)", func(w http.ResponseWriter, r *http.Request, captures []string) {
+        projectName := captures[0]
+        ticketId, _ := strconv.Atoi(captures[1])
+        fmt.Println("ticket ", ticketId)
+
+        params := make(map[string]interface{})
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = data.GetProject(projectName)
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
+
+        elementTypes := data.GetElementTypes(projectName)
+        params["ticket"] = data.GetTicket(projectName, ticketId, elementTypes)
+        params["elementTypes"] = elementTypes
+        TmplProject(w, "project_ticket", params)
+    })
 }
 
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

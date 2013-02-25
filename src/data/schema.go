@@ -61,6 +61,18 @@ type SettingFile struct {
 type Message struct {
     Id int
     Elements []Element
+    Title string
+    Status string
+}
+
+func GetElementField(elements []Element, id int) string {
+    fmt.Println("GetField")
+    for _, element := range elements {
+        if element.ElementType.Id == id {
+            return element.StrVal
+        }
+    }
+    return ""
 }
 
 type ListItem struct {
