@@ -150,7 +150,7 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
     return strings.Join(columns, ", ")
 }
 
-func getElements(projectName string, ticketId int, elementTypes []ElementType) []Element {
+func getElements(projectName string, ticketId int, elementTypes []ElementType, forList bool) []Element {
     fmt.Println("getElements ticket id", ticketId)
     statement := fmt.Sprintf(
         "select t.id, org_m.field%d, %s " + 
@@ -170,26 +170,32 @@ func getElements(projectName string, ticketId int, elementTypes []ElementType) [
         fmt.Println(strings.Join(pockets, ","))
 
         i := 0
-        /* ID */
-        elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], false})
-        i++
-        /* 初回投稿者 */
-        elements = append(elements, Element{ELEMENT_TYPE_ORG_SENDER, pockets[i], false})
-        i++
+        if forList {
+            /* ID */
+            elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], false})
+            i++
+            /* 初回投稿者 */
+            elements = append(elements, Element{ELEMENT_TYPE_ORG_SENDER, pockets[i], false})
+            i++
+        } else {
+            i += 2
+        }
         /* 動的カラム */
         for _, elmType := range elementTypes {
             elements = append(elements, Element{elmType, pockets[i], false})
             i++
         }
-        /* 投稿日時 */
-        elements = append(elements, Element{ELEMENT_TYPE_REGISTERDATE, pockets[i], false})
-        i++
-        /* 最終更新日時 */
-        elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTERDATE, pockets[i], false})
-        i++
-        /* 最終更新日時からの経過日数 */
-        elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTREDATE_PASSED, pockets[i], false})
-        i++
+        if forList {
+            /* 投稿日時 */
+            elements = append(elements, Element{ELEMENT_TYPE_REGISTERDATE, pockets[i], false})
+            i++
+            /* 最終更新日時 */
+            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTERDATE, pockets[i], false})
+            i++
+            /* 最終更新日時からの経過日数 */
+            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTREDATE_PASSED, pockets[i], false})
+            i++
+        }
 
         return nil
     })
@@ -200,7 +206,7 @@ func getElements(projectName string, ticketId int, elementTypes []ElementType) [
     return elements
 }
 
-func GetNewestTickets(projectName string, limit int) []Message {
+func GetNewestTickets(projectName string, limit int) []Ticket {
     elementTypes := GetElementTypes(projectName)
 
     statement := fmt.Sprintf("select t.id " +
@@ -214,16 +220,16 @@ func GetNewestTickets(projectName string, limit int) []Message {
         fmt.Println("newest tickets got")
         var id int
         rows.Scan(&id)
-        elements := getElements(projectName, id, elementTypes)
-        return Message{id, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
+        elements := getElements(projectName, id, elementTypes, false)
+        return NewTicket(id, elements)
     })
     if err != nil {
         fmt.Println(err)
         panic(err)
     }
 
-    tickets := make([]Message, len(results))
-    for i, p := range results { tickets[i] = p.(Message) }
+    tickets := make([]Ticket, len(results))
+    for i, p := range results { tickets[i] = p.(Ticket) }
     return tickets
 }
 
@@ -417,17 +423,16 @@ func GetTicketsByStatus(projectName string, status string) SearchResult {
         var id int
         rows.Scan(&id)
         fmt.Println("ticket id:" , id)
-        elements := getElements(projectName, id, elementTypes)
+        elements := getElements(projectName, id, elementTypes, true)
         fmt.Println("elements count:" , len(elements))
-        return Message{id, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
+        return NewTicket(id, elements)
     })
     if err != nil {
         fmt.Println(err)
         panic(err)
     }
-    tickets := make([]Message, len(results))
-    for i, p := range results { tickets[i] = p.(Message) }
-
+    tickets := make([]Ticket, len(results))
+    for i, p := range results { tickets[i] = p.(Ticket) }
 
     sums := []int{}
     //TODO 数値項目の合計
@@ -459,9 +464,9 @@ func GetSettingFile(projectName string, name string) SettingFile {
     return settingFile
 }
 
-func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Message {
-    elements := getElements(projectName, ticketId, elementTypes)
-    return Message{ticketId, elements, GetElementField(elements, ELEM_ID_TITLE), GetElementField(elements, ELEM_ID_STATUS)}
+func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Ticket {
+    elements := getElements(projectName, ticketId, elementTypes, false)
+    return NewTicket(ticketId, elements)
 }
 
 

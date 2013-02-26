@@ -1,21 +1,5 @@
 {{define "content"}}
-<div class="row-fluid">
-  <div class="span3">
-    <div class="well sidebar-nav">
-      <ul class="nav nav-list">
-        <li class="nav-header">project list</li>
-        {{range .projectInfos}}
-          {{if not .IsManage}}
-            <li><a href="/{{.Name|urlquery}}">{{.Name}}</a></li>
-          {{end}}
-        {{end}}
-      </ul>
-    </div>
-  </div>
-  <div class="span9">
-    <h1>{{.topProject.Name}}</h1>
-    {{.wikiContent}}
-  </div>
-</div>
+  <h1>{{.topProject.Name}}</h1>
+  {{.wikiContent}}
 {{end}}
 <!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->

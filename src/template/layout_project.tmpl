@@ -56,7 +56,7 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span2">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">statuses</li>
@@ -67,12 +67,12 @@
             <ul class="nav nav-list">
               <li class="nav-header">new tickets</li>
               {{range .newestTickets}}
-                <li><a href="{{$project.Url}}/ticket/{{.Id}}">{{with index .Elements 2}}{{.StrVal}}{{end}}</a></li>
+                <li><a href="{{$project.Url}}/ticket/{{.Id}}">{{.Title}}</a></li>
               {{end}}
             </ul>
           </div>
         </div>
-        <div class="span9">
+        <div class="span10">
           {{template "content" .}}
         </div>
       </div>

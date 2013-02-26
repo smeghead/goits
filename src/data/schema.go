@@ -58,22 +58,45 @@ type SettingFile struct {
     Content string
 }
 
-type Message struct {
+type Ticket struct {
+    ProjectId int
+    ProjectCode string
+    ProjectName string
     Id int
-    Elements []Element
     Title string
     Status string
+    LastMessage Message
+    Messages []Message
+}
+func NewTicket(ticketId int, elements []Element) Ticket {
+    message := Message{0, elements}
+    ticket := Ticket{}
+
+    ticket.Id = ticketId
+    ticket.Title = GetElementField(elements, ELEM_ID_TITLE)
+    ticket.Status = GetElementField(elements, ELEM_ID_STATUS)
+    ticket.LastMessage = message
+
+    fmt.Println("NewTicket:", ticket.Id)
+    return ticket
 }
 
 func GetElementField(elements []Element, id int) string {
     fmt.Println("GetField")
     for _, element := range elements {
+        fmt.Println("GetField", element.ElementType.Name, " ", element.StrVal)
         if element.ElementType.Id == id {
             return element.StrVal
         }
     }
     return ""
 }
+
+type Message struct {
+    Id int
+    Elements []Element
+}
+
 
 type ListItem struct {
     Id int
@@ -160,7 +183,7 @@ type State struct {
 type SearchResult struct {
     HitCount int
     Page int
-    Messages []Message
+    Tickets []Ticket
     States []State
     Sums []int
 }
@@ -171,13 +194,6 @@ type Wiki struct {
     Content string
 }
 
-type Ticket struct {
-    ProjectId int
-    ProjectCode string
-    ProjectName string
-    Id int
-    Title string
-}
 
 type DbInfo struct {
     Id int

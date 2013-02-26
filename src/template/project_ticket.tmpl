@@ -1,9 +1,39 @@
 {{define "content"}}
-    <h1>{{.ticket.Id}} {{.ticket.Title}} {{.project.Name}}</h1>
+  <h2>{{.project.Name}}</h2>
+  <h3>#{{.ticket.Id}} {{.ticket.Title}}</h3>
 
-{{range .ticket.Elements}}
-  {{.StrVal}}
-{{end}}
+  <div id="ticket_newest">
+    <h4>ticket info</h4>
+    <div class="description">
+      This is latest updated tickets.
+    </div>
+
+    <table class="table table-striped">
+      {{range .ticket.LastMessage.Elements}}
+        {{if .ElementType.TicketProperty}}
+          <tr>
+            <th>{{.ElementType.Name}}</th>
+            <td>
+            {{.StrVal}}
+        {{.ElementType.TicketProperty}}
+            </td>
+          </tr>
+        {{end}}
+      {{end}}
+      <tr>
+        <th>all attachments</th>
+        <td>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="ticket_newest">
+    <h4>ticket history</h4>
+    <div class="description">
+      This is latest updated tickets.
+    </div>
+
+  </div>
 yyy
 
 
