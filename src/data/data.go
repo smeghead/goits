@@ -150,10 +150,10 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
     return strings.Join(columns, ", ")
 }
 
-func getElements(projectName string, ticketId int, elementTypes []ElementType, forList bool) []Element {
-    fmt.Println("getElements ticket id", ticketId)
+func getLastMessage(projectName string, ticketId int, elementTypes []ElementType, forList bool) Message {
+    fmt.Println("getLastMessage ticket id", ticketId)
     statement := fmt.Sprintf(
-        "select t.id, org_m.field%d, %s " + 
+        "select last_m.id, t.id, org_m.field%d, %s " + 
         "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  " +
         "  julianday(current_date) - julianday(date(last_m.registerdate)) as passed_date " +
         "from ticket as t " +
@@ -162,6 +162,7 @@ func getElements(projectName string, ticketId int, elementTypes []ElementType, f
         "where t.id = ?", ELEM_ID_SENDER, createColumnsExp(elementTypes, "last_m"))
     params := []interface{} {ticketId}
 
+    var messageId int
     elements := []Element{}
     _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
         fmt.Println("each ticket got")
@@ -170,6 +171,8 @@ func getElements(projectName string, ticketId int, elementTypes []ElementType, f
         fmt.Println(strings.Join(pockets, ","))
 
         i := 0
+        messageId, _ = strconv.Atoi(pockets[i])
+        i++
         if forList {
             /* ID */
             elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], false})
@@ -203,7 +206,7 @@ func getElements(projectName string, ticketId int, elementTypes []ElementType, f
         fmt.Println(err)
         panic(err)
     }
-    return elements
+    return Message{messageId, elements, ""}
 }
 
 func GetNewestTickets(projectName string, limit int) []Ticket {
@@ -220,8 +223,8 @@ func GetNewestTickets(projectName string, limit int) []Ticket {
         fmt.Println("newest tickets got")
         var id int
         rows.Scan(&id)
-        elements := getElements(projectName, id, elementTypes, false)
-        return NewTicket(id, elements)
+        lastMessage := getLastMessage(projectName, id, elementTypes, false)
+        return NewTicketWithoutMessages(id, lastMessage)
     })
     if err != nil {
         fmt.Println(err)
@@ -423,9 +426,9 @@ func GetTicketsByStatus(projectName string, status string) SearchResult {
         var id int
         rows.Scan(&id)
         fmt.Println("ticket id:" , id)
-        elements := getElements(projectName, id, elementTypes, true)
-        fmt.Println("elements count:" , len(elements))
-        return NewTicket(id, elements)
+        lastMessage := getLastMessage(projectName, id, elementTypes, true)
+        fmt.Println("elements count:" , len(lastMessage.Elements))
+        return NewTicketWithoutMessages(id, lastMessage)
     })
     if err != nil {
         fmt.Println(err)
@@ -464,9 +467,48 @@ func GetSettingFile(projectName string, name string) SettingFile {
     return settingFile
 }
 
+func getMessages(projectName string, ticketId int, elementTypes []ElementType) []Message {
+    statement := fmt.Sprintf(
+        "select m.id, m.registerdate, %s from message as m where m.ticket_id = ? order by m.registerdate",
+        createColumnsExp(elementTypes, "m"))
+
+    params := []interface{} {ticketId}
+
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        fmt.Println("each ticket got")
+        pockets, _ := scanDynamicRows(rows)
+
+        elements := []Element{}
+        fmt.Println(strings.Join(pockets, ","))
+
+        i := 0
+        messageId, _ := strconv.Atoi(pockets[i])
+        i++
+        registerDate := pockets[i]
+
+        /* 動的カラム */
+        for _, elmType := range elementTypes {
+            elements = append(elements, Element{elmType, pockets[i], false})
+            i++
+        }
+
+        return Message{messageId, elements, registerDate}
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    messages := make([]Message, len(results))
+    for i, p := range results { messages[i] = p.(Message) }
+
+    return messages
+}
+
 func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Ticket {
-    elements := getElements(projectName, ticketId, elementTypes, false)
-    return NewTicket(ticketId, elements)
+    lastMessage := getLastMessage(projectName, ticketId, elementTypes, false)
+    messages := getMessages(projectName, ticketId, elementTypes)
+
+    return NewTicket(ticketId, lastMessage, messages)
 }
 
 

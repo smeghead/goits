@@ -25,10 +25,10 @@
           </tr>
         </thead>
         <tbody>
-          {{range .SearchResult.Messages}}
+          {{range .SearchResult.Tickets}}
             {{$ticket := .}}
             <tr>
-              {{range .Elements}}
+              {{range .LastMessage.Elements}}
                 {{if .ElementType.DisplayInList}}
                   <td class="field{{.ElementType.Id}} field{{.ElementType.Id}}-{{.GetSelectedItemId}}">
                     {{if .HasTicketLink}}

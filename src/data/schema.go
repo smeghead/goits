@@ -68,14 +68,16 @@ type Ticket struct {
     LastMessage Message
     Messages []Message
 }
-func NewTicket(ticketId int, elements []Element) Ticket {
-    message := Message{0, elements}
+func NewTicketWithoutMessages(ticketId int, lastMessage Message) Ticket {
+    return NewTicket(ticketId, lastMessage, []Message{})
+}
+func NewTicket(ticketId int, lastMessage Message, messages []Message) Ticket {
     ticket := Ticket{}
 
     ticket.Id = ticketId
-    ticket.Title = GetElementField(elements, ELEM_ID_TITLE)
-    ticket.Status = GetElementField(elements, ELEM_ID_STATUS)
-    ticket.LastMessage = message
+    ticket.Title = GetElementField(lastMessage.Elements, ELEM_ID_TITLE)
+    ticket.Status = GetElementField(lastMessage.Elements, ELEM_ID_STATUS)
+    ticket.LastMessage = lastMessage
 
     fmt.Println("NewTicket:", ticket.Id)
     return ticket
@@ -95,6 +97,7 @@ func GetElementField(elements []Element, id int) string {
 type Message struct {
     Id int
     Elements []Element
+    RegisterDate string
 }
 
 
