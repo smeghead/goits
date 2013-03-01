@@ -32,7 +32,7 @@ type Project struct {
 type Element struct {
     ElementType ElementType
     StrVal string
-    IsFile bool
+    ElementFile ElementFile
 }
 func (e *Element) GetSelectedItemId() string {
     if e.ElementType.ListItems == nil {
@@ -46,8 +46,10 @@ func (e *Element) GetSelectedItemId() string {
     return ""
 }
 func (e *Element) HasTicketLink() bool {
-    fmt.Println(e.ElementType.Type, e.StrVal)
     return e.ElementType.Id == ELEM_ID_ID || e.ElementType.Id == ELEM_ID_TITLE
+}
+func (e *Element) IsFile() bool {
+    return e.ElementType.Type == ELEM_TYPE_UPLOADFILE
 }
 
 type SettingFile struct {
@@ -78,15 +80,14 @@ func NewTicket(ticketId int, lastMessage Message, messages []Message) Ticket {
     ticket.Title = GetElementField(lastMessage.Elements, ELEM_ID_TITLE)
     ticket.Status = GetElementField(lastMessage.Elements, ELEM_ID_STATUS)
     ticket.LastMessage = lastMessage
+    ticket.Messages = messages
 
     fmt.Println("NewTicket:", ticket.Id)
     return ticket
 }
 
 func GetElementField(elements []Element, id int) string {
-    fmt.Println("GetField")
     for _, element := range elements {
-        fmt.Println("GetField", element.ElementType.Name, " ", element.StrVal)
         if element.ElementType.Id == id {
             return element.StrVal
         }
@@ -98,6 +99,14 @@ type Message struct {
     Id int
     Elements []Element
     RegisterDate string
+}
+func (m *Message) GetSender() string {
+    for _, element := range m.Elements {
+        if element.ElementType.Id == ELEM_ID_SENDER {
+            return element.StrVal
+        }
+    }
+    return ""
 }
 
 
@@ -125,11 +134,11 @@ type ElementType struct {
 
 type ElementFile struct {
     Id int
-    ElementTypeId int
-    Name string
+    Filename string
     Size int
     MimeType string
     Content string
+    Deleted bool
 }
 
 const (

@@ -15,7 +15,6 @@
             <th>{{.ElementType.Name}}</th>
             <td>
             {{.StrVal}}
-        {{.ElementType.TicketProperty}}
             </td>
           </tr>
         {{end}}
@@ -23,6 +22,15 @@
       <tr>
         <th>all attachments</th>
         <td>
+          {{range .ticket.Messages}}
+            {{range .Elements}}
+              {{if .IsFile}}
+                <span>
+                    <a href="%s/%s/download/{{.ElementFile.Id}}/{{.ElementFile.Filename}}" target="_blank">{{.ElementFile.Filename}}</a> 
+                </span>
+              {{end}}
+            {{end}}
+          {{end}}
         </td>
       </tr>
     </table>
@@ -30,9 +38,23 @@
   <div id="ticket_newest">
     <h4>ticket history</h4>
     <div class="description">
-      This is latest updated tickets.
+      this is ticket histories.
     </div>
-
+    {{range $index, $message := .ticket.Messages}}
+      <h4 class="title">
+        {{$index}}: {{$message.GetSender}}
+      </h4>
+      <table class="table table-striped">
+        {{range $message.Elements}}
+          <tr>
+            <th>{{.ElementType.Name}}</th>
+            <td>
+            {{.StrVal}}
+            </td>
+          </tr>
+        {{end}}
+      </table>
+    {{end}}
   </div>
 yyy
 

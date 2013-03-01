@@ -150,6 +150,34 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
     return strings.Join(columns, ", ")
 }
 
+func getElementFile(projectName string, messageId int, elementType ElementType) ElementFile {
+    elementFile := ElementFile{}
+    statement := 
+            "select id, filename, mime_type, size, deleted from element_file as ef " +
+            "where ef.message_id = ? and ef.element_type_id = ?"
+    params := []interface{} {messageId, elementType.Id}
+
+    _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        fmt.Println("elementFile got")
+        var id int
+        var filename string
+        var mime_type string
+        var size int
+        var deleted bool
+        rows.Scan(&id, &filename, &mime_type, &size, &deleted)
+        elementFile.Id = id
+        elementFile.Filename = filename
+        elementFile.MimeType = mime_type
+        elementFile.Size = size
+        elementFile.Deleted = deleted
+        return nil
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    return elementFile
+}
 func getLastMessage(projectName string, ticketId int, elementTypes []ElementType, forList bool) Message {
     fmt.Println("getLastMessage ticket id", ticketId)
     statement := fmt.Sprintf(
@@ -175,28 +203,32 @@ func getLastMessage(projectName string, ticketId int, elementTypes []ElementType
         i++
         if forList {
             /* ID */
-            elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], false})
+            elements = append(elements, Element{ELEMENT_TYPE_ID, pockets[i], ElementFile{}})
             i++
             /* 初回投稿者 */
-            elements = append(elements, Element{ELEMENT_TYPE_ORG_SENDER, pockets[i], false})
+            elements = append(elements, Element{ELEMENT_TYPE_ORG_SENDER, pockets[i], ElementFile{}})
             i++
         } else {
             i += 2
         }
         /* 動的カラム */
         for _, elmType := range elementTypes {
-            elements = append(elements, Element{elmType, pockets[i], false})
+            elementFile := ElementFile{}
+            if elmType.Id == ELEM_TYPE_UPLOADFILE {
+                elementFile = getElementFile(projectName, messageId, elmType)
+            }
+            elements = append(elements, Element{elmType, pockets[i], elementFile})
             i++
         }
         if forList {
             /* 投稿日時 */
-            elements = append(elements, Element{ELEMENT_TYPE_REGISTERDATE, pockets[i], false})
+            elements = append(elements, Element{ELEMENT_TYPE_REGISTERDATE, pockets[i], ElementFile{}})
             i++
             /* 最終更新日時 */
-            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTERDATE, pockets[i], false})
+            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTERDATE, pockets[i], ElementFile{}})
             i++
             /* 最終更新日時からの経過日数 */
-            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTREDATE_PASSED, pockets[i], false})
+            elements = append(elements, Element{ELEMENT_TYPE_LASTREGISTREDATE_PASSED, pockets[i], ElementFile{}})
             i++
         }
 
@@ -488,7 +520,7 @@ func getMessages(projectName string, ticketId int, elementTypes []ElementType) [
 
         /* 動的カラム */
         for _, elmType := range elementTypes {
-            elements = append(elements, Element{elmType, pockets[i], false})
+            elements = append(elements, Element{elmType, pockets[i], ElementFile{}})
             i++
         }
 
@@ -510,112 +542,4 @@ func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Tic
 
     return NewTicket(ticketId, lastMessage, messages)
 }
-
-
-//package main
-//
-//import (
-//  "database/sql"
-//  "fmt"
-//  _ "github.com/mattn/go-sqlite3"
-//  "os"
-//)
-//
-//func main() {
-//  os.Remove("./foo.db")
-//
-//  db, err := sql.Open("sqlite3", "./foo.db")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  defer db.Close()
-//
-//  sqls := []string{
-//      "create table foo (id integer not null primary key, name text)",
-//      "delete from foo",
-//  }
-//  for _, sql := range sqls {
-//      _, err = db.Exec(sql)
-//      if err != nil {
-//          fmt.Printf("%q: %s\n", err, sql)
-//          return
-//      }
-//  }
-//
-//  tx, err := db.Begin()
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  stmt, err := tx.Prepare("insert into foo(id, name) values(?, ?)")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  defer stmt.Close()
-//  for i := 0; i < 100; i++ {
-//      _, err = stmt.Exec(i, fmt.Sprintf("こんにちわ世界%03d", i))
-//      if err != nil {
-//          fmt.Println(err)
-//          return
-//      }
-//  }
-//  tx.Commit()
-//
-//  rows, err := db.Query("select id, name from foo")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  defer rows.Close()
-//  for rows.Next() {
-//      var id int
-//      var name string
-//      rows.Scan(&id, &name)
-//      fmt.Println(id, name)
-//  }
-//  rows.Close()
-//
-//  stmt, err = db.Prepare("select name from foo where id = ?")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  defer stmt.Close()
-//  var name string
-//  err = stmt.QueryRow("3").Scan(&name)
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  fmt.Println(name)
-//
-//  _, err = db.Exec("delete from foo")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//
-//  _, err = db.Exec("insert into foo(id, name) values(1, 'foo'), (2, 'bar'), (3, 'baz')")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//
-//  rows, err = db.Query("select id, name from foo")
-//  if err != nil {
-//      fmt.Println(err)
-//      return
-//  }
-//  defer rows.Close()
-//  for rows.Next() {
-//      var id int
-//      var name string
-//      rows.Scan(&id, &name)
-//      fmt.Println(id, name)
-//  }
-//  rows.Close()
-//
-//}
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

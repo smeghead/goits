@@ -57,8 +57,19 @@ func TmplTop(w http.ResponseWriter, templateName string, params map[string]inter
     t.Execute(w, params)
 }
 func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-    t, _ := template.ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+//    t, _ := template.ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+//    t.Execute(w, params)
+    t, err := template.New("layout_project.tmpl").
+        Funcs(template.FuncMap{"f": f}).
+        ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("template ok")
     t.Execute(w, params)
 }
 
+func f() string {
+    return "OUTPUT"
+}
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
