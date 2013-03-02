@@ -517,6 +517,7 @@ func getMessages(projectName string, ticketId int, elementTypes []ElementType) [
         messageId, _ := strconv.Atoi(pockets[i])
         i++
         registerDate := pockets[i]
+        i++
 
         /* 動的カラム */
         for _, elmType := range elementTypes {

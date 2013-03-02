@@ -6,6 +6,7 @@ import (
     "net/url"
     "html/template"
     "regexp"
+    "./data"
 )
 
 type Route struct {
@@ -53,23 +54,41 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TmplTop(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-    t, _ := template.ParseFiles("template/layout_top.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+    t, _ := template.New("layout_top.tmpl").
+        Funcs(getFuncs()).
+        ParseFiles("template/layout_top.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
     t.Execute(w, params)
 }
 func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-//    t, _ := template.ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
-//    t.Execute(w, params)
-    t, err := template.New("layout_project.tmpl").
-        Funcs(template.FuncMap{"f": f}).
+    t, _ := template.New("layout_project.tmpl").
+        Funcs(getFuncs()).
         ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
-    if err != nil {
-        panic(err)
-    }
-    fmt.Println("template ok")
     t.Execute(w, params)
 }
 
-func f() string {
-    return "OUTPUT"
+func getFuncs() template.FuncMap {
+    return template.FuncMap{
+        "eq": func(a, b interface{}) bool {
+            return a == b
+        },
+        "ne": func(a, b interface{}) bool {
+            return a != b
+        },
+        "inc": func(a int) int {
+            return a + 1
+        },
+        "defferelementwith": func(element data.Element, messages []data.Message, messageIndex int) bool {
+            fmt.Println(element)
+            if messageIndex == 0 {
+                return element.StrVal != ""
+            }
+            for _, e := range messages[messageIndex - 1].Elements {
+                if e.ElementType.Id == element.ElementType.Id {
+                    return e.StrVal != element.StrVal
+                }
+            }
+            return true
+        },
+    }
 }
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
