@@ -28,7 +28,7 @@ func InitRoutes() {
 }
 
 func RouteHandler(w http.ResponseWriter, r *http.Request) {
-    path := r.URL.RequestURI()
+    path := r.RequestURI
     if path == "/favicon.ico" {
         return
     }
@@ -59,6 +59,7 @@ func TmplTop(w http.ResponseWriter, templateName string, params map[string]inter
         ParseFiles("template/layout_top.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
     t.Execute(w, params)
 }
+
 func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
     t, _ := template.New("layout_project.tmpl").
         Funcs(getFuncs()).
@@ -91,4 +92,5 @@ func getFuncs() template.FuncMap {
         },
     }
 }
+
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

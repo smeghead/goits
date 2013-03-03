@@ -178,6 +178,14 @@ type Condition struct {
     Value string
     CookieValue string
 }
+func (c *Condition) ValidValue() string {
+    if len(c.Value) > 0 {
+        return c.Value
+    } else {
+        return c.CookieValue
+    }
+    return ""
+}
 
 const (
     CONDITION_TYPE_NORMAL = iota

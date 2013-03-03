@@ -46,6 +46,23 @@ func RegisterRoutesProject() {
         TmplProject(w, "project_list", params)
     })
 
+    RegisterRoute("^/([^/]+)/search", func(w http.ResponseWriter, r *http.Request, captures []string) {
+        projectName := captures[0]
+        fmt.Println("project search", projectName)
+
+        r.ParseForm()
+        params := make(map[string]interface{})
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = data.GetProject(projectName)
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
+
+        elementTypes := data.GetElementTypes(projectName)
+        params["searchResult"] = data.SearchTickets(projectName, r.Form, r.Cookies(), elementTypes)
+        params["elementTypes"] = elementTypes
+        TmplProject(w, "project_search", params)
+    })
+
     RegisterRoute("^/([^/]+)/setting_file/([^/]+)", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
         name := captures[1]

@@ -58,7 +58,10 @@ func query(databaseName string, statement string, params []interface{}, callback
 
     //execute `rows, err := stmt.Query(arg1, arg2, ...)` by reflect
     values := []reflect.Value{}
-    for _, p := range params { values = append(values, reflect.ValueOf(p)) }
+    for _, p := range params {
+        fmt.Println(p)
+        values = append(values, reflect.ValueOf(p))
+    }
     returnValues := reflect.ValueOf(stmt).MethodByName("Query").Call(values)
     rows := returnValues[0].Interface().(*sql.Rows)
     if !returnValues[1].IsNil() {
@@ -214,3 +217,4 @@ func scanDynamicRows(rows *sql.Rows) ([]string, error) {
     }
     return values, nil
 }
+/* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

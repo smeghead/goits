@@ -7,6 +7,7 @@ import (
     "strconv"
     "strings"
     "net/url"
+    "net/http"
 )
 
 func GetProjectInfos() []ProjectInfo {
@@ -146,6 +147,17 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
     columns := []string{}
     for _, elem := range elementTypes {
         columns = append(columns, fmt.Sprintf("%s.field%d", table_name, elem.Id))
+    }
+    return strings.Join(columns, ", ")
+}
+
+func createColumnsLikeExp(elementTypes []ElementType, table_name string, keywords []string) string {
+    columns := []string{}
+    for _, s := range keywords {
+        fmt.Println(s)
+        for _, elem := range elementTypes {
+            columns = append(columns, fmt.Sprintf("%s.field%d like '%%' || ? || '%%' ", table_name, elem.Id))
+        }
     }
     return strings.Join(columns, ", ")
 }
@@ -325,11 +337,12 @@ func getConditionValidValue(c Condition) string {
     return ""
 }
 
-func getSearchSqlString(projectName string, conditions []Condition, sort Condition, keywords []string) string {
-    sqlString := "select t.id as id " +
+func getSearchSqlString(projectName string, conditions []Condition, sort Condition, keywords []string, elementTypes []ElementType) string {
+    sqlString := fmt.Sprintf("select t.id as id, m.field%d as state " +
         "from ticket as t " +
         "inner join message as m on m.id = t.last_message_id " +
-        "inner join message as org_m on org_m.id = t.original_message_id "
+        "inner join message as org_m on org_m.id = t.original_message_id ",
+        ELEM_ID_STATUS)
 
     if len(keywords) > 0 {
         sqlString += "inner join message as m_all on m_all.ticket_id = t.id "
@@ -348,6 +361,7 @@ func getSearchSqlString(projectName string, conditions []Condition, sort Conditi
             if !validCondition(cond) {
                 continue
             }
+        fmt.Printf("#######getSearchSqlString: %d\n", cond.ElementTypeId)
             switch cond.ConditionType {
             case CONDITION_TYPE_DATE_FROM:
                 conds = append(conds,
@@ -398,24 +412,16 @@ func getSearchSqlString(projectName string, conditions []Condition, sort Conditi
                 case CONDITION_TYPE_DAYS:
                     conds = append(conds, fmt.Sprintf("(%s >= datetime(current_timestamp, 'utc', '-%s days', 'localtime'))",
                             name,
-                            getConditionValidValue(cond)))
+                            cond.ValidValue()))
             }
         }
         sqlString += strings.Join(conds, " and ")
     }
 
-//    if len(keywords) > 0 {
-//        String* columns_a = string_new(0);
-//        List* element_types_a;
-//        list_alloc(element_types_a, ElementType, element_type_new, element_type_free);
-//        element_types_a = db_get_element_types_all(db, NULL, element_types_a);
-//        columns_a = create_columns_like_exp(element_types_a, "m_all", keywords, columns_a);
-//        if (valid_condition_size(conditions))
-//            string_append(sql_string, " and ");
-//        string_appendf(sql_string, "(%s)", string_rawstr(columns_a));
-//        string_free(columns_a);
-//        list_free(element_types_a);
-//    }
+    if len(keywords) > 0 {
+        sqlString += fmt.Sprintf(" and (%s) ", 
+            createColumnsLikeExp(elementTypes, "m_all", keywords))
+    }
 
     sqlString += " group by t.id order by "
 
@@ -444,19 +450,20 @@ func getSearchSqlString(projectName string, conditions []Condition, sort Conditi
 
 func GetTicketsByStatus(projectName string, status string) SearchResult {
     keywords := []string{}
-    conditions := []Condition{Condition{ELEM_ID_STATUS, 0, status, ""}}
+    conditions := []Condition{Condition{ELEM_ID_STATUS, CONDITION_TYPE_NORMAL, status, ""}}
     sort := Condition{}
 
     elementTypes := GetElementTypes(projectName)
 
-    statement := getSearchSqlString(projectName, conditions, sort, keywords)
+    statement := getSearchSqlString(projectName, conditions, sort, keywords, elementTypes)
     statement += " limit ? "
 
     params := []interface{}{status, LIST_COUNT_PER_LIST_PAGE}
 
     results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
         var id int
-        rows.Scan(&id)
+        var state string
+        rows.Scan(&id, &state)
         fmt.Println("ticket id:" , id)
         lastMessage := getLastMessage(projectName, id, elementTypes, true)
         fmt.Println("elements count:" , len(lastMessage.Elements))
@@ -542,5 +549,211 @@ func GetTicket(projectName string, ticketId int, elementTypes []ElementType) Tic
     messages := getMessages(projectName, ticketId, elementTypes)
 
     return NewTicket(ticketId, lastMessage, messages)
+}
+
+func getCookieValue(cookies []*http.Cookie, name string) string {
+    for _, c := range cookies {
+        if c.Name == name {
+            return c.Value
+        }
+    }
+    return ""
+}
+
+func createCondition(name string, elementType ElementType, conditionType int, form url.Values, cookies []*http.Cookie) Condition {
+
+    fmt.Printf("======field: %s [%s]\n", name, form.Get(name))
+    paramValue := form.Get(name)
+    cookieValue := getCookieValue(cookies, name)
+    return Condition{elementType.Id, conditionType, paramValue, cookieValue}
+}
+
+func createConditions(form url.Values, cookies []*http.Cookie, elementTypes []ElementType) []Condition {
+    conditions := []Condition{}
+
+    for _, elementType := range elementTypes {
+        fmt.Printf("======et: %s\n", elementType.Id)
+        switch elementType.Type {
+        case ELEM_TYPE_DATE:
+            conditions = append(conditions,
+                createCondition(
+                    fmt.Sprintf("field%d_from", elementType.Id),
+                    elementType,
+                    CONDITION_TYPE_DATE_FROM,
+                    form,
+                    cookies))
+            conditions = append(conditions,
+                createCondition(
+                    fmt.Sprintf("field%d_to", elementType.Id),
+                    elementType,
+                    CONDITION_TYPE_DATE_TO,
+                    form,
+                    cookies))
+        default:
+            conditions = append(conditions,
+                createCondition(
+                    fmt.Sprintf("field%d", elementType.Id),
+                    elementType,
+                    CONDITION_TYPE_NORMAL,
+                    form,
+                    cookies))
+        }
+    }
+
+    /* register date */
+    conditions = append(conditions,
+        createCondition(
+            "registerdate.from",
+            ELEMENT_TYPE_REGISTERDATE,
+            CONDITION_TYPE_DATE_FROM,
+            form,
+            cookies))
+    conditions = append(conditions,
+        createCondition(
+            "registerdate.to",
+            ELEMENT_TYPE_REGISTERDATE,
+            CONDITION_TYPE_DATE_TO,
+            form,
+            cookies))
+    /* modify date */
+    conditions = append(conditions,
+        createCondition(
+            "lastregisterdate.from",
+            ELEMENT_TYPE_LASTREGISTERDATE,
+            CONDITION_TYPE_DATE_FROM,
+            form,
+            cookies))
+    conditions = append(conditions,
+        createCondition(
+            "lastregisterdate.to",
+            ELEMENT_TYPE_LASTREGISTERDATE,
+            CONDITION_TYPE_DATE_TO,
+            form,
+            cookies))
+    /* passed days from last update. */
+    conditions = append(conditions,
+        createCondition(
+            "lastregisterdate.days",
+            ELEMENT_TYPE_LASTREGISTERDATE,
+            CONDITION_TYPE_DAYS,
+            form,
+            cookies))
+    return conditions
+}
+
+func createSortCondition(form url.Values) Condition {
+    elementTypeId, _ := strconv.Atoi(form.Get("sort"))
+    sort := Condition{}
+    if elementTypeId > 0 {
+        sort.ElementTypeId = elementTypeId
+    }
+    elementTypeId, _ = strconv.Atoi(form.Get("rsort"))
+    if elementTypeId > 0 {
+        sort.ElementTypeId = elementTypeId
+        sort.Value = "reverse"
+    }
+    return sort
+}
+
+func setConditions(conditions []Condition, keywords []string, elementTypes []ElementType) []interface{} {
+    params := []interface{} {}
+    for _, cond := range conditions {
+        if !validCondition(cond) {
+            continue
+        }
+        if cond.ConditionType == CONDITION_TYPE_DAYS {
+            continue /* プレースフォルダが無いためスルーする */
+        }
+
+        fmt.Printf("#######setConditions: %d\n", cond.ElementTypeId)
+        params = append(params, cond.ValidValue())
+    }
+
+    if len(keywords) > 0 {
+        for _, keyword := range keywords {
+            for i, _ := range elementTypes {
+                fmt.Printf("%d", i)
+                params = append(params, keyword)
+            }
+        }
+    }
+    return params
+}
+
+func getKeywords(form url.Values) []string {
+    q := form.Get("q")
+    if len(q) == 0 {
+        return []string{}
+    }
+    return strings.Split(q, " ")
+}
+
+func SearchTickets(projectName string, form url.Values, cookies []*http.Cookie, elementTypes []ElementType) SearchResult {
+    keywords := getKeywords(form)
+    fmt.Println("=============keywords", keywords)
+    fmt.Printf("======field2: [%s]\n", form.Encode())
+    conditions := createConditions(form, cookies, elementTypes)
+    sort := createSortCondition(form)
+    page, _ := strconv.Atoi(form.Get("p"))
+
+    statement := getSearchSqlString(projectName, conditions, sort, keywords, elementTypes)
+    statement += " limit ? offset ? "
+
+    params := setConditions(conditions, keywords, elementTypes)
+
+    params = append(params, strconv.Itoa(LIST_COUNT_PER_SEARCH_PAGE))
+    params = append(params, strconv.Itoa(page * LIST_COUNT_PER_SEARCH_PAGE))
+
+    /* 1ページ分のticket_idを取得する。 */
+    results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+        var id int
+        var state string
+        rows.Scan(&id, &state)
+        fmt.Println("ticket id:" , id)
+        lastMessage := getLastMessage(projectName, id, elementTypes, true)
+        fmt.Println("elements count:" , len(lastMessage.Elements))
+        return NewTicketWithoutMessages(id, lastMessage)
+    })
+    if err != nil {
+        fmt.Println(err)
+        panic(err)
+    }
+    tickets := make([]Ticket, len(results))
+    for i, p := range results { tickets[i] = p.(Ticket) }
+
+    /* hit件数を取得する。 */
+    hitCount := 0
+    var states []State
+    {
+        statement := fmt.Sprintf(
+            "select count(res.id), res.state from (%s) as res  " +
+            "inner join list_item as l on l.element_type_id = %d and l.name = res.state " +
+            "group by res.state " +
+            "order by l.sort",
+            getSearchSqlString(projectName, conditions, sort, keywords, elementTypes),
+            ELEM_ID_STATUS)
+        params := setConditions(conditions, keywords, elementTypes)
+
+        results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
+            var count int
+            var state string
+            rows.Scan(&count, &state)
+            hitCount += count
+            return State{0, state, count}
+        })
+        if err != nil {
+            fmt.Println(err)
+            panic(err)
+        }
+        states = make([]State, len(results))
+        for i, p := range results { states[i] = p.(State) }
+    }
+
+    fmt.Printf("count: %d\n", len(states))
+    sums := []int{}
+    //TODO 数値項目の合計
+    //sums := set_tickets_number_sum(db, conditions, NULL, keywords_a, result);
+
+    return SearchResult{hitCount, 0, tickets, states, sums}
 }
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
