@@ -59,7 +59,7 @@ func query(databaseName string, statement string, params []interface{}, callback
     //execute `rows, err := stmt.Query(arg1, arg2, ...)` by reflect
     values := []reflect.Value{}
     for _, p := range params {
-        fmt.Println(p)
+        fmt.Println("[", p, "]")
         values = append(values, reflect.ValueOf(p))
     }
     returnValues := reflect.ValueOf(stmt).MethodByName("Query").Call(values)

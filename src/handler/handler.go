@@ -6,6 +6,7 @@ import (
     "net/url"
     "html/template"
     "regexp"
+    "math"
     "./data"
 )
 
@@ -51,6 +52,7 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
         }
     }
     fmt.Println("404:", path)
+    http.NotFound(w, r)
 }
 
 func TmplTop(w http.ResponseWriter, templateName string, params map[string]interface{}) {
@@ -74,6 +76,12 @@ func getFuncs() template.FuncMap {
         },
         "ne": func(a, b interface{}) bool {
             return a != b
+        },
+        "odd": func(a int) bool {
+            return math.Mod(float64(a), 2) != 0
+        },
+        "even": func(a int) bool {
+            return math.Mod(float64(a), 2) == 0
         },
         "inc": func(a int) int {
             return a + 1

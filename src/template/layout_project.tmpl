@@ -25,6 +25,7 @@
 
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="/img/favicon.png">
+    <script src="/js/jquery.js"></script>
   </head>
 
   <body>
@@ -41,14 +42,16 @@
           <a class="brand" href="/">{{.topProject.Name}}</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="{{.project.Url}}">サブプロジェクト トップ</a></li>
-              <li><a href="{{.project.Url}}/list">チケット</a></li>
-              <li><a href="{{.project.Url}}/register">登録</a></li>
-              <li><a href="{{.project.Url}}/search">検索</a></li>
+              <li class="active"><a href="{{.project.Url}}">{{.project.Name}}</a></li>
+              <li><a href="{{.project.Url}}/list"><i class="icon-list icon-white" title="チケット"></i></a></li>
+              <li><a href="{{.project.Url}}/register"><i class="icon-plus-sign icon-white" title="登録"></i></a></li>
+              <li><a href="{{.project.Url}}/search"><i class="icon-search icon-white" title="検索"></i></a></li>
+              <!--
               <li><a href="{{.project.Url}}/statistics">統計情報</a></li>
               <li><a href="{{.project.Url}}/register_at_once">一括登録</a></li>
               <li><a href="{{.project.Url}}/help">ヘルプ</a></li>
-              <li><a href="{{.project.Url}}/manage">管理</a></li>
+              -->
+              <li><a href="{{.project.Url}}/manage"><i class="icon-wrench icon-white" title="設定"></i></a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -62,7 +65,7 @@
             <ul class="nav nav-list">
               <li class="nav-header">statuses</li>
               {{range .states}}
-                <li><a href="{{$project.Url}}/search?field2={{.Name|urlquery}}">{{.Name}}({{.Count}})</a></li>
+                <li><a href="{{$project.Url}}/search?field3={{.Name|urlquery}}">{{.Name}}({{.Count}})</a></li>
               {{end}}
             </ul>
             <ul class="nav nav-list nav-list-tickets">
@@ -82,7 +85,6 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.js"></script>
 
   </body>

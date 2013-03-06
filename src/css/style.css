@@ -3,3 +3,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.detail-condition {
+        display: none;
+}
