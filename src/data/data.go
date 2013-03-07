@@ -1,6 +1,7 @@
 package data
 
 import (
+    logger "code.google.com/p/log4go"
     "database/sql"
     "fmt"
     _ "github.com/mattn/go-sqlite3"
@@ -23,7 +24,7 @@ func GetProjectInfos() []ProjectInfo {
         return ProjectInfo{id, name, sort}
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     projectInfos := make([]ProjectInfo, len(results))
@@ -54,7 +55,7 @@ func GetProject(projectName string) Project {
         return nil
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     return project
@@ -70,7 +71,7 @@ func GetWiki(projectName string, wikiName string) Wiki {
     params := []interface{} {wikiName}
 
     _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
-        fmt.Println("wiki got")
+        logger.Error("wiki got")
         var id int
         var name string
         var content string
@@ -81,7 +82,7 @@ func GetWiki(projectName string, wikiName string) Wiki {
         return nil
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     return wiki
@@ -125,7 +126,7 @@ func GetElementTypes(projectName string) []ElementType {
                 return ListItem{id, name, close, sort}
             })
             if err != nil {
-                fmt.Println(err)
+                logger.Error(err)
                 panic(err)
             }
             listItems = make([]ListItem, len(results))
@@ -135,7 +136,7 @@ func GetElementTypes(projectName string) []ElementType {
             description, auto_add_item, default_value, display_in_list, sort, listItems}
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     elementTypes := make([]ElementType, len(results))
@@ -154,7 +155,7 @@ func createColumnsExp(elementTypes []ElementType, table_name string) string {
 func createColumnsLikeExp(elementTypes []ElementType, table_name string, keywords []string) string {
     columns := []string{}
     for _, s := range keywords {
-        fmt.Println(s)
+        logger.Debug(s)
         for _, elem := range elementTypes {
             columns = append(columns, fmt.Sprintf("%s.field%d like '%%' || ? || '%%' ", table_name, elem.Id))
         }
@@ -170,7 +171,7 @@ func getElementFile(projectName string, messageId int, elementType ElementType) 
     params := []interface{} {messageId, elementType.Id}
 
     _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
-        fmt.Println("elementFile got")
+        logger.Debug("elementFile got")
         var id int
         var filename string
         var mime_type string
@@ -185,13 +186,13 @@ func getElementFile(projectName string, messageId int, elementType ElementType) 
         return nil
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     return elementFile
 }
 func getLastMessage(projectName string, ticketId int, elementTypes []ElementType, forList bool) Message {
-    fmt.Println("getLastMessage ticket id", ticketId)
+    logger.Debug("getLastMessage ticket id", ticketId)
     statement := fmt.Sprintf(
         "select last_m.id, t.id, org_m.field%d, %s " + 
         "  , substr(t.registerdate, 1, 16), substr(last_m.registerdate, 1, 16),  " +
@@ -205,10 +206,10 @@ func getLastMessage(projectName string, ticketId int, elementTypes []ElementType
     var messageId int
     elements := []Element{}
     _, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
-        fmt.Println("each ticket got")
+        logger.Debug("each ticket got")
         pockets, _ := scanDynamicRows(rows)
 
-        fmt.Println(strings.Join(pockets, ","))
+        logger.Debug(strings.Join(pockets, ","))
 
         i := 0
         messageId, _ = strconv.Atoi(pockets[i])
@@ -247,7 +248,7 @@ func getLastMessage(projectName string, ticketId int, elementTypes []ElementType
         return nil
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     return Message{messageId, elements, ""}
@@ -264,14 +265,14 @@ func GetNewestTickets(projectName string, limit int) []Ticket {
     params := []interface{} {}
 
     results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
-        fmt.Println("newest tickets got")
+        logger.Debug("newest tickets got")
         var id int
         rows.Scan(&id)
         lastMessage := getLastMessage(projectName, id, elementTypes, false)
         return NewTicketWithoutMessages(id, lastMessage)
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
 
@@ -306,7 +307,7 @@ func GetStates(projectName string, notClose bool) []State {
         return State{id, name, count}
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     states := make([]State, len(results))
@@ -361,7 +362,7 @@ func getSearchSqlString(projectName string, conditions []Condition, sort Conditi
             if !validCondition(cond) {
                 continue
             }
-        fmt.Printf("#######getSearchSqlString: %d\n", cond.ElementTypeId)
+        logger.Debug("#######getSearchSqlString: %d", cond.ElementTypeId)
             switch cond.ConditionType {
             case CONDITION_TYPE_DATE_FROM:
                 conds = append(conds,
@@ -464,13 +465,13 @@ func GetTicketsByStatus(projectName string, status string) SearchResult {
         var id int
         var state string
         rows.Scan(&id, &state)
-        fmt.Println("ticket id:" , id)
+        logger.Debug("ticket id:" , id)
         lastMessage := getLastMessage(projectName, id, elementTypes, true)
-        fmt.Println("elements count:" , len(lastMessage.Elements))
+        logger.Debug("elements count:" , len(lastMessage.Elements))
         return NewTicketWithoutMessages(id, lastMessage)
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     tickets := make([]Ticket, len(results))
@@ -500,7 +501,7 @@ func GetSettingFile(projectName string, name string) SettingFile {
         return nil
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     return settingFile
@@ -514,11 +515,11 @@ func getMessages(projectName string, ticketId int, elementTypes []ElementType) [
     params := []interface{} {ticketId}
 
     results, err := query(projectName, statement, params, func(rows *sql.Rows) interface{} {
-        fmt.Println("each ticket got")
+        logger.Debug("each ticket got")
         pockets, _ := scanDynamicRows(rows)
 
         elements := []Element{}
-        fmt.Println(strings.Join(pockets, ","))
+        logger.Debug(strings.Join(pockets, ","))
 
         i := 0
         messageId, _ := strconv.Atoi(pockets[i])
@@ -535,7 +536,7 @@ func getMessages(projectName string, ticketId int, elementTypes []ElementType) [
         return Message{messageId, elements, registerDate}
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     messages := make([]Message, len(results))
@@ -562,7 +563,7 @@ func getCookieValue(cookies []*http.Cookie, name string) string {
 
 func createCondition(name string, elementType ElementType, conditionType int, form url.Values, cookies []*http.Cookie) Condition {
 
-    fmt.Printf("======field: %s [%s]\n", name, form.Get(name))
+    logger.Debug("======field: %s [%s]", name, form.Get(name))
     paramValue := form.Get(name)
     cookieValue := getCookieValue(cookies, name)
     return Condition{elementType.Id, conditionType, paramValue, cookieValue}
@@ -572,7 +573,7 @@ func createConditions(form url.Values, cookies []*http.Cookie, elementTypes []El
     conditions := []Condition{}
 
     for _, elementType := range elementTypes {
-        fmt.Printf("======et: %s\n", elementType.Id)
+        logger.Debug("======et: %s\n", elementType.Id)
         switch elementType.Type {
         case ELEM_TYPE_DATE:
             conditions = append(conditions,
@@ -665,14 +666,14 @@ func setConditions(conditions []Condition, keywords []string, elementTypes []Ele
             continue /* プレースフォルダが無いためスルーする */
         }
 
-        fmt.Printf("#######setConditions: %d\n", cond.ElementTypeId)
+        logger.Debug("#######setConditions: %d\n", cond.ElementTypeId)
         params = append(params, cond.ValidValue())
     }
 
     if len(keywords) > 0 {
         for _, keyword := range keywords {
             for i, _ := range elementTypes {
-                fmt.Printf("%d", i)
+                logger.Debug("%d", i)
                 params = append(params, keyword)
             }
         }
@@ -690,8 +691,8 @@ func getKeywords(form url.Values) []string {
 
 func SearchTickets(projectName string, form url.Values, cookies []*http.Cookie, elementTypes []ElementType) SearchResult {
     keywords := getKeywords(form)
-    fmt.Println("=============keywords", keywords)
-    fmt.Printf("======field2: [%s]\n", form.Encode())
+    logger.Debug("=============keywords", keywords)
+    logger.Debug("======field2: [%s]\n", form.Encode())
     conditions := createConditions(form, cookies, elementTypes)
     sort := createSortCondition(form)
     page, _ := strconv.Atoi(form.Get("p"))
@@ -709,13 +710,13 @@ func SearchTickets(projectName string, form url.Values, cookies []*http.Cookie, 
         var id int
         var state string
         rows.Scan(&id, &state)
-        fmt.Println("ticket id:" , id)
+        logger.Debug("ticket id:" , id)
         lastMessage := getLastMessage(projectName, id, elementTypes, true)
-        fmt.Println("elements count:" , len(lastMessage.Elements))
+        logger.Debug("elements count:" , len(lastMessage.Elements))
         return NewTicketWithoutMessages(id, lastMessage)
     })
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         panic(err)
     }
     tickets := make([]Ticket, len(results))
@@ -742,14 +743,14 @@ func SearchTickets(projectName string, form url.Values, cookies []*http.Cookie, 
             return State{0, state, count}
         })
         if err != nil {
-            fmt.Println(err)
+            logger.Error(err)
             panic(err)
         }
         states = make([]State, len(results))
         for i, p := range results { states[i] = p.(State) }
     }
 
-    fmt.Printf("count: %d\n", len(states))
+    logger.Debug("count: %d\n", len(states))
     sums := []int{}
     //TODO 数値項目の合計
     //sums := set_tickets_number_sum(db, conditions, NULL, keywords_a, result);

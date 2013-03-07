@@ -1,6 +1,7 @@
 package handler
 
 import (
+    logger "code.google.com/p/log4go"
     "fmt"
     "net/http"
     "net/url"
@@ -18,7 +19,7 @@ type Route struct {
 var _routes []Route
 
 func RegisterRoute(patternString string, handler func(http.ResponseWriter, *http.Request, []string)) {
-    fmt.Println("RegisterRoute:", patternString)
+    logger.Debug("RegisterRoute: %s", patternString)
     _routes = append(_routes, Route{regexp.MustCompile(patternString), handler})
 }
 
@@ -37,7 +38,7 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
     for _, route := range _routes {
         matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())
         if len(matches) > 0 {
-            fmt.Println("------------hit pattern:", route.pattern, "path", path)
+            logger.Debug("------------hit pattern:%s path'%s", route.pattern, path)
             //get submatch
             captures := []string{}
             matchLen := len(matches)
@@ -51,7 +52,7 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
             return
         }
     }
-    fmt.Println("404:", path)
+    logger.Error("404: %s", path)
     http.NotFound(w, r)
 }
 
@@ -87,7 +88,7 @@ func getFuncs() template.FuncMap {
             return a + 1
         },
         "defferelementwith": func(element data.Element, messages []data.Message, messageIndex int) bool {
-            fmt.Println(element)
+            logger.Debug(element)
             if messageIndex == 0 {
                 return element.StrVal != ""
             }

@@ -1,7 +1,6 @@
 package data
 
 import (
-    "fmt"
     "strconv"
     "strings"
 )
@@ -82,7 +81,6 @@ func NewTicket(ticketId int, lastMessage Message, messages []Message) Ticket {
     ticket.LastMessage = lastMessage
     ticket.Messages = messages
 
-    fmt.Println("NewTicket:", ticket.Id)
     return ticket
 }
 

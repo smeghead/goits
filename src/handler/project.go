@@ -1,6 +1,7 @@
 package handler
 
 import (
+    logger "code.google.com/p/log4go"
     "fmt"
     "net/http"
     "./data"
@@ -10,7 +11,7 @@ import (
 func RegisterRoutesProject() {
     RegisterRoute("^/([^/]+)$", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        fmt.Println("project", projectName)
+        logger.Debug("project", projectName)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
@@ -24,7 +25,7 @@ func RegisterRoutesProject() {
 
     RegisterRoute("^/([^/]+)/list", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        fmt.Println("project list", projectName)
+        logger.Debug("project list", projectName)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
@@ -48,7 +49,7 @@ func RegisterRoutesProject() {
 
     RegisterRoute("^/([^/]+)/search", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        fmt.Println("project search", projectName)
+        logger.Debug("project search", projectName)
 
         r.ParseForm()
         params := make(map[string]interface{})
@@ -79,7 +80,7 @@ func RegisterRoutesProject() {
     RegisterRoute("^/([^/]+)/ticket/(\\d+)", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
         ticketId, _ := strconv.Atoi(captures[1])
-        fmt.Println("ticket ", ticketId)
+        logger.Debug("ticket ", ticketId)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")

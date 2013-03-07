@@ -1,6 +1,7 @@
 package data
 
 import (
+    logger "code.google.com/p/log4go"
     "database/sql"
     "fmt"
     _ "github.com/mattn/go-sqlite3"
@@ -14,14 +15,14 @@ func getDatabaseId(databaseName string) (int, error) {
 
     db, err := sql.Open("sqlite3", "./db/1.db")
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return -1, err
     }
     defer db.Close()
 
     stmt, err := db.Prepare("select id from project_info where name = ?")
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return -1, err
     }
     defer stmt.Close()
@@ -29,7 +30,7 @@ func getDatabaseId(databaseName string) (int, error) {
     var id int
     err = stmt.QueryRow(databaseName).Scan(&id)
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return -1, err
     }
     return id, nil
@@ -38,20 +39,20 @@ func getDatabaseId(databaseName string) (int, error) {
 func query(databaseName string, statement string, params []interface{}, callback func(rows *sql.Rows) interface{}) ([]interface{}, error) {
     databaseId, err := getDatabaseId(databaseName)
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return nil, err
     }
     db, err := sql.Open("sqlite3", fmt.Sprintf("./db/%d.db", databaseId))
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return nil, err
     }
     defer db.Close()
 
-    fmt.Println("sql:", statement)
+    logger.Debug("sql: %s", statement)
     stmt, err := db.Prepare(statement)
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return nil, err
     }
     defer stmt.Close()
@@ -59,7 +60,7 @@ func query(databaseName string, statement string, params []interface{}, callback
     //execute `rows, err := stmt.Query(arg1, arg2, ...)` by reflect
     values := []reflect.Value{}
     for _, p := range params {
-        fmt.Println("[", p, "]")
+        logger.Debug("[%s]", p)
         values = append(values, reflect.ValueOf(p))
     }
     returnValues := reflect.ValueOf(stmt).MethodByName("Query").Call(values)
@@ -68,7 +69,7 @@ func query(databaseName string, statement string, params []interface{}, callback
         err = returnValues[1].Interface().(error)
     }
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return nil, err
     }
     defer rows.Close()
@@ -85,7 +86,7 @@ func query(databaseName string, statement string, params []interface{}, callback
 func scanDynamicRows(rows *sql.Rows) ([]string, error) {
     columns, err := rows.Columns()
     if err != nil {
-        fmt.Println(err)
+        logger.Error(err)
         return nil, err
     }
     count := len(columns)
