@@ -1,0 +1,1494 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: smeghead@users.sourceforge.jp\n"
+"POT-Creation-Date: 2011-07-19 12:17+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: smeghead <smeghead@users.sourceforge.jp>\n"
+"Language-Team: smeghead <smeghead@users.sourceforge.jp>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin_project.c:79 admin_project.c:109 admin_project.c:181
+#: admin_project.c:218 admin_project.c:322 admin_project.c:742
+#: admin_project.c:964 admin_project.c:1015 admin_project.c:1113
+#: index_project.c:176
+msgid "management of sub project"
+msgstr "サブプロジェクトの管理"
+
+#: admin_project.c:106 admin_project.c:115 index_project.c:155
+#: index_project.c:162
+msgid "display sub projects list at top page."
+msgstr "トップページのサブプロジェクト一覧を表示します"
+
+#: admin_project.c:116 index_project.c:162
+msgid "top page(sub projects list)"
+msgstr "トップページ（サブプロジェクト一覧)"
+
+#: admin_project.c:123 admin_project.c:184
+msgid "management tool menu"
+msgstr "管理ツールメニュー"
+
+#: admin_project.c:124 admin_project.c:187 admin_project.c:216
+#: admin_project.c:221 admin_project.c:1111
+msgid "sub project settings"
+msgstr "サブプロジェクト設定"
+
+#: admin_project.c:125 admin_project.c:188 admin_project.c:320
+#: admin_project.c:330
+msgid "columns settings"
+msgstr "項目設定"
+
+#: admin_project.c:126 admin_project.c:189 admin_project.c:1014
+msgid "style settings"
+msgstr "スタイル設定"
+
+#: admin_project.c:127 admin_project.c:190 admin_project.c:1116
+msgid "export settings"
+msgstr "エクスポート設定"
+
+#: admin_project.c:128 index_project.c:175 index_project.c:2828
+msgid "help"
+msgstr "ヘルプ"
+
+#: admin_project.c:129
+msgid "to"
+msgstr " "
+
+#: admin_project.c:129
+msgid "to(suffix)"
+msgstr "へ"
+
+#: admin_project.c:175
+msgid "menu"
+msgstr "メニュー"
+
+#: admin_project.c:187
+msgid "this is basic sub projects settings."
+msgstr "プロジェクトの基本的な情報の設定です。"
+
+#: admin_project.c:188
+msgid "this is columns settings of tickets."
+msgstr "チケットの項目についての設定です。"
+
+#: admin_project.c:189
+msgid "this is stylesheet settings."
+msgstr "スタイルシートの設定です。"
+
+#: admin_project.c:190
+msgid "this is export settings."
+msgstr "エクスポートの設定です。"
+
+#: admin_project.c:193
+msgid "about mail notify features"
+msgstr "メール送信機能について"
+
+#: admin_project.c:195
+msgid "[mail notify messages]"
+msgstr ""
+"投稿時、返信時のメール送信は、hook機能により実現可能です。hook機能はサーバ上"
+"での設定が必要になります。hook機能の設定方法については、以下のサイトのインス"
+"トールのページを見てください。"
+
+#: admin_project.c:224 admin_top.c:166
+msgid "sub project name"
+msgstr "サブプロジェクト名"
+
+#: admin_project.c:228
+msgid "icon"
+msgstr "画像(ページの一番上に表示される画像です)"
+
+#: admin_project.c:232
+msgid "file upload max size(kb)"
+msgstr "ファイルアップロードの最大サイズ(Kb)"
+
+#: admin_project.c:236 admin_project.c:344 admin_project.c:589
+#: admin_project.c:1032 admin_top.c:151 admin_top.c:196 index_project.c:2861
+#: index_top.c:170
+msgid "update"
+msgstr "更新"
+
+#: admin_project.c:305 admin_project.c:611 admin_project.c:1084
+#: admin_project.c:1145 admin_top.c:271 admin_top.c:353
+msgid "updated."
+msgstr "更新しました"
+
+#: admin_project.c:331
+msgid "[columns setting description]"
+msgstr ""
+"チケットID、投稿日時は編集できません。件名、投稿者、状態は、基本属性のため編"
+"集できる内容に制限があります。(削除不可、チケット属性、返信専用属性変更不可)"
+
+#: admin_project.c:333 admin_project.c:740 admin_project.c:749
+msgid "add new column"
+msgstr "新規項目の追加"
+
+#: admin_project.c:358 admin_project.c:753
+msgid "column name"
+msgstr "項目名"
+
+#: admin_project.c:358 index_project.c:1595 index_project.c:1892
+msgid "*"
+msgstr "※"
+
+#: admin_project.c:361 admin_project.c:756
+msgid "this is name of ticket column."
+msgstr "項目名です。"
+
+#: admin_project.c:370 admin_project.c:761
+msgid "column description"
+msgstr "項目の説明文"
+
+#: admin_project.c:372 admin_project.c:764
+msgid ""
+"this is description of ticket column. when register or replay, it is "
+"displayed."
+msgstr "項目の説明文です。投稿時に表示されます。"
+
+#: admin_project.c:380
+msgid "required"
+msgstr "必須項目"
+
+#: admin_project.c:383
+msgid "this column must not be empty."
+msgstr "必須項目とする。"
+
+#: admin_project.c:384
+msgid "[require description]"
+msgstr ""
+"入力しないと投稿できない属性とするかどうかです。ただし、チェックはJavaScript"
+"で行なうのみです。"
+
+#: admin_project.c:394 admin_project.c:768
+msgid "attribute of ticket"
+msgstr "チケット属性"
+
+#: admin_project.c:396 admin_project.c:772
+msgid "this column will be attribute of ticket."
+msgstr "チケット属性とする。"
+
+#: admin_project.c:403 admin_project.c:774
+msgid "[attribute of ticket description1]"
+msgstr "返信の属性としてではなくチケット自体の属性として定義するかどうかです。"
+
+#: admin_project.c:404 admin_project.c:775
+msgid "[attribute of ticket description2]"
+msgstr ""
+"返信時にチケット属性を指定した項目を書き換えた場合、書き換えた内容がチケット"
+"最新情報に表示されるようになります。"
+
+#: admin_project.c:405 admin_project.c:776
+msgid "[attribute of ticket description3]"
+msgstr ""
+"チケット属性を指定していない項目は、チケット最新情報に表示されません。チケッ"
+"ト属性を指定していない項目はチケット履歴から参照することになります。"
+
+#: admin_project.c:412 admin_project.c:781
+msgid "reply only"
+msgstr "返信専用属性"
+
+#: admin_project.c:416 admin_project.c:785
+msgid "this column will be reply only."
+msgstr "返信専用属性とする。"
+
+#: admin_project.c:422 admin_project.c:787
+msgid "[reply only description1]"
+msgstr ""
+"新規の登録時には、入力項目としないかどうかです。チェックした場合、新規の登録"
+"時には、入力項目になりません。"
+
+#: admin_project.c:423 admin_project.c:788
+msgid "[reply only description2]"
+msgstr ""
+"返信の時のみ入力できる項目となります。チケットの対応時期などの返信する人でな"
+"ければわからない項目は、返信専用属性とすることで、新規登録時の不要な入力の手"
+"間を減らすことができます。"
+
+#: admin_project.c:430 admin_project.c:793
+msgid "column type"
+msgstr "項目種別"
+
+#: admin_project.c:435 admin_project.c:797
+msgid "one line text(input[type=text])"
+msgstr "1行テキスト(input[type=text])"
+
+#: admin_project.c:438 admin_project.c:801
+msgid "multi line text(textarea)"
+msgstr "複数行テキスト(textarea)"
+
+#: admin_project.c:441 admin_project.c:828
+msgid "number(input[type=text])"
+msgstr "数値(input[type=text])"
+
+#: admin_project.c:444 admin_project.c:805
+msgid "boolean(input[type=checkbox])"
+msgstr "真偽値(input[type=checkbox])"
+
+#: admin_project.c:447 admin_project.c:809
+msgid "selection list(select)"
+msgstr "選択リスト(select)"
+
+#: admin_project.c:450 admin_project.c:813
+msgid "selection list(input[type=radio])"
+msgstr "選択リスト(input[type=radio])"
+
+#: admin_project.c:453 admin_project.c:817
+msgid "multi selection list(select[multiple=multiple])"
+msgstr "複数選択可能リスト(select[multiple=multiple])"
+
+#: admin_project.c:456 admin_project.c:821
+msgid "file(input[type=file])"
+msgstr "ファイル(input[type=file])"
+
+#: admin_project.c:459 admin_project.c:825
+msgid "date(input[type=text])"
+msgstr "日付(input[type=text])"
+
+#: admin_project.c:477 admin_project.c:833
+msgid "selection element"
+msgstr "選択要素"
+
+#: admin_project.c:477 admin_project.c:837
+msgid "element name"
+msgstr "選択肢名"
+
+#: admin_project.c:477 admin_project.c:838
+msgid "means closed"
+msgstr "クローズを意味する"
+
+#: admin_project.c:477 admin_project.c:556 admin_project.c:839
+#: admin_project.c:871 admin_top.c:166 admin_top.c:208
+msgid "sort"
+msgstr "並び順"
+
+#: admin_project.c:477 admin_project.c:977 admin_top.c:166
+#: index_project.c:3037
+msgid "delete"
+msgstr "削除"
+
+#: admin_project.c:511
+msgid "add line"
+msgstr "行追加"
+
+#: admin_project.c:517 admin_project.c:855
+msgid "selection element when this column is selection list."
+msgstr "項目種別が選択式の場合の選択肢です。"
+
+#: admin_project.c:520 admin_project.c:858
+msgid "when register, you can input new selection element."
+msgstr "投稿時に、新規項目を指定可能とする。"
+
+#: admin_project.c:521 admin_project.c:859
+msgid "[add line description]"
+msgstr ""
+"投稿時にテキストボックスを表示し、テキストボックスに入力された場合は、その項"
+"目を選択肢に追加する機能を付加するかどうかです。"
+
+#: admin_project.c:531
+msgid "default value"
+msgstr "デフォルト値"
+
+#: admin_project.c:537
+msgid "this is default value."
+msgstr "投稿画面、返信画面での項目の初期値です。"
+
+#: admin_project.c:544 admin_project.c:863
+msgid "display in ticket list"
+msgstr "チケット一覧表示"
+
+#: admin_project.c:548 admin_project.c:867
+msgid "display this column in ticket list."
+msgstr "項目をチケット一覧に表示する。"
+
+#: admin_project.c:549
+msgid "[display in ticket list description]"
+msgstr "項目をチケット一覧で表示するかどうかです。"
+
+#: admin_project.c:559 admin_project.c:874
+msgid "sort no in ticket lists."
+msgstr "チケット一覧、投稿画面、返信画面での項目の並び順です。"
+
+#: admin_project.c:586 admin_project.c:967
+msgid "delete this column("
+msgstr "この項目("
+
+#: admin_project.c:586 admin_project.c:967
+msgid ")(delete this column)"
+msgstr ")の削除"
+
+#: admin_project.c:750
+msgid "[ticket add description]"
+msgstr ""
+"チケットに新しい項目を追加します。追加する項目についての情報を入力し、追加ボ"
+"タンを押してください。"
+
+#: admin_project.c:829
+msgid "[ticket add column type description]"
+msgstr ""
+"項目を入力する時の入力形式です。項目種別は、追加後に変更することができませ"
+"ん。"
+
+#: admin_project.c:878 admin_top.c:237
+msgid "add"
+msgstr "追加"
+
+#: admin_project.c:944 admin_top.c:399
+msgid "added."
+msgstr "追加しました"
+
+#: admin_project.c:961
+msgid "column delete"
+msgstr "項目削除"
+
+#: admin_project.c:974
+msgid "if column has deleted, it's forever gone."
+msgstr "削除すると元には戻せません。"
+
+#: admin_project.c:975
+msgid "this will disappear column of exists ticket."
+msgstr "登録されているチケットの項目についても参照できなくなります。"
+
+#: admin_project.c:976
+msgid "if you really want to delete, push delete button."
+msgstr "削除してよければ、削除ボタンを押してください。"
+
+#: admin_project.c:993
+msgid "it is a invalid request."
+msgstr "不正なリクエストです。"
+
+#: admin_project.c:1003
+msgid "deleted."
+msgstr "削除しました"
+
+#: admin_project.c:1019
+msgid "edit style sheet"
+msgstr "スタイルシートの編集"
+
+#: admin_project.c:1019
+msgid "edit style sheet setting and push update button."
+msgstr "スタイルシートの編集を行ない、更新ボタンを押してください。"
+
+#: admin_project.c:1036
+msgid "below block is sample setting of ticket list table column."
+msgstr "以下は、一覧の背景設定用のサンプルです。"
+
+#: admin_project.c:1048
+msgid "background-color settings of "
+msgstr "チケット一覧の"
+
+#: admin_project.c:1048
+msgid ".(background-color settings)"
+msgstr "の背景色設定"
+
+#: admin_project.c:1118
+msgid "this sub project columns settings are able to exported."
+msgstr "このサブプロジェクトの設定をエクスポートすることができます。"
+
+#: admin_project.c:1119
+msgid "when you create sub project, you can select exported sub project types."
+msgstr ""
+"エクスポートした設定は、サブプロジェクトを追加する時に、サプブロジェクトタイ"
+"プとして選択できるようになります。"
+
+#: admin_project.c:1123
+msgid "export sub project type name"
+msgstr "サブプロジェクトタイプ名"
+
+#: admin_project.c:1127 index_project.c:1625 index_project.c:2290
+msgid "register"
+msgstr "登録"
+
+#: admin_top.c:53 admin_top.c:59 admin_top.c:110 index_top.c:59
+msgid "project management"
+msgstr "プロジェクトの管理"
+
+#: admin_top.c:58 index_project.c:2451 index_top.c:58
+msgid "project top"
+msgstr "プロジェクトトップ"
+
+#: admin_top.c:130
+msgid "project information settings"
+msgstr "プロジェクト情報の設定"
+
+#: admin_top.c:135
+msgid "project name"
+msgstr "プロジェクト名"
+
+#: admin_top.c:138
+msgid "home link name"
+msgstr "ホームリンク名"
+
+#: admin_top.c:142
+msgid "home link refference"
+msgstr "ホームリンク先"
+
+#: admin_top.c:146
+msgid "locale"
+msgstr "ロケール"
+
+#: admin_top.c:157 index_top.c:110
+msgid "sub projects list"
+msgstr "サブプロジェクト一覧"
+
+#: admin_top.c:166
+msgid "database path"
+msgstr "データベースパス"
+
+#: admin_top.c:166 admin_top.c:208
+msgid "sub project id"
+msgstr "サブプロジェクトID"
+
+#: admin_top.c:192
+msgid "[project settings description1]"
+msgstr ""
+"サブプロジェクト名は各サブプロジェクトの管理ツールから設定してください。"
+
+#: admin_top.c:193
+msgid "[project settings description2]"
+msgstr ""
+"既存のサブプロジェクトIDを変更すると、サブプロジェクトのURLが変わってしまうの"
+"で注意してください。"
+
+#: admin_top.c:194
+msgid "[project settings description3]"
+msgstr ""
+"削除すると、トップページの一覧から表示されなくなります。データは消去されませ"
+"ん。再度削除チェックボックスのチェックを外すことで、再び参照することができる"
+"ようになります。"
+
+#: admin_top.c:201
+msgid "add sub project"
+msgstr "サブプロジェクトの追加"
+
+#: admin_top.c:208
+msgid "sub project type"
+msgstr "サブプロジェクトタイプ"
+
+#: admin_top.c:214
+msgid "default bts"
+msgstr "規定のサブプロジェクト"
+
+#: admin_top.c:235
+msgid "[sub project name description]"
+msgstr ""
+"サブプロジェクト名は各サブプロジェクトの管理ツールから設定してください。"
+
+#: admin_top.c:325 admin_top.c:373
+msgid "[error] projectid top is reserved."
+msgstr "[ERROR] プロジェクトID topは予約されています。"
+
+#: admin_top.c:332 admin_top.c:380
+msgid "[error] projectid("
+msgstr "[ERROR] プロジェクトID"
+
+#: admin_top.c:332 admin_top.c:380
+msgid ") is already exists."
+msgstr "は既に存在しています。"
+
+#: dbutil.c:106
+msgid "main project"
+msgstr "メインプロジェクト"
+
+#: dbutil.c:112 dbutil.c:178
+msgid "home"
+msgstr "ホーム"
+
+#: dbutil.c:153 dbutil.c:541 wiki.c:217
+msgid "[wiki syntax example]"
+msgstr ""
+"*編集可能領域\n"
+"自由に編集できます。上の「編集」のリンクから編集してください。色々な用途に使"
+"用してください。\n"
+"-お知らせ\n"
+"-Starbug1の使い方についての注意事項など"
+
+#: dbutil.c:197
+msgid "[style sheet default value]"
+msgstr ""
+"@charset \"utf-8\";\n"
+"/* ================================ */\n"
+"/*  チケット一覧の状態の背景色設定  */\n"
+"/* ================================ */\n"
+"/* 新規 */\n"
+"#ticket_list td.field3-1 {\n"
+"        background-color: lightpink !important;\n"
+"}\n"
+"/* 受付済 */\n"
+"#ticket_list td.field3-2 {\n"
+"        background-color: peachpuff !important;\n"
+"}\n"
+"/* 修正済 */\n"
+"#ticket_list td.field3-3 {\n"
+"        background-color: lightyellow !important;\n"
+"}\n"
+"/* 保留 */\n"
+"#ticket_list td.field3-4 {\n"
+"        background-color: white !important;\n"
+"}\n"
+"/* 完了 */\n"
+"#ticket_list td.field3-5 {\n"
+"        background-color: lightcyan !important;\n"
+"}\n"
+"/* 対応せず */\n"
+"#ticket_list td.field3-7 {\n"
+"        background-color: #ccc !important;\n"
+"}\n"
+"/* 仕様通り */\n"
+"#ticket_list td.field3-8 {\n"
+"        background-color: #eee !important;\n"
+"}\n"
+"/* 削除 */\n"
+"#ticket_list td.field3-9 {\n"
+"        color: white !important;\n"
+"        background-color: black !important;\n"
+"}\n"
+"\n"
+"/* ================================== */\n"
+"/*  チケット一覧の優先度の背景色設定  */\n"
+"/* ================================== */\n"
+"/* 緊急 */\n"
+"#ticket_list td.field5-11 {\n"
+"        background-color: #FF8A8C !important;\n"
+"}\n"
+"/* 高 */\n"
+"#ticket_list td.field5-12 {\n"
+"        background-color: #FFCB8C !important;\n"
+"}\n"
+"/* 中 */\n"
+"#ticket_list td.field5-13 {\n"
+"        background-color: #FFFF94 !important;\n"
+"}\n"
+"/* 低 */\n"
+"#ticket_list td.field5-14 {\n"
+"        background-color: white !important;\n"
+"}\n"
+"\n"
+"body {\n"
+"        /* background-color:    lightcyan; */\n"
+"}"
+
+#: dbutil.c:374
+msgid "title"
+msgstr "件名"
+
+#: dbutil.c:375
+msgid "please input title that means content correctly."
+msgstr "内容を簡潔に表すような件名を入力してください。"
+
+#: dbutil.c:382 index_project.c:1062 index_project.c:2581
+msgid "registerer"
+msgstr "投稿者"
+
+#: dbutil.c:383
+msgid "please input your name."
+msgstr "投稿者を入力してください。"
+
+#: dbutil.c:390
+msgid "status"
+msgstr "状態"
+
+#: dbutil.c:391
+msgid "please select status."
+msgstr "状態を選択してください。"
+
+#: dbutil.c:392 dbutil.c:447 index_project.c:538
+msgid "new"
+msgstr "新規"
+
+#: dbutil.c:399
+msgid "category"
+msgstr "カテゴリ"
+
+#: dbutil.c:400
+msgid "please select category."
+msgstr "カテゴリを選択してください。"
+
+#: dbutil.c:407
+msgid "priority"
+msgstr "優先度"
+
+#: dbutil.c:408
+msgid "please select priority."
+msgstr "優先度を選択してください。"
+
+#: dbutil.c:415
+msgid "detail"
+msgstr "詳細"
+
+#: dbutil.c:416
+msgid "please describe the detail."
+msgstr "詳細を記述してください。"
+
+#: dbutil.c:423
+msgid "reproduction procedure"
+msgstr "再現手順"
+
+#: dbutil.c:424
+msgid ""
+"please describe the condition and the procedure to reproduce the problem."
+msgstr "問題を再現させるための条件と手順を記述してください。"
+
+#: dbutil.c:431
+msgid "comment"
+msgstr "コメント"
+
+#: dbutil.c:432
+msgid "please describe the comment."
+msgstr "コメントを記述してください。"
+
+#: dbutil.c:450
+msgid "accepted"
+msgstr "受付済"
+
+#: dbutil.c:453
+msgid "fixed"
+msgstr "修正済"
+
+#: dbutil.c:456
+msgid "reservation"
+msgstr "保留"
+
+#: dbutil.c:459
+msgid "complete"
+msgstr "完了"
+
+#: dbutil.c:462
+msgid "wontfix"
+msgstr "対応せず"
+
+#: dbutil.c:465
+msgid "specification"
+msgstr "仕様通り"
+
+#: dbutil.c:468
+msgid "deleted"
+msgstr "削除"
+
+#: dbutil.c:471
+msgid "page"
+msgstr "画面"
+
+#: dbutil.c:474
+msgid "batch process"
+msgstr "バッチ処理"
+
+#: dbutil.c:477
+msgid "document"
+msgstr "ドキュメント"
+
+#: dbutil.c:480
+msgid "emergency"
+msgstr "緊急"
+
+#: dbutil.c:483
+msgid "high"
+msgstr "高"
+
+#: dbutil.c:486
+msgid "middle"
+msgstr "中"
+
+#: dbutil.c:489
+msgid "low"
+msgstr "低"
+
+#: dbutil.c:546
+msgid "[help content]"
+msgstr ""
+"*逆引きヘルプ\n"
+"**チケットを更新する方法は？\n"
+"チケットに対して更新を行なうアクションは、チケットの新規登録と、チケットに対"
+"する返信のみです。 \n"
+"**チケットを新規に作成するには？\n"
+"ナビゲーションメニューの「チケット登録」をクリックしチケット登録ページに移動"
+"します。 フォームの各フィールドに値を入力して「登録」ボタンを押すことで新規に"
+"チケットを作成することができます。 \n"
+"**チケットの詳細情報を見るには？\n"
+"ナビゲーションの「状態別チケット一覧」または「チケット検索」からチケット情報"
+"の一覧を表示させることができます。チケット情報の一覧から、詳細情報を見たいチ"
+"ケットのIDか件名のリンクをクリックすることでチケット詳細ページに移動します。"
+"チケット詳細ページでは、チケットの最新情報、チケットの履歴を見ることができま"
+"す。また、チケットに返信することもできます。  \n"
+"**チケットを検索するには？\n"
+"ナビゲーションメニューの「チケット検索」をクリックしチケット検索ページに移動"
+"します。 検索条件を入力して「検索」ボタンを押すことで検索を行なうことができま"
+"す。 \n"
+"**IDを指定してチケットの情報を見るには？\n"
+"ナビゲーションメニューの「チケット登録」をクリックしチケット登録ページに移動"
+"します。「IDを指定で表示」ボタンの左のテキストボックスに、チケットIDを入力"
+"し、「IDを指定で表示」ボタンを押すことで、チケット詳細ページに移動します。 ま"
+"た、同様の「IDを指定で表示」ボタンは、トップページ、状態別チケット一覧ページ"
+"にもあります。 \n"
+"**チケットの項目をカスタマイズするには？\n"
+"ナビゲーションメニューの「管理ツール」をクリックし管理ツールを開き、メニュー"
+"の「項目設定」をクリックし、項目設定ページに移動します。\n"
+"各項目の追加、削除、編集を行なうことができます。\n"
+"**チケットの項目に添付資料(ファイル)を追加するには？\n"
+"ナビゲーションメニューの「管理ツール」をクリックし管理ツールを開き、メニュー"
+"の「項目設定」をクリックし、項目設定ページに移動します。\n"
+"「新規項目を追加」リンクをクリックし、項目種別でファイルを選択して項目を追加"
+"してください。\n"
+"**ある状態で進捗のないチケットを調べたい\n"
+"チケット検索ページか状態別チケット一覧ページで、最終更新日時から現在までの日"
+"数を放置日数として表示しています。\n"
+"放置日数を確認してください。\n"
+"**投稿時、返信時にメーリングリストなどにメールを送信するには？\n"
+"投稿時、返信時のメール送信は、hook機能により実現可能です。hook機能はサーバ上"
+"での設定が必要になります。hook機能の設定方法については、以下のサイトのインス"
+"トールのページを見てください。\n"
+"-http://starbug1.sourceforge.jp/\n"
+"**チケットの項目をカスタマイズしたい\n"
+"管理ツールの項目設定ページで、全ての項目のカスタマイズを行なうことができま"
+"す。\n"
+"件名、投稿者、状態は基本属性であるため、カスタマイズできる内容に制限がありま"
+"す。(削除不可、チケット属性、返信専用属性変更不可)\n"
+"**複数のチケットを一括で登録したい\n"
+"一括で登録したいチケットの情報を、CSV形式で準備することができれば、一括で登録"
+"することができます。プロジェクト管理ツールなどで出力したCSV形式のタスク一覧を"
+"利用することができます。\n"
+"ナビゲーションメニューの「チケット一括登録」をクリックしチケット一括登録ペー"
+"ジに移動します。\n"
+"チケット一括登録ページで、登録したい複数のチケットの情報をCSV形式で貼り付け"
+"て、解析ボタンを押します。 \n"
+"チケット一括登録確認ページで、解析結果が表示されるので、各フィールドに対応す"
+"る項目を選択し、登録ボタンを押します。\n"
+"**最新のチケットの情報をCSV形式でダウンロードしたい\n"
+"チケット検索で検索した結果を「検索結果をCSVでダウンロードする。」のリンクから"
+"ダウンロードできます。\n"
+"**チケットに対して返信を行なうには？\n"
+"ナビゲーションメニューの「状態別チケット一覧」または「チケット検索」からチ"
+"ケット情報の一覧を表示させることができます。チケット情報の一覧から、詳細情報"
+"を見たいチケットのIDか件名のリンクをクリックすることでチケット詳細ページに移"
+"動します。チケット詳細ページの下にチケット返信のフォームがありますので、必要"
+"な項目を入力して返信ボタンを押してください。  \n"
+"**他チケットにリンクを貼るには？\n"
+"複数行テキスト項目の値には、他のチケットの詳細ページへのリンクを貼ることがで"
+"きます。#1 のように、書くと、チケットIDが 1 のチケットへのリンクになりま"
+"す。  \n"
+"**ソースコードなどを貼るには？\n"
+"複数行テキスト項目の値には、整形済ブロック用の記法が用意されています。ソース"
+"コードなどを貼る場合に、インデントを崩さずに表示することができます。行頭が "
+">| から始まる行から、行頭が |< から始まる行までを整形済ブロックとして表示しま"
+"す。  \n"
+"**チケット一覧の状態などのセルの背景色などを変更したい\n"
+"管理ツールのスタイル設定から、状態などの単一選択肢の項目の一覧表示時のスタイ"
+"ルシートをカスタマイズすることが可能です。カスタマイズするためには、CSSの知識"
+"が必要です。\n"
+"**ページのスタイルを自由に設定したい\n"
+"管理ツールのスタイル設定から、スタイルシートをカスタマイズすることが可能で"
+"す。カスタマイズするためには、CSSの知識が必要です。\n"
+"**データのバックアップをしたい\n"
+"バックアップの方法については、以下のサイトのインストールのページを見てくださ"
+"い。\n"
+"-http://starbug1.sourceforge.jp/\n"
+"**設定情報をエクスポートしたい\n"
+"Starbug1を複数立ち上げる際などに、1から設定しなくて済むように、運用中の"
+"Starbug1から設定情報をエクスポートすることができます。設定情報のエクスポート"
+"の方法については、以下のサイトのインストールのページを見てください。\n"
+"-http://starbug1.sourceforge.jp/"
+
+#: dbutil.c:551
+msgid "[admin help content]"
+msgstr ""
+"*管理ユーザ用説明\n"
+"各ページについての説明です。\n"
+"**メニュー\n"
+"管理ツールの各設定ページへのリンクです。\n"
+"**プロジェクト設定\n"
+"プロジェクト情報の設定をするページです。\n"
+"各ページのヘッダ部分などに表示されるプロジェクト名を設定することができま"
+"す。\n"
+"**環境設定\n"
+"環境に関する情報を設定するページです。\n"
+"一般ユーザ向けページのナビゲーションメニューの「ホーム」のリンク先を設定する"
+"ととができます。\n"
+"**項目設定\n"
+"チケットの項目を設定するページです。\n"
+"チケットの項目を追加、修正、削除することができます。\n"
+"***項目の追加\n"
+"「新規項目の追加」リンクを押すことで、項目の追加ページに移動します。\n"
+"各項目についての説明は、各項目の下に表示されています。\n"
+"項目の項目種別は、追加するときにしか選択できません。\n"
+"***項目の修正\n"
+"各項目の設定内容を変更することができます。\n"
+"各項目についての説明は、各項目の下に表示されています。\n"
+"項目の情報についての設定後、「更新」ボタンを押すことで、項目の設定を修正でき"
+"ます。\n"
+"項目の項目種別については、修正時に変更することはできません。 \n"
+"***項目の削除\n"
+"項目の削除を行なうことができます。\n"
+"「この項目(カテゴリ)の削除」などのリンクを押すと削除確認ページに移動しま"
+"す。\n"
+"削除確認ページで、削除ボタンを押すと項目が削除されます。\n"
+"ただし、基本項目(件名、投稿者、状態)については、削除できません。 \n"
+"**スタイル設定\n"
+"各画面の見た目を変更することができます。\n"
+"チケット一覧での状態などの項目の背景色は、ここで設定を行なってください。\n"
+"状態などの選択肢の値を変更した場合(\"新規\" から \"new\"に変更した場合)は、再"
+"度このページで背景色の設定を行なってください。\n"
+"その際、ページの下部に、チケット一覧の背景設定用のサンプルが表示されますので"
+"参考にしてください。"
+
+#: hook.c:169
+#, c-format
+msgid "[error] error occured in hook process(%s). failed to load plugin. %s"
+msgstr ""
+"[ERROR] hook処理(%s)でエラーが発生しました。(プラグインの読み込みに失敗しまし"
+"た。%s)"
+
+#: hook.c:183 hook.c:220
+#, c-format
+msgid "executed hook process(%s)"
+msgstr "hook処理(%s)を実行しました。"
+
+#: hook.c:185 hook.c:222
+#, c-format
+msgid "[error] error occured in hook process(%s). (return code: %d)"
+msgstr "[ERROR] hook処理(%s)でエラーが発生しました。(return code: %d)"
+
+#: index_project.c:169
+msgid "move to top of sub project."
+msgstr "サブプロジェクトトップへ移動します"
+
+#: index_project.c:169
+msgid "subproject top"
+msgstr "サブプロジェクトトップ"
+
+#: index_project.c:170
+msgid "this is ticket list by status."
+msgstr "状態別のチケット一覧を参照します"
+
+#: index_project.c:170 index_project.c:486 index_project.c:506
+#: index_project.c:515
+msgid "ticket list by status"
+msgstr "状態別チケット一覧"
+
+#: index_project.c:171
+msgid "register new ticket"
+msgstr "新規にチケットを登録します"
+
+#: index_project.c:171 index_project.c:1555 index_project.c:1557
+#: index_project.c:1566
+msgid "register ticket"
+msgstr "チケット登録"
+
+#: index_project.c:172
+msgid "search tickets."
+msgstr "チケットを検索します"
+
+#: index_project.c:172 index_project.c:817 index_project.c:819
+msgid "search tickets"
+msgstr "チケット検索"
+
+#: index_project.c:173 index_project.c:2638
+msgid "display statictics."
+msgstr "統計情報を表示します"
+
+#: index_project.c:173 index_project.c:2629 index_project.c:2638
+msgid "statictics"
+msgstr "統計情報"
+
+#: index_project.c:174 index_project.c:2129 index_project.c:2131
+#: index_project.c:2147
+msgid "register tickets at once"
+msgstr "チケット一括登録"
+
+#: index_project.c:175
+msgid "display help."
+msgstr "ヘルプを参照します"
+
+#: index_project.c:176
+msgid "seveal settings."
+msgstr "各種設定を行ないます"
+
+#: index_project.c:319 index_project.c:339 index_project.c:843
+#: index_project.c:965 index_project.c:1009 index_project.c:1065
+#: index_project.c:2584
+msgid "register date"
+msgstr "投稿日時"
+
+#: index_project.c:319 index_project.c:340 index_project.c:966
+#: index_project.c:1011
+msgid "last update date"
+msgstr "最終更新日時"
+
+#: index_project.c:319 index_project.c:341 index_project.c:967
+#: index_project.c:1013
+msgid "leaved days"
+msgstr "放置日数"
+
+#: index_project.c:330 index_project.c:334 index_project.c:339
+#: index_project.c:340 index_project.c:341
+msgid "asc or desc sorting."
+msgstr "押す度に昇順、降順で並べ替えを行ないます。"
+
+#: index_project.c:448
+msgid "search by status."
+msgstr "状態を条件にして検索を行ないます。"
+
+#: index_project.c:456 index_project.c:2504
+msgid "display the ticket on inputed id."
+msgstr "入力したIDのチケットを表示します。"
+
+#: index_project.c:459 index_project.c:2503 index_project.c:2510
+msgid "id search"
+msgstr "ID指定で表示"
+
+#: index_project.c:462
+msgid "register new ticket."
+msgstr "新しいチケットを登録する"
+
+#: index_project.c:515
+msgid "display unclosed tickets."
+msgstr "未クローズの状態毎にチケットを表示しています。"
+
+#: index_project.c:520
+msgid "link to part of this page"
+msgstr "ページ内へのリンク"
+
+#: index_project.c:539
+msgid "tickets is desplayed."
+msgstr "件のみを表示しています。"
+
+#: index_project.c:544 index_project.c:553
+msgid "display tickets that status is "
+msgstr "状態が"
+
+#: index_project.c:544 index_project.c:553
+msgid ".(display status)"
+msgstr "である全てのチケットを表示する"
+
+#: index_project.c:548
+msgid "see more..."
+msgstr "続きがあります。"
+
+#: index_project.c:828
+msgid "search condition"
+msgstr "検索条件"
+
+#: index_project.c:828
+msgid "input search conditions and push 'search'."
+msgstr "検索条件を入力して検索ボタンを押してください。"
+
+#: index_project.c:834
+msgid "keyword search"
+msgstr "キーワード検索"
+
+#: index_project.c:835
+msgid "search for all columns includes history."
+msgstr "履歴も含めて全ての項目から検索を行ないます。"
+
+#: index_project.c:849 index_project.c:864 index_project.c:1482
+msgid "input format: yyyy-mm-dd"
+msgstr "yyyy-mm-dd形式で入力してください。"
+
+#: index_project.c:858
+msgid "update date"
+msgstr "更新日時"
+
+#: index_project.c:869
+msgid "after(lastupdate)"
+msgstr "放置日数"
+
+#: index_project.c:869
+msgid "days before"
+msgstr "日以内"
+
+#: index_project.c:870
+msgid "last updated in days."
+msgstr "過去何日間に更新されたチケットを検索するか。"
+
+#: index_project.c:906 index_top.c:132 index_top.c:136
+msgid "search"
+msgstr "検索"
+
+#: index_project.c:907
+msgid "save conditions. (use cookie)"
+msgstr "検索条件を保存する。(cookie使用)"
+
+#: index_project.c:913 index_top.c:210
+msgid "search result"
+msgstr "検索結果"
+
+#: index_project.c:921
+#, c-format
+msgid "%d tickets hits."
+msgstr "%d件ヒットしました。"
+
+#: index_project.c:932
+msgid "[cvs format download description]"
+msgstr "検索結果をCSV形式でダウンロードする。"
+
+#: index_project.c:932
+msgid "csv format download"
+msgstr "CSV形式"
+
+#: index_project.c:936
+msgid "[html format download description]"
+msgstr "検索結果をHTMLでダウンロードする。(excelで表示する)"
+
+#: index_project.c:936
+msgid "html format download(exel)"
+msgstr "EXCEL形式"
+
+#: index_project.c:940
+msgid "[rss format download description]"
+msgstr ""
+"検索結果をRSS形式でダウンロードする。検索結果をRSSリーダで監視することができ"
+"ます。"
+
+#: index_project.c:940
+msgid "rss format download"
+msgstr "RSS"
+
+#: index_project.c:1473
+msgid "file size must below"
+msgstr "ファイルサイズは、"
+
+#: index_project.c:1473
+msgid "kb(file size)"
+msgstr "Kb以下になるようにしてください。"
+
+#: index_project.c:1493
+msgid "if you want to add selection item, input new item name."
+msgstr "選択肢を追加する場合はテキストボックスに入力してください。"
+
+#: index_project.c:1567
+msgid "input below form and push register button."
+msgstr ""
+"新規チケットを登録する場合は、以下のフォームを記入し登録ボタンを押してくださ"
+"い。"
+
+#: index_project.c:1568 index_project.c:1856 index_project.c:2209
+#: index_project.c:2962
+msgid "note: they are checked by only javascript."
+msgstr "※必須項目の入力チェックは、javascriptで行なっています。"
+
+#: index_project.c:1608 index_project.c:1902 index_project.c:2237
+#: index_project.c:2990
+#, c-format
+msgid "[REMOTE ADDRESS: %s]"
+msgstr "[アクセス元: %s]"
+
+#: index_project.c:1625 index_project.c:1916 index_project.c:2290
+#: index_project.c:3037
+msgid "save registerer.(use cookie)"
+msgstr "投稿者を保存する。(cookie使用)"
+
+#: index_project.c:1652 index_project.c:1659
+msgid "not exists id."
+msgstr "存在しないIDが指定されました。"
+
+#: index_project.c:1684 index_project.c:2458
+msgid "what's new"
+msgstr "チケット最新情報"
+
+#: index_project.c:1684
+msgid "this is latest updated tickets."
+msgstr ""
+"チケットの最新情報です。最新チケットのチケット属性の付いている項目と全添付"
+"ファイルを表示しています。"
+
+#: index_project.c:1725
+msgid "all attachments"
+msgstr "全添付ファイル"
+
+#: index_project.c:1756
+msgid "go to reply"
+msgstr "返信する"
+
+#: index_project.c:1756
+msgid "ticket history"
+msgstr "チケット履歴"
+
+#: index_project.c:1756
+msgid "this is ticket histories."
+msgstr "チケットの履歴情報です。"
+
+#: index_project.c:1816
+msgid "hide this file"
+msgstr "ファイルを非表示にする"
+
+#: index_project.c:1818
+msgid "display this file"
+msgstr "ファイルを表示する"
+
+#: index_project.c:1853
+msgid "reply ticket"
+msgstr "チケット返信"
+
+#: index_project.c:1856
+msgid "input form and push reply."
+msgstr ""
+"返信を行なう場合は、以下のフォームに内容を記入して返信ボタンを押してくださ"
+"い。"
+
+#: index_project.c:1859
+msgid "update ticket information"
+msgstr "チケット情報の更新"
+
+#: index_project.c:1859
+msgid "[update ticket description]"
+msgstr ""
+"チケット情報(チケットの状態など)を更新する必要がある場合は、以下の情報を変更"
+"してください。"
+
+#: index_project.c:1884
+msgid "add reply information"
+msgstr "返信情報の追加"
+
+#: index_project.c:1884
+msgid "input reply information."
+msgstr "返信情報を記入してください。"
+
+#: index_project.c:1916
+msgid "reply"
+msgstr "返信"
+
+#: index_project.c:2089
+msgid "registerd."
+msgstr "登録しました。"
+
+#: index_project.c:2091
+msgid "replyed."
+msgstr "返信しました。"
+
+#: index_project.c:2105 index_project.c:3094
+msgid "error"
+msgstr "エラー"
+
+#: index_project.c:2108 index_project.c:3097
+msgid "error occured."
+msgstr "エラー発生"
+
+#: index_project.c:2109 index_project.c:3098
+msgid "file size is too large."
+msgstr "ファイルサイズが大きすぎます。"
+
+#: index_project.c:2111 index_project.c:3100
+msgid "kb. too large. back by browser's back button."
+msgstr ""
+"kbより大きいファイルは登録できません。ブラウザの戻るボタンで戻ってください。"
+
+#: index_project.c:2148
+msgid "[register ticket at once description1]"
+msgstr ""
+"新規チケットを一括登録する場合は、以下のフォームにチケット情報をCSV形式で記入"
+"し解析ボタンを押してください。登録の手順の詳細は以下のとおりです。"
+
+#: index_project.c:2149
+msgid "[register ticket at once description2]"
+msgstr ""
+"チケット一括登録ページ(このページ)で、登録したい複数のチケットの情報をCSV形式"
+"で貼り付けて、解析ボタンを押す。"
+
+#: index_project.c:2150
+msgid "[register ticket at once description3]"
+msgstr ""
+"チケット一括登録確認ページで、解析結果が表示されるので、各フィールドに対応す"
+"る項目を選択し、登録ボタンを押す。"
+
+#: index_project.c:2151
+msgid "register finish."
+msgstr "登録完了。"
+
+#: index_project.c:2166
+msgid "[register ticket at once description4]"
+msgstr ""
+"登録したいデータをCSV形式で貼り付けてください。次の画面で取り込むフィールドを"
+"設定可能です。"
+
+#: index_project.c:2170
+msgid "analysis"
+msgstr "解析"
+
+#: index_project.c:2196 index_project.c:2198 index_project.c:2207
+msgid "register tickets at once confirm"
+msgstr "チケット一括登録確認"
+
+#: index_project.c:2208
+msgid "[register ticket at once description5]"
+msgstr ""
+"各桁の登録対象コンボボックスの選択値を、その桁のデータの登録対象となる項目を"
+"選択して、登録ボタンを押してください。"
+
+#: index_project.c:2247
+msgid "register<br />column"
+msgstr "登録<br />対象"
+
+#: index_project.c:2251
+msgid "ignore"
+msgstr "無視"
+
+#: index_project.c:2297
+msgid "[register ticket at once description6]"
+msgstr ""
+"登録対象コンボボックスの選択値を、「無視」のまま登録すると、登録対象から省か"
+"れます。"
+
+#: index_project.c:2298
+msgid "[register ticket at once description7]"
+msgstr ""
+"登録する各値は、入力チェックが行なわれませんので、登録前に確認してください。"
+
+#: index_project.c:2428
+msgid " tickets registerd."
+msgstr "件登録しました。"
+
+#: index_project.c:2431
+msgid "no ticket registerd."
+msgstr ""
+"登録されたチケットはありませんでした。戻るボタンで戻って確認してください。"
+
+#: index_project.c:2475
+msgid "there are no latest tickets."
+msgstr "最新情報がありません。"
+
+#: index_project.c:2483
+msgid "ticket counts"
+msgstr "状態別件数"
+
+#: index_project.c:2495
+msgid "there are no ticket informations."
+msgstr "チケット情報がありません。"
+
+#: index_project.c:2520 index_top.c:157 index_top.c:164
+msgid "edit page"
+msgstr "ページの編集"
+
+#: index_project.c:2641
+msgid "ticket count chart"
+msgstr "チケット数"
+
+#: index_project.c:2651 index_project.c:2723
+msgid "[graph description]"
+msgstr ""
+"JavaScriptでグラフを表示しています。JavaScriptが有効なブラウザで見てくださ"
+"い。"
+
+#: index_project.c:2652 index_project.c:2686
+msgid "days"
+msgstr "日付"
+
+#: index_project.c:2653 index_project.c:2669
+msgid "all tickets count"
+msgstr "全チケット数"
+
+#: index_project.c:2654 index_project.c:2676
+msgid "not yet closed tickets count"
+msgstr "未クローズチケット数"
+
+#: index_project.c:2695 index_project.c:2765 index_project.c:2784
+#: index_project.c:2803
+msgid "tickets count"
+msgstr "チケット数"
+
+#: index_project.c:2760
+msgid "register user ranking"
+msgstr "投稿ユーザランキング"
+
+#: index_project.c:2764 index_project.c:2783 index_project.c:2802
+msgid "user name"
+msgstr "ユーザ名"
+
+#: index_project.c:2779
+msgid "update user ranking"
+msgstr "更新ユーザランキング"
+
+#: index_project.c:2798
+msgid "close user ranking"
+msgstr "クローズユーザランキング"
+
+#: index_project.c:2845 index_project.c:2852 index_project.c:2853
+#: index_top.c:141
+msgid "edit top page"
+msgstr "トップページの編集"
+
+#: index_project.c:2854 index_top.c:164
+msgid "[wiki syntax description1]"
+msgstr ""
+"簡易wikiの文法でページのコンテンツの編集を行ない、更新ボタンを押してくださ"
+"い。"
+
+#: index_project.c:2907 index_project.c:2933
+msgid "error: there is no file."
+msgstr "error: ファイルがありません。"
+
+#: index_project.c:2950 index_project.c:2951 index_project.c:2960
+msgid "attachment file display setting"
+msgstr "添付ファイル 表示設定"
+
+#: index_project.c:2961
+msgid "you can appoint if attachment file will be display."
+msgstr "添付ファイルの表示するかどうかを設定します。"
+
+#: index_project.c:2996
+msgid "attachment file"
+msgstr "添付ファイル"
+
+#: index_project.c:3037
+msgid "display"
+msgstr "表示"
+
+#: index_top.c:107 index_top.c:206
+msgid "top page"
+msgstr "トップページ"
+
+#: index_top.c:133
+msgid "search by keyword for all sub projects."
+msgstr "全てのサブプロジェクトからキーワード検索を行ないます。"
+
+#: index_top.c:140
+msgid "description"
+msgstr "説明"
+
+#: index_top.c:220
+msgid "back to top"
+msgstr "トップページに戻る"
+
+#: util.c:816
+msgid "[ticket form syntax description1]"
+msgstr ""
+"複数行テキスト項目の内容では、#1 のように書くと、ID が 1 のチケットのチケット"
+"詳細ページへのリンクとなります。"
+
+#: util.c:817
+msgid "[ticket form syntax description2]"
+msgstr ""
+"複数行テキスト項目の内容では、#bts:1 のように書くと、プロジェクトIDがbtsであ"
+"るプロジェクトの、ID が 1 のチケットのチケット詳細ページへのリンクとなりま"
+"す。"
+
+#: util.c:818
+msgid "[ticket form syntax description3]"
+msgstr ""
+"複数行テキスト項目の内容では、行頭が &gt;| から始まる行から、行頭が |&lt; か"
+"ら始まる行までは、整形済みブロックになります。"
+
+#: wiki.c:200
+msgid "simple wiki syntax"
+msgstr "簡易wikiのサポートする文法"
+
+#: wiki.c:201
+msgid "a line starts by * become big headline."
+msgstr "行頭に*を記述した行は、大見出しになります。"
+
+#: wiki.c:202
+msgid "a line starts by ** become medium headline."
+msgstr "行頭に**を記述した行は、中見出しになります。"
+
+#: wiki.c:203
+msgid "a line starts by *** become small headline."
+msgstr "行頭に***を記述した行は、小見出しになります。"
+
+#: wiki.c:204
+msgid "a line starts by **** become super small headline."
+msgstr "行頭に****を記述した行は、極小見出しになります。"
+
+#: wiki.c:205
+msgid "a line starts by - become item."
+msgstr "行頭に-を記述した行は、箇条書きになります。"
+
+#: wiki.c:206
+msgid "a line starts by ---- become delimitation."
+msgstr "行頭に----を記述した行は、区切り線になります。"
+
+#: wiki.c:207
+msgid "from line starts by &gt;| to line starts by |&lt;, become block."
+msgstr ""
+"行頭が &gt;| から始まる行から、行頭が |&lt; から始まる行までは、整形済みブ"
+"ロックになります。"
+
+#: wiki.c:216
+msgid "example"
+msgstr "例"
+
+#: wiki.c:218
+msgid "[wiki syntax example code]"
+msgstr ""
+">|\n"
+"void displayWidgets (Iterable widgets) {\n"
+"  for (Widget w : widgets) {\n"
+"      w.display();\n"
+"  }\n"
+"}\n"
+"|<"
+
+#: js/attachment_file_display_setting_submit.js:11 js/new_item.js:25
+#: js/register_at_once.js:13 js/register_at_once_submit.js:11
+#: js/validate.js:43
+msgid "it will required. please describe."
+msgstr "必須項目です。入力してください。"
+
+#: js/attachment_file_display_setting_submit.js:19 js/new_item.js:8
+#: js/register.js:13 js/register_at_once.js:21
+#: js/register_at_once_submit.js:19 js/reply.js:20
+msgid "there are some required columns or invalid columns. please check."
+msgstr ""
+"入力されていない必須項目または不正な値が指定された項目があります。確認してく"
+"ださい。"
+
+#: js/attachment_file_display_setting_submit.js:23 js/management.js:13
+msgid "it will updated. it is ok with you?"
+msgstr "更新します。よろしいですか？"
+
+#: js/attachment_file_display_setting_submit.js:28 js/management.js:18
+#: js/new_item.js:17 js/register.js:22 js/register_at_once.js:30
+#: js/register_at_once_submit.js:28 js/reply.js:29
+msgid "the error occurred."
+msgstr "エラーが発生しました。"
+
+#: js/calendar.js:18
+msgid "sun,mon,tue,wed,thu,fri,sat"
+msgstr "日,月,火,水,木,金,土"
+
+#: js/calendar.js:22
+msgid "year"
+msgstr "年"
+
+#: js/calendar.js:22
+msgid "month"
+msgstr "月"
+
+#: js/delete_item.js:6
+msgid "it will deleted. it is ok with you?"
+msgstr "削除します。よろしいですか？"
+
+#: js/edit_top.js:6 js/register.js:17 js/register_at_once_submit.js:23
+msgid "it will registered. it is ok with you?"
+msgstr "登録します。よろしいですか？"
+
+#: js/form_changed.js:16
+msgid "form edited. leave this page?"
+msgstr "内容が保存されていません。ページを移動しますか？"
+
+#: js/management.js:9
+msgid "there are some required columns. please check."
+msgstr "入力されていない必須項目があります。確認してください。"
+
+#: js/new_item.js:12
+msgid "it will added. it is ok with you?"
+msgstr "追加します。よろしいですか？"
+
+#: js/register_at_once.js:25
+msgid "it will analyzed. it is ok with you?"
+msgstr "解析します。よろしいですか？"
+
+#: js/reply.js:12
+msgid "you not modify status, it is ok with you?"
+msgstr "「状態」が変更されていませんが、間違いないですか？"
+
+#: js/reply.js:24
+msgid "it will replied. it is ok with you?"
+msgstr "返信します。よろしいですか？"
+
+#: js/validate.js:61
+msgid "it is date column. please describe by yyyy-mm-dd format."
+msgstr "日付項目です。yyyy-mm-dd形式で入力してください。"
+
+#: js/validate.js:79
+msgid "it is number column. please describe number."
+msgstr "数値項目です。数字を入力してください。"
+

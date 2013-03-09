@@ -1,8 +1,8 @@
 {{define "content"}}
   {{$project := .project}}
   <div id="ticket_list">
-    <h3>ticket list by status</h3>
-    <div class="description">display unclosed tickets.</div>
+    <h3>{{_ "ticket list by status"}}</h3>
+    <div class="description">{{_ "display unclosed tickets."}}</div>
     {{range .notClosedStates}}
       <a href="#state{{.Id}}" title="link to part of this page">{{.Name}} ({{.Count}})</a>&nbsp;
     {{end}}
@@ -18,9 +18,9 @@
                 <th>{{.Name}}</th>
               {{end}}
             {{end}}
-            <th>registered</th>
-            <th>modified</th>
-            <th>passed days</th>
+            <th>{{_ "register date"}}</th>
+            <th>{{_ "last update date"}}</th>
+            <th>{{_ "leaved days"}}</th>
           </tr>
         </thead>
         <tbody>

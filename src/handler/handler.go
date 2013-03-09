@@ -2,6 +2,7 @@ package handler
 
 import (
     logger "code.google.com/p/log4go"
+    "os"
     "fmt"
     "net/http"
     "net/url"
@@ -9,6 +10,7 @@ import (
     "regexp"
     "math"
     "./data"
+    "github.com/gosexy/gettext"
 )
 
 type Route struct {
@@ -34,6 +36,11 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
     if path == "/favicon.ico" {
         return
     }
+
+    gettext.BindTextdomain("starbug1", "locale")
+    gettext.Textdomain("starbug1")
+    os.Setenv("LANGUAGE", "ja_JP.utf8")
+    gettext.SetLocale(gettext.LC_ALL, "")
 
     for _, route := range _routes {
         matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())
@@ -86,6 +93,12 @@ func getFuncs() template.FuncMap {
         },
         "inc": func(a int) int {
             return a + 1
+        },
+        "_": func(messageId string) string {
+            return gettext.Gettext(messageId)
+        },
+        "_f": func(messageId string, args ...interface{}) string {
+            return gettext.Sprintf(gettext.Gettext(messageId), args...)
         },
         "defferelementwith": func(element data.Element, messages []data.Message, messageIndex int) bool {
             logger.Debug(element)

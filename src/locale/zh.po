@@ -1,0 +1,1441 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: smeghead@users.sourceforge.jp\n"
+"POT-Creation-Date: 2011-07-19 12:17+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: smeghead <smeghead@users.sourceforge.jp>\n"
+"Language-Team: smeghead <smeghead@users.sourceforge.jp>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin_project.c:79 admin_project.c:109 admin_project.c:181
+#: admin_project.c:218 admin_project.c:322 admin_project.c:742
+#: admin_project.c:964 admin_project.c:1015 admin_project.c:1113
+#: index_project.c:176
+msgid "management of sub project"
+msgstr "子工程管理"
+
+#: admin_project.c:106 admin_project.c:115 index_project.c:155
+#: index_project.c:162
+msgid "display sub projects list at top page."
+msgstr "显示首页的子工程一览"
+
+#: admin_project.c:116 index_project.c:162
+msgid "top page(sub projects list)"
+msgstr "首页(子工程一览)"
+
+#: admin_project.c:123 admin_project.c:184
+msgid "management tool menu"
+msgstr "管理工具菜单"
+
+#: admin_project.c:124 admin_project.c:187 admin_project.c:216
+#: admin_project.c:221 admin_project.c:1111
+msgid "sub project settings"
+msgstr "子工程设置"
+
+#: admin_project.c:125 admin_project.c:188 admin_project.c:320
+#: admin_project.c:330
+msgid "columns settings"
+msgstr "项目设置"
+
+#: admin_project.c:126 admin_project.c:189 admin_project.c:1014
+msgid "style settings"
+msgstr "样式设置"
+
+#: admin_project.c:127 admin_project.c:190 admin_project.c:1116
+msgid "export settings"
+msgstr "输入设置"
+
+#: admin_project.c:128 index_project.c:175 index_project.c:2828
+msgid "help"
+msgstr "帮助"
+
+#: admin_project.c:129
+msgid "to"
+msgstr " "
+
+#: admin_project.c:129
+msgid "to(suffix)"
+msgstr " "
+
+#: admin_project.c:175
+msgid "menu"
+msgstr "菜单"
+
+#: admin_project.c:187
+msgid "this is basic sub projects settings."
+msgstr "工程的基本信息的设置。"
+
+#: admin_project.c:188
+msgid "this is columns settings of tickets."
+msgstr "任务单项目的设置。"
+
+#: admin_project.c:189
+msgid "this is stylesheet settings."
+msgstr "样式表的设置。"
+
+#: admin_project.c:190
+msgid "this is export settings."
+msgstr "输入的设置。"
+
+#: admin_project.c:193
+msgid "about mail notify features"
+msgstr "关于邮件发送功能"
+
+#: admin_project.c:195
+msgid "[mail notify messages]"
+msgstr ""
+"投稿时、回复时的邮件发送可以通过hook功能来实现。hook功能需要在服务器上进行设"
+"置。有关hook功能的设置，请看以下网站的安装页面。"
+
+#: admin_project.c:224 admin_top.c:166
+msgid "sub project name"
+msgstr "子工程名"
+
+#: admin_project.c:228
+msgid "icon"
+msgstr "图片(在页面最上方显示的图片)"
+
+#: admin_project.c:232
+msgid "file upload max size(kb)"
+msgstr "文件上传的最大尺寸(Kb)"
+
+#: admin_project.c:236 admin_project.c:344 admin_project.c:589
+#: admin_project.c:1032 admin_top.c:151 admin_top.c:196 index_project.c:2861
+#: index_top.c:170
+msgid "update"
+msgstr "更新"
+
+#: admin_project.c:305 admin_project.c:611 admin_project.c:1084
+#: admin_project.c:1145 admin_top.c:271 admin_top.c:353
+msgid "updated."
+msgstr "已更新"
+
+#: admin_project.c:331
+msgid "[columns setting description]"
+msgstr ""
+"任务单ID、投稿日期和时间不能编辑。作为基本属性，主题、投稿者和状态能编辑的内"
+"容是有限制的。(基本属性的限制为不可删除，并且不可以修改任务单属性和回复专用属"
+"性。)"
+
+#: admin_project.c:333 admin_project.c:740 admin_project.c:749
+msgid "add new column"
+msgstr "添加新项目"
+
+#: admin_project.c:358 admin_project.c:753
+msgid "column name"
+msgstr "项目名"
+
+#: admin_project.c:358 index_project.c:1595 index_project.c:1892
+msgid "*"
+msgstr "※"
+
+#: admin_project.c:361 admin_project.c:756
+msgid "this is name of ticket column."
+msgstr "项目名称。"
+
+#: admin_project.c:370 admin_project.c:761
+msgid "column description"
+msgstr "项目的说明文"
+
+#: admin_project.c:372 admin_project.c:764
+msgid ""
+"this is description of ticket column. when register or replay, it is "
+"displayed."
+msgstr "这是项目的说明文。投稿时显示。"
+
+#: admin_project.c:380
+msgid "required"
+msgstr "必须项目"
+
+#: admin_project.c:383
+msgid "this column must not be empty."
+msgstr "作为必须项目。"
+
+#: admin_project.c:384
+msgid "[require description]"
+msgstr "是否作为必填属性。只不过、检查只在JavaScript中执行。"
+
+#: admin_project.c:394 admin_project.c:768
+msgid "attribute of ticket"
+msgstr "任务单属性"
+
+#: admin_project.c:396 admin_project.c:772
+msgid "this column will be attribute of ticket."
+msgstr "作为任务单属性"
+
+#: admin_project.c:403 admin_project.c:774
+msgid "[attribute of ticket description1]"
+msgstr "是否不作为回复的属性，而是作为任务单本身的属性来定义。"
+
+#: admin_project.c:404 admin_project.c:775
+msgid "[attribute of ticket description2]"
+msgstr ""
+"当回复重写了指定了任务单属性的项目时、重写的内容会在任务单的最新信息中显示。"
+
+#: admin_project.c:405 admin_project.c:776
+msgid "[attribute of ticket description3]"
+msgstr ""
+"没有指定为任务单属性的项目，不会在任务单最新信息中显示。没有指定为任务单属性"
+"的项目可以从任务单履历中参照。"
+
+#: admin_project.c:412 admin_project.c:781
+msgid "reply only"
+msgstr "回复专用属性"
+
+#: admin_project.c:416 admin_project.c:785
+msgid "this column will be reply only."
+msgstr "作为回复专用属性"
+
+#: admin_project.c:422 admin_project.c:787
+msgid "[reply only description1]"
+msgstr ""
+"是否不作为新建任务单时的输入项，如果选中该选项，则不作为新建任务单时的输入"
+"项。"
+
+#: admin_project.c:423 admin_project.c:788
+msgid "[reply only description2]"
+msgstr "作为回复时的输入项。回复专用属性，可以减少新建任务单时的无用输入。"
+
+#: admin_project.c:430 admin_project.c:793
+msgid "column type"
+msgstr "项目种类"
+
+#: admin_project.c:435 admin_project.c:797
+msgid "one line text(input[type=text])"
+msgstr "单行文本框(input[type=text])"
+
+#: admin_project.c:438 admin_project.c:801
+msgid "multi line text(textarea)"
+msgstr "多行文本框(textarea)"
+
+#: admin_project.c:441 admin_project.c:828
+msgid "number(input[type=text])"
+msgstr "数字(input[type=text])"
+
+#: admin_project.c:444 admin_project.c:805
+msgid "boolean(input[type=checkbox])"
+msgstr "复选框(input[type=checkbox])"
+
+#: admin_project.c:447 admin_project.c:809
+msgid "selection list(select)"
+msgstr "下拉框(select)"
+
+#: admin_project.c:450 admin_project.c:813
+msgid "selection list(input[type=radio])"
+msgstr "单选框(input[type=radio])"
+
+#: admin_project.c:453 admin_project.c:817
+msgid "multi selection list(select[multiple=multiple])"
+msgstr "可复选下拉框(select[multiple=multiple])"
+
+#: admin_project.c:456 admin_project.c:821
+msgid "file(input[type=file])"
+msgstr "文件(input[type=file])"
+
+#: admin_project.c:459 admin_project.c:825
+msgid "date(input[type=text])"
+msgstr "日期(input[type=text])"
+
+#: admin_project.c:477 admin_project.c:833
+msgid "selection element"
+msgstr "选择要素"
+
+#: admin_project.c:477 admin_project.c:837
+msgid "element name"
+msgstr "可选项名"
+
+#: admin_project.c:477 admin_project.c:838
+msgid "means closed"
+msgstr "表示已关闭（不在“按状态分类的任务单一览”中显示）"
+
+#: admin_project.c:477 admin_project.c:556 admin_project.c:839
+#: admin_project.c:871 admin_top.c:166 admin_top.c:208
+msgid "sort"
+msgstr "排列顺序"
+
+#: admin_project.c:477 admin_project.c:977 admin_top.c:166
+#: index_project.c:3037
+msgid "delete"
+msgstr "删除"
+
+#: admin_project.c:511
+msgid "add line"
+msgstr "行添加"
+
+#: admin_project.c:517 admin_project.c:855
+msgid "selection element when this column is selection list."
+msgstr "项目种类是选择式时的可选项。"
+
+#: admin_project.c:520 admin_project.c:858
+msgid "when register, you can input new selection element."
+msgstr "投稿时，可以添加自定义项目。"
+
+#: admin_project.c:521 admin_project.c:859
+msgid "[add line description]"
+msgstr "选择框旁是否同时也提供文本输入框，输入内容作为可选项的值的功能。"
+
+#: admin_project.c:531
+msgid "default value"
+msgstr "默认值"
+
+#: admin_project.c:537
+msgid "this is default value."
+msgstr "投稿页面、回复页面的项目的初始值。"
+
+#: admin_project.c:544 admin_project.c:863
+msgid "display in ticket list"
+msgstr "任务单一览显示"
+
+#: admin_project.c:548 admin_project.c:867
+msgid "display this column in ticket list."
+msgstr "在任务单一览中显示该项目。"
+
+#: admin_project.c:549
+msgid "[display in ticket list description]"
+msgstr "是否在任务单一览中显示该项目。"
+
+#: admin_project.c:559 admin_project.c:874
+msgid "sort no in ticket lists."
+msgstr "任务单一览、投稿页面、回复页面的项目的排列顺序。"
+
+#: admin_project.c:586 admin_project.c:967
+msgid "delete this column("
+msgstr "这个项目("
+
+#: admin_project.c:586 admin_project.c:967
+msgid ")(delete this column)"
+msgstr ")的删除"
+
+#: admin_project.c:750
+msgid "[ticket add description]"
+msgstr "在任务单中添加新项目。输入有关添加项目的信息、并请按添加按钮。"
+
+#: admin_project.c:829
+msgid "[ticket add column type description]"
+msgstr "项目输入时的输入形式。项目种类在添加之后是不能修改的。"
+
+#: admin_project.c:878 admin_top.c:237
+msgid "add"
+msgstr "添加"
+
+#: admin_project.c:944 admin_top.c:399
+msgid "added."
+msgstr "已添加"
+
+#: admin_project.c:961
+msgid "column delete"
+msgstr "项目删除"
+
+#: admin_project.c:974
+msgid "if column has deleted, it's forever gone."
+msgstr "删除之后不能复原。"
+
+#: admin_project.c:975
+msgid "this will disappear column of exists ticket."
+msgstr "同时，已登录的该项目的内容也无法再显示。"
+
+#: admin_project.c:976
+msgid "if you really want to delete, push delete button."
+msgstr "如果可以删除，请按删除按钮。"
+
+#: admin_project.c:993
+msgid "it is a invalid request."
+msgstr "不正当的请求。"
+
+#: admin_project.c:1003
+msgid "deleted."
+msgstr "已删除"
+
+#: admin_project.c:1019
+msgid "edit style sheet"
+msgstr "样式表的编辑"
+
+#: admin_project.c:1019
+msgid "edit style sheet setting and push update button."
+msgstr "对样式表进行编辑，并请按更新按钮。"
+
+#: admin_project.c:1036
+msgid "below block is sample setting of ticket list table column."
+msgstr "以下是，一览的背景设置用的样例。"
+
+#: admin_project.c:1048
+msgid "background-color settings of "
+msgstr "任务单一览的"
+
+#: admin_project.c:1048
+msgid ".(background-color settings)"
+msgstr "的背景色设置"
+
+#: admin_project.c:1118
+msgid "this sub project columns settings are able to exported."
+msgstr ""
+
+#: admin_project.c:1119
+msgid "when you create sub project, you can select exported sub project types."
+msgstr ""
+
+#: admin_project.c:1123
+msgid "export sub project type name"
+msgstr "输出子工程名"
+
+#: admin_project.c:1127 index_project.c:1625 index_project.c:2290
+msgid "register"
+msgstr "登录"
+
+#: admin_top.c:53 admin_top.c:59 admin_top.c:110 index_top.c:59
+msgid "project management"
+msgstr "工程管理"
+
+#: admin_top.c:58 index_project.c:2451 index_top.c:58
+msgid "project top"
+msgstr "工程首页"
+
+#: admin_top.c:130
+msgid "project information settings"
+msgstr "工程属性设置"
+
+#: admin_top.c:135
+msgid "project name"
+msgstr "工程名"
+
+#: admin_top.c:138
+msgid "home link name"
+msgstr "主页链接名"
+
+#: admin_top.c:142
+msgid "home link refference"
+msgstr "主页链接参照"
+
+#: admin_top.c:146
+msgid "locale"
+msgstr "区域"
+
+#: admin_top.c:157 index_top.c:110
+msgid "sub projects list"
+msgstr "子工程一览"
+
+#: admin_top.c:166
+msgid "database path"
+msgstr "数据库路径"
+
+#: admin_top.c:166 admin_top.c:208
+msgid "sub project id"
+msgstr "子工程ID"
+
+#: admin_top.c:192
+msgid "[project settings description1]"
+msgstr "子工程名请在各子工程的管理工具中进行设置。"
+
+#: admin_top.c:193
+msgid "[project settings description2]"
+msgstr "一旦修改了既存子工程ID的话，子工程的URL也会变掉，所以请注意。"
+
+#: admin_top.c:194
+msgid "[project settings description3]"
+msgstr ""
+"一旦删除的话，就不会在首页的一览中显示。数据并不删除，可以再次通过把删除复选"
+"框的已选状态除去，就可以恢复使用了。"
+
+#: admin_top.c:201
+msgid "add sub project"
+msgstr "子工程添加"
+
+#: admin_top.c:208
+msgid "sub project type"
+msgstr "子工程类别"
+
+#: admin_top.c:214
+msgid "default bts"
+msgstr "默认BTS"
+
+#: admin_top.c:235
+msgid "[sub project name description]"
+msgstr "子工程名请在各子工程的管理工具中进行设置。"
+
+#: admin_top.c:325 admin_top.c:373
+msgid "[error] projectid top is reserved."
+msgstr "[ERROR] 工程ID top已经被预约。"
+
+#: admin_top.c:332 admin_top.c:380
+msgid "[error] projectid("
+msgstr "[ERROR] 工程ID"
+
+#: admin_top.c:332 admin_top.c:380
+msgid ") is already exists."
+msgstr "已经存在。"
+
+#: dbutil.c:106
+msgid "main project"
+msgstr "主工程"
+
+#: dbutil.c:112 dbutil.c:178
+msgid "home"
+msgstr "主页"
+
+# msgid "ja_JP"
+#: dbutil.c:153 dbutil.c:541 wiki.c:217
+msgid "[wiki syntax example]"
+msgstr ""
+"*可编辑区域\n"
+"可自由编辑。请从上面的【编辑】链接进行编辑。请用于各种用途。\n"
+"-通知\n"
+"-有关Starbug1的使用方法的注意事项等"
+
+#: dbutil.c:197
+msgid "[style sheet default value]"
+msgstr ""
+"@charset \"utf-8\";\n"
+"/* ================================ */\n"
+"/*  任务单一览的状态的背景色设置  */\n"
+"/* ================================ */\n"
+"/* 新建 */\n"
+"#ticket_list td.field3-1 {\n"
+"        background-color: lightpink !important;\n"
+"}\n"
+"/* 受理完毕 */\n"
+"#ticket_list td.field3-2 {\n"
+"        background-color: peachpuff !important;\n"
+"}\n"
+"/* 修正完毕 */\n"
+"#ticket_list td.field3-3 {\n"
+"        background-color: lightyellow !important;\n"
+"}\n"
+"/* 保留 */\n"
+"#ticket_list td.field3-4 {\n"
+"        background-color: white !important;\n"
+"}\n"
+"/* 完成 */\n"
+"#ticket_list td.field3-5 {\n"
+"        background-color: lightcyan !important;\n"
+"}\n"
+"/* 废弃 */\n"
+"#ticket_list td.field3-6 {\n"
+"        background-color: #ccc !important;\n"
+"}\n"
+"/* 不对应 */\n"
+"#ticket_list td.field3-7 {\n"
+"        background-color: #ccc !important;\n"
+"}\n"
+"/* 式样一致 */\n"
+"#ticket_list td.field3-8 {\n"
+"        background-color: #eee !important;\n"
+"}\n"
+"/* deleted */\n"
+"#ticket_list td.field3-9 {\n"
+"        color: white !important;\n"
+"        background-color: black !important;\n"
+"}\n"
+"\n"
+"/* ================================== */\n"
+"/*  任务单一览的优先度的背景色设置  */\n"
+"/* ================================== */\n"
+"/* 紧急 */\n"
+"#ticket_list td.field5-11 {\n"
+"        background-color: #FF8A8C !important;\n"
+"}\n"
+"/* 高 */\n"
+"#ticket_list td.field5-12 {\n"
+"        background-color: #FFCB8C !important;\n"
+"}\n"
+"/* 中 */\n"
+"#ticket_list td.field5-13 {\n"
+"        background-color: #FFFF94 !important;\n"
+"}\n"
+"/* 低 */\n"
+"#ticket_list td.field5-14 {\n"
+"        background-color: white !important;\n"
+"}\n"
+"\n"
+"body {\n"
+"        /* background-color:    lightcyan; */\n"
+"}"
+
+#: dbutil.c:374
+msgid "title"
+msgstr "主题"
+
+#: dbutil.c:375
+msgid "please input title that means content correctly."
+msgstr "请输入能简洁表达内容的主题。"
+
+#: dbutil.c:382 index_project.c:1062 index_project.c:2581
+msgid "registerer"
+msgstr "投稿者"
+
+#: dbutil.c:383
+msgid "please input your name."
+msgstr "请输入投稿者"
+
+#: dbutil.c:390
+msgid "status"
+msgstr "状态"
+
+#: dbutil.c:391
+msgid "please select status."
+msgstr "请选择状态。"
+
+#: dbutil.c:392 dbutil.c:447 index_project.c:538
+msgid "new"
+msgstr "新建"
+
+#: dbutil.c:399
+msgid "category"
+msgstr "目录"
+
+#: dbutil.c:400
+msgid "please select category."
+msgstr "请选择目录。"
+
+#: dbutil.c:407
+msgid "priority"
+msgstr "优先度"
+
+#: dbutil.c:408
+msgid "please select priority."
+msgstr "请选择优先度。"
+
+#: dbutil.c:415
+msgid "detail"
+msgstr "详细"
+
+#: dbutil.c:416
+msgid "please describe the detail."
+msgstr "请填写详细内容。"
+
+#: dbutil.c:423
+msgid "reproduction procedure"
+msgstr "再现步骤"
+
+#: dbutil.c:424
+msgid ""
+"please describe the condition and the procedure to reproduce the problem."
+msgstr "请填写让问题再现的条件和步骤。"
+
+#: dbutil.c:431
+msgid "comment"
+msgstr "注释"
+
+#: dbutil.c:432
+msgid "please describe the comment."
+msgstr "请填写注释。"
+
+#: dbutil.c:450
+msgid "accepted"
+msgstr "受理完毕"
+
+#: dbutil.c:453
+msgid "fixed"
+msgstr "修正完毕"
+
+#: dbutil.c:456
+msgid "reservation"
+msgstr "保留"
+
+#: dbutil.c:459
+msgid "complete"
+msgstr "完成"
+
+#: dbutil.c:462
+msgid "wontfix"
+msgstr "不对应"
+
+#: dbutil.c:465
+msgid "specification"
+msgstr "式样一致"
+
+#: dbutil.c:468
+msgid "deleted"
+msgstr "已删除"
+
+#: dbutil.c:471
+msgid "page"
+msgstr "页面"
+
+#: dbutil.c:474
+msgid "batch process"
+msgstr "批处理"
+
+#: dbutil.c:477
+msgid "document"
+msgstr "文档"
+
+#: dbutil.c:480
+msgid "emergency"
+msgstr "紧急"
+
+#: dbutil.c:483
+msgid "high"
+msgstr "高"
+
+#: dbutil.c:486
+msgid "middle"
+msgstr "中"
+
+#: dbutil.c:489
+msgid "low"
+msgstr "低"
+
+#: dbutil.c:546
+msgid "[help content]"
+msgstr ""
+"*逆向帮助\n"
+"**更新任务单的方法？\n"
+"对任务单进行更新的操作，只有任务单的新建登录和对任务单的回复。 \n"
+"**关于创建新的任务单？\n"
+"点击导航菜单的【任务单登录】，会链接到任务单的登录页面。输入表单的各项值之后"
+"按【登录】按钮就能创建新的任务单了。 \n"
+"**关于查看任务单的详细信息？\n"
+"从导航菜单的【按状态分类的任务单一览】或者【任务单检索】可以显示任务单信息一"
+"览表。从任务单信息一览表，点击想要查看详细信息的任务单的ID或主题的链接，会链"
+"接到任务单详细页面。在该详细页面，能够看到任务单的最新信息和任务单的履历。还"
+"能给任务单回复。  \n"
+"**关于检索任务单？\n"
+"点击导航菜单的【任务单检索】，会链接到任务单的检索页面。输入检索条件之后按"
+"【检索】按钮就能进行检索了。 \n"
+"**关于查看指定ID的任务单的信息？\n"
+"点击导航菜单的【任务单登录】，会链接到任务单的登录页面。在【指定ID表示】按钮"
+"左边的文本框输入任务单ID，然后按【指定ID表示】按钮就会显示任务单的详细页面。"
+"在首页和按状态分类的任务单一览页面也有同样的【指定ID表示】按钮。 \n"
+"**关于自定义任务单的项目？\n"
+"点击导航菜单的【管理工具】打开管理工具，再点击菜单的【项目设定】会链接到项目"
+"设定页面。\n"
+"可以对项目进行添加、删除、编辑。\n"
+"**关于对任务单的项目添加附件(文件)？\n"
+"点击导航菜单的【管理工具】打开管理工具，再点击菜单的【项目设定】会链接到项目"
+"设定页面。\n"
+"点击【添加新建项目】链接，请根据项目种类选择文件并添加。\n"
+"**想要查找在某状态没有进展的任务单\n"
+"在任务单检索页面或按状态分类的任务单一览页面，显示了放置天数(从最终更新时间到"
+"现在为止的天数)。\n"
+"请确认放置天数。\n"
+"**关于投稿时、回复时给邮件列表等发送邮件？\n"
+"投稿时、回复时的邮件发送可以通过hook功能来实现。hook功能需要在服务器上进行设"
+"置。有关hook功能的设置，请看以下网站的安装页面。\n"
+"-http://starbug1.sourceforge.jp/\n"
+"**想要自定义任务单的项目\n"
+"在管理工具的项目设定页面，能对所有的项目进行自定义。\n"
+"其中主题、投稿者、状态为基本属性，所以对其自定义的内容是有限制的。(不可以删"
+"除，不可以修改任务单属性和回复专用属性)\n"
+"**想要一次登录多条任务单\n"
+"如果把想批量登录的任务单的信息以CSV的形式准备好的话，就能批量登录。可以利用项"
+"目管理工具等输出的CSV形式的任务一览。\n"
+"点击导航菜单的【任务单批量登录】，会链接到任务单的批量登录页面。\n"
+"在该页面，以CSV的形式粘贴想登录的多条任务单的信息，并按解析按钮。 \n"
+"在确认页面，因为显示了解析结果，选择各字段对应的项目，并按登录按钮。\n"
+"**想要下载CSV形式的最新的任务单的信息\n"
+"通过任务单检索检索出来的结果，可以从【以CSV下载检索结果】链接下载。\n"
+"**关于对任务单回复？\n"
+"从导航菜单的【按状态分类的任务单一览】或者【任务单检索】可以显示任务单信息一"
+"览表。从任务单信息一览表，点击想要查看详细信息的任务单的ID或主题的链接，会链"
+"接到任务单详细页面。在该详细页面的下面有任务单回复表单，请输入必要的项目并按"
+"回复按钮。\n"
+"**关于粘贴其他任务单的链接？\n"
+"在多行文本框，可以粘贴其他任务单的详细页面的链接。像#1 这样写的话，就成为了任"
+"务单ID为 1 的任务单的链接了。\n"
+"**关于粘贴代码？\n"
+"在多行文本框，准备了&lt;pre&gt;&lt;/pre&gt;格式化输出。在粘贴代码的情况下，能"
+"保持代码的缩进格式显示。从行头以 &gt;| 开始的行开始，到行头以 |&lt; 开始的行"
+"结束，作为以&lt;pre&gt;&lt;/pre&gt;格式输出。 \n"
+"**想要修改任务单一览的状态等的背景色\n"
+"从管理工具的样式设置，可以自定义状态等的单一选择项的项目的一览显示时的样式"
+"表。要有CSS的知识才能自定义。\n"
+"**想要自由设置页面的样式\n"
+"从管理工具的样式设置，可以自定义样式表。要有CSS的知识才能自定义。\n"
+"**想要备份数据\n"
+"有关备份的方法，请看以下网站的安装页面。\n"
+"-http://starbug1.sourceforge.jp/\n"
+"**想要导出设置信息\n"
+"当启动多个Starbug1时，用不着从1开始设置，可以从运用中的Starbug1导出设置信息。"
+"有关设置信息的导出方法，请看以下网站的安装页面。\n"
+"-http://starbug1.sourceforge.jp/"
+
+#: dbutil.c:551
+msgid "[admin help content]"
+msgstr ""
+"*管理用户用的说明\n"
+"有关各页面的说明。\n"
+"**菜单\n"
+"管理工具的各设置页面的链接。\n"
+"**项目设置\n"
+"对项目信息进行设置的页面。\n"
+"可以设置在各页面的头部等显示的项目名。\n"
+"**环境设置\n"
+"设置有关环境信息的页面。\n"
+"可以设置面向一般用户页面的导航菜单的【首页】的链接。\n"
+"**项目设置\n"
+"设置任务单的项目的页面。\n"
+"可以添加、修正和删除任务单的项目。\n"
+"***项目的添加\n"
+"按【添加新项目】，会链接到项目的添加页面。\n"
+"有关各项目的说明，会显示在各项目的下方。\n"
+"项目的项目种类只有在添加的时候可以选择。\n"
+"***项目的修正\n"
+"可以修改各项目的设置内容。\n"
+"有关各项目的说明，会显示在各项目的下方。\n"
+"设置了有关项目的信息之后，再按【更新】按钮就可以修正项目的设置了。\n"
+"项目的项目种类在修正时不能修改。\n"
+"***项目的删除\n"
+"可以对项目进行删除。\n"
+"按【这个项目(目录)的删除】等链接，会链接到删除确认页面。\n"
+"在该页面，按下删除按钮该项目就会被删除。\n"
+"但是，基本项目(主题、投稿者和状态)不能删除。\n"
+"**样式设置\n"
+"可以修改各页面的外观。\n"
+"任务单一览的状态等的项目的背景色，请在此进行设置。\n"
+"修改了状态等的可选项的值时(比如把\"新建\" 修改为 \"new\"时)，请再次在本页面对"
+"背景色进行设置。\n"
+"那时，在页面的下方，会显示任务单一览的背景设置用的样例，请用来参考。"
+
+#: hook.c:169
+#, c-format
+msgid "[error] error occured in hook process(%s). failed to load plugin. %s"
+msgstr "[ERROR] hook处理(%s)发生了错误。(读取插件失败。%s)"
+
+#: hook.c:183 hook.c:220
+#, c-format
+msgid "executed hook process(%s)"
+msgstr "已执行hook处理(%s)。"
+
+#: hook.c:185 hook.c:222
+#, c-format
+msgid "[error] error occured in hook process(%s). (return code: %d)"
+msgstr "[ERROR] hook处理(%s)发生了错误。(return code: %d)"
+
+#: index_project.c:169
+msgid "move to top of sub project."
+msgstr "移动到子工程首页"
+
+#: index_project.c:169
+msgid "subproject top"
+msgstr "子工程首页"
+
+#: index_project.c:170
+msgid "this is ticket list by status."
+msgstr "参照按状态分类的任务单一览"
+
+#: index_project.c:170 index_project.c:486 index_project.c:506
+#: index_project.c:515
+msgid "ticket list by status"
+msgstr "按状态分类的任务单一览"
+
+#: index_project.c:171
+msgid "register new ticket"
+msgstr "新建时登录任务单"
+
+#: index_project.c:171 index_project.c:1555 index_project.c:1557
+#: index_project.c:1566
+msgid "register ticket"
+msgstr "任务单登录"
+
+#: index_project.c:172
+msgid "search tickets."
+msgstr "检索任务单"
+
+#: index_project.c:172 index_project.c:817 index_project.c:819
+msgid "search tickets"
+msgstr "任务单检索"
+
+#: index_project.c:173 index_project.c:2638
+msgid "display statictics."
+msgstr "显示统计信息"
+
+#: index_project.c:173 index_project.c:2629 index_project.c:2638
+msgid "statictics"
+msgstr "统计信息"
+
+#: index_project.c:174 index_project.c:2129 index_project.c:2131
+#: index_project.c:2147
+msgid "register tickets at once"
+msgstr "任务单批量登录"
+
+#: index_project.c:175
+msgid "display help."
+msgstr "参照帮助"
+
+#: index_project.c:176
+msgid "seveal settings."
+msgstr "进行各种设置"
+
+#: index_project.c:319 index_project.c:339 index_project.c:843
+#: index_project.c:965 index_project.c:1009 index_project.c:1065
+#: index_project.c:2584
+msgid "register date"
+msgstr "投稿日期和时间"
+
+#: index_project.c:319 index_project.c:340 index_project.c:966
+#: index_project.c:1011
+msgid "last update date"
+msgstr "最后更新日期和时间"
+
+#: index_project.c:319 index_project.c:341 index_project.c:967
+#: index_project.c:1013
+msgid "leaved days"
+msgstr "放置天数"
+
+#: index_project.c:330 index_project.c:334 index_project.c:339
+#: index_project.c:340 index_project.c:341
+msgid "asc or desc sorting."
+msgstr "按之后会进行升序、降序交替排列。"
+
+#: index_project.c:448
+msgid "search by status."
+msgstr "按状态作为条件进行检索。"
+
+#: index_project.c:456 index_project.c:2504
+msgid "display the ticket on inputed id."
+msgstr "显示输入的ID的任务单。"
+
+#: index_project.c:459 index_project.c:2503 index_project.c:2510
+msgid "id search"
+msgstr "指定ID显示"
+
+#: index_project.c:462
+msgid "register new ticket."
+msgstr "新建任务单"
+
+#: index_project.c:515
+msgid "display unclosed tickets."
+msgstr "显示未关闭的任务单。"
+
+#: index_project.c:520
+msgid "link to part of this page"
+msgstr "页面内的链接"
+
+#: index_project.c:539
+msgid "tickets is desplayed."
+msgstr "只显示任务单"
+
+#: index_project.c:544 index_project.c:553
+msgid "display tickets that status is "
+msgstr "状态为"
+
+#: index_project.c:544 index_project.c:553
+msgid ".(display status)"
+msgstr "的任务单全部显示出来"
+
+#: index_project.c:548
+msgid "see more..."
+msgstr "更多..."
+
+#: index_project.c:828
+msgid "search condition"
+msgstr "检索条件"
+
+#: index_project.c:828
+msgid "input search conditions and push 'search'."
+msgstr "输入检索条件之后请按检索按钮。"
+
+#: index_project.c:834
+msgid "keyword search"
+msgstr "关键字检索"
+
+#: index_project.c:835
+msgid "search for all columns includes history."
+msgstr "在所有项目中进行检索（包含履历）。"
+
+#: index_project.c:849 index_project.c:864 index_project.c:1482
+msgid "input format: yyyy-mm-dd"
+msgstr "请以yyyy-mm-dd的形式输入。"
+
+#: index_project.c:858
+msgid "update date"
+msgstr "更新日期和时间"
+
+#: index_project.c:869
+msgid "after(lastupdate)"
+msgstr "放置天数"
+
+#: index_project.c:869
+msgid "days before"
+msgstr "天以内"
+
+#: index_project.c:870
+msgid "last updated in days."
+msgstr "检索过去几天更新过的任务单。"
+
+#: index_project.c:906 index_top.c:132 index_top.c:136
+msgid "search"
+msgstr "检索"
+
+#: index_project.c:907
+msgid "save conditions. (use cookie)"
+msgstr "保存检索条件。(cookie使用)"
+
+#: index_project.c:913 index_top.c:210
+msgid "search result"
+msgstr "检索结果"
+
+#: index_project.c:921
+#, c-format
+msgid "%d tickets hits."
+msgstr "检索到%d件。"
+
+#: index_project.c:932
+msgid "[cvs format download description]"
+msgstr "以CSV的形式下载检索结果。"
+
+#: index_project.c:932
+msgid "csv format download"
+msgstr "CSV形式"
+
+#: index_project.c:936
+msgid "[html format download description]"
+msgstr "以HTML的形式下载检索结果。(用excel显示)"
+
+#: index_project.c:936
+msgid "html format download(exel)"
+msgstr "EXCEL形式"
+
+#: index_project.c:940
+msgid "[rss format download description]"
+msgstr "以RSS的形式下载检索结果。能通过RSS读取器来监视检索结果。"
+
+#: index_project.c:940
+msgid "rss format download"
+msgstr "RSS"
+
+#: index_project.c:1473
+msgid "file size must below"
+msgstr "请使文件的尺寸在"
+
+#: index_project.c:1473
+msgid "kb(file size)"
+msgstr "Kb以下。"
+
+#: index_project.c:1493
+msgid "if you want to add selection item, input new item name."
+msgstr "如果要添加可选项，请在文本框输入。"
+
+#: index_project.c:1567
+msgid "input below form and push register button."
+msgstr "登录新建任务单时，请填写以下表单并按登录按钮。"
+
+#: index_project.c:1568 index_project.c:1856 index_project.c:2209
+#: index_project.c:2962
+msgid "note: they are checked by only javascript."
+msgstr "※必须项目的输入检查在javascript中执行。"
+
+#: index_project.c:1608 index_project.c:1902 index_project.c:2237
+#: index_project.c:2990
+#, c-format
+msgid "[REMOTE ADDRESS: %s]"
+msgstr "[REMOTE ADDRESS: %s]"
+
+#: index_project.c:1625 index_project.c:1916 index_project.c:2290
+#: index_project.c:3037
+msgid "save registerer.(use cookie)"
+msgstr "保存投稿者。(cookie使用)"
+
+#: index_project.c:1652 index_project.c:1659
+msgid "not exists id."
+msgstr "指定的ID不存在。"
+
+#: index_project.c:1684 index_project.c:2458
+msgid "what's new"
+msgstr "任务单最新信息"
+
+#: index_project.c:1684
+msgid "this is latest updated tickets."
+msgstr "任务单的最新信息。"
+
+#: index_project.c:1725
+msgid "all attachments"
+msgstr "所有附件"
+
+#: index_project.c:1756
+msgid "go to reply"
+msgstr "回复"
+
+#: index_project.c:1756
+msgid "ticket history"
+msgstr "任务单履历"
+
+#: index_project.c:1756
+msgid "this is ticket histories."
+msgstr "任务单的履历信息。"
+
+#: index_project.c:1816
+msgid "hide this file"
+msgstr ""
+
+#: index_project.c:1818
+msgid "display this file"
+msgstr "参照"
+
+#: index_project.c:1853
+msgid "reply ticket"
+msgstr "任务单回复"
+
+#: index_project.c:1856
+msgid "input form and push reply."
+msgstr "回复时，请填写以下表单内容并按回复按钮。"
+
+#: index_project.c:1859
+msgid "update ticket information"
+msgstr "任务单信息的更新"
+
+#: index_project.c:1859
+msgid "[update ticket description]"
+msgstr "需要更新任务单信息(任务单的状态等)时，请修改以下信息。"
+
+#: index_project.c:1884
+msgid "add reply information"
+msgstr "添加回复"
+
+#: index_project.c:1884
+msgid "input reply information."
+msgstr "请填写回复信息。"
+
+#: index_project.c:1916
+msgid "reply"
+msgstr "回复"
+
+#: index_project.c:2089
+msgid "registerd."
+msgstr "已登录。"
+
+#: index_project.c:2091
+msgid "replyed."
+msgstr "已回复。"
+
+#: index_project.c:2105 index_project.c:3094
+msgid "error"
+msgstr "错误"
+
+#: index_project.c:2108 index_project.c:3097
+msgid "error occured."
+msgstr "发生错误"
+
+#: index_project.c:2109 index_project.c:3098
+msgid "file size is too large."
+msgstr "文件太大。大于"
+
+#: index_project.c:2111 index_project.c:3100
+msgid "kb. too large. back by browser's back button."
+msgstr "kb的文件不能登录。请按浏览器的返回按钮返回。"
+
+#: index_project.c:2148
+msgid "[register ticket at once description1]"
+msgstr ""
+"批量登录新建任务单时，请在以下表单中以CSV的形式填写任务单信息并按解析按钮。以"
+"下为详细的登录步骤。"
+
+#: index_project.c:2149
+msgid "[register ticket at once description2]"
+msgstr ""
+"在批量登录任务单页面(本页面)，以CSV的形式粘贴想登录的多条任务单的信息，并按解"
+"析按钮。"
+
+#: index_project.c:2150
+msgid "[register ticket at once description3]"
+msgstr ""
+"在批量任务单登录页面，因为显示了解析结果，选择各字段对应的项目，并按登录按"
+"钮。"
+
+#: index_project.c:2151
+msgid "register finish."
+msgstr "登录完成。"
+
+#: index_project.c:2166
+msgid "[register ticket at once description4]"
+msgstr "以CSV的形式粘贴想要登录的数据。在下一页面可以对读取的字段进行设置。"
+
+#: index_project.c:2170
+msgid "analysis"
+msgstr "解析"
+
+#: index_project.c:2196 index_project.c:2198 index_project.c:2207
+msgid "register tickets at once confirm"
+msgstr "任务单批量登录确认"
+
+#: index_project.c:2208
+msgid "[register ticket at once description5]"
+msgstr ""
+"对于各登录对象组合框的选择值，请选择它的数据的作为登录对象的项目，并按登录按"
+"钮。"
+
+#: index_project.c:2247
+msgid "register<br />column"
+msgstr "登录<br />对象"
+
+#: index_project.c:2251
+msgid "ignore"
+msgstr "忽略"
+
+#: index_project.c:2297
+msgid "[register ticket at once description6]"
+msgstr ""
+"对于登录对象的组合框的选择值，【忽略】的状态登录的话，将不作为登录对象。"
+
+#: index_project.c:2298
+msgid "[register ticket at once description7]"
+msgstr "因登录的各值都将不进行输入检查，所以请在登录前确认。"
+
+#: index_project.c:2428
+msgid " tickets registerd."
+msgstr "件已登录。"
+
+#: index_project.c:2431
+msgid "no ticket registerd."
+msgstr "没有被登录的任务单。请按返回按钮返回进行确认。"
+
+#: index_project.c:2475
+msgid "there are no latest tickets."
+msgstr "没有最新信息。"
+
+#: index_project.c:2483
+msgid "ticket counts"
+msgstr "按状态分类件数"
+
+#: index_project.c:2495
+msgid "there are no ticket informations."
+msgstr "没有任务单信息。"
+
+#: index_project.c:2520 index_top.c:157 index_top.c:164
+msgid "edit page"
+msgstr "页面编辑"
+
+#: index_project.c:2641
+msgid "ticket count chart"
+msgstr "任务单件数"
+
+#: index_project.c:2651 index_project.c:2723
+msgid "[graph description]"
+msgstr "通过JavaScript显示图表。请用JavaScript有效的浏览器查看。"
+
+#: index_project.c:2652 index_project.c:2686
+msgid "days"
+msgstr "日期"
+
+#: index_project.c:2653 index_project.c:2669
+msgid "all tickets count"
+msgstr "任务单件数"
+
+#: index_project.c:2654 index_project.c:2676
+msgid "not yet closed tickets count"
+msgstr "未关闭的任务单。"
+
+#: index_project.c:2695 index_project.c:2765 index_project.c:2784
+#: index_project.c:2803
+msgid "tickets count"
+msgstr "任务单件数"
+
+#: index_project.c:2760
+#, fuzzy
+msgid "register user ranking"
+msgstr "投稿者"
+
+#: index_project.c:2764 index_project.c:2783 index_project.c:2802
+#, fuzzy
+msgid "user name"
+msgstr "项目名"
+
+#: index_project.c:2779
+msgid "update user ranking"
+msgstr ""
+
+#: index_project.c:2798
+msgid "close user ranking"
+msgstr ""
+
+#: index_project.c:2845 index_project.c:2852 index_project.c:2853
+#: index_top.c:141
+msgid "edit top page"
+msgstr "首页的编辑"
+
+#: index_project.c:2854 index_top.c:164
+msgid "[wiki syntax description1]"
+msgstr "通过简易wiki的语法来进行首页内容的编辑，并请按更新按钮。"
+
+#: index_project.c:2907 index_project.c:2933
+msgid "error: there is no file."
+msgstr "error: 没有文件。"
+
+#: index_project.c:2950 index_project.c:2951 index_project.c:2960
+msgid "attachment file display setting"
+msgstr ""
+
+#: index_project.c:2961
+msgid "you can appoint if attachment file will be display."
+msgstr ""
+
+#: index_project.c:2996
+#, fuzzy
+msgid "attachment file"
+msgstr "附件"
+
+#: index_project.c:3037
+#, fuzzy
+msgid "display"
+msgstr "参照"
+
+#: index_top.c:107 index_top.c:206
+msgid "top page"
+msgstr "首页"
+
+#: index_top.c:133
+msgid "search by keyword for all sub projects."
+msgstr "在所有子工程中检索。"
+
+#: index_top.c:140
+msgid "description"
+msgstr "说明"
+
+#: index_top.c:220
+msgid "back to top"
+msgstr "返回首页"
+
+#: util.c:816
+msgid "[ticket form syntax description1]"
+msgstr ""
+"多行文本框项目的内容按照 #1 写的话，将作为ID 为 1 的任务单的任务单详细页面的"
+"链接。"
+
+#: util.c:817
+msgid "[ticket form syntax description2]"
+msgstr ""
+"多行文本框项目的内容按照 #bts:1 写的话，将作为工程ID为bts的工程的 ID 为 1 的"
+"任务单的任务单详细页面的链接。"
+
+#: util.c:818
+msgid "[ticket form syntax description3]"
+msgstr ""
+"多行文本框项目的内容以，从行头以 &gt;| 开始的行开始，到行头以 |&lt; 开始的行"
+"结束，作为以&lt;pre&gt;&lt;/pre&gt;格式输出。"
+
+#: wiki.c:200
+msgid "simple wiki syntax"
+msgstr "简易wiki支持的语法"
+
+#: wiki.c:201
+msgid "a line starts by * become big headline."
+msgstr "以*开头的行，作为大标题。"
+
+#: wiki.c:202
+msgid "a line starts by ** become medium headline."
+msgstr "以**开头的行，作为中标题。"
+
+#: wiki.c:203
+msgid "a line starts by *** become small headline."
+msgstr "以***开头的行，作为小标题。"
+
+#: wiki.c:204
+msgid "a line starts by **** become super small headline."
+msgstr "以****开头的行，作为极小标题。"
+
+#: wiki.c:205
+msgid "a line starts by - become item."
+msgstr "以-开头的行，作为分项。"
+
+#: wiki.c:206
+msgid "a line starts by ---- become delimitation."
+msgstr "以----开头的行，作为分隔线。"
+
+#: wiki.c:207
+msgid "from line starts by &gt;| to line starts by |&lt;, become block."
+msgstr ""
+"从行头以 &gt;| 开始的行开始，到行头以 |&lt; 开始的行结束，作为以&lt;pre&gt;"
+"&lt;/pre&gt;格式输出。"
+
+#: wiki.c:216
+msgid "example"
+msgstr "例"
+
+#: wiki.c:218
+msgid "[wiki syntax example code]"
+msgstr ""
+">|\n"
+"void displayWidgets (Iterable widgets) {\n"
+"  for (Widget w : widgets) {\n"
+"      w.display();\n"
+"  }\n"
+"}\n"
+"|<"
+
+#: js/attachment_file_display_setting_submit.js:11 js/new_item.js:25
+#: js/register_at_once.js:13 js/register_at_once_submit.js:11
+#: js/validate.js:43
+msgid "it will required. please describe."
+msgstr "必须项目，请输入。"
+
+#: js/attachment_file_display_setting_submit.js:19 js/new_item.js:8
+#: js/register.js:13 js/register_at_once.js:21
+#: js/register_at_once_submit.js:19 js/reply.js:20
+msgid "there are some required columns or invalid columns. please check."
+msgstr "还有必须项目未输入、或者输入了不正确的值，请确认。"
+
+#: js/attachment_file_display_setting_submit.js:23 js/management.js:13
+msgid "it will updated. it is ok with you?"
+msgstr "更新，可以吗。"
+
+#: js/attachment_file_display_setting_submit.js:28 js/management.js:18
+#: js/new_item.js:17 js/register.js:22 js/register_at_once.js:30
+#: js/register_at_once_submit.js:28 js/reply.js:29
+msgid "the error occurred."
+msgstr "发生了错误。"
+
+#: js/calendar.js:18
+msgid "sun,mon,tue,wed,thu,fri,sat"
+msgstr "日,一,二,三,四,五,六"
+
+#: js/calendar.js:22
+msgid "year"
+msgstr "年"
+
+#: js/calendar.js:22
+msgid "month"
+msgstr "月"
+
+#: js/delete_item.js:6
+msgid "it will deleted. it is ok with you?"
+msgstr "删除，可以吗？"
+
+#: js/edit_top.js:6 js/register.js:17 js/register_at_once_submit.js:23
+msgid "it will registered. it is ok with you?"
+msgstr "登录，可以吗？"
+
+#: js/form_changed.js:16
+msgid "form edited. leave this page?"
+msgstr ""
+
+#: js/management.js:9
+msgid "there are some required columns. please check."
+msgstr "还有必须项目未输入。请确认。"
+
+#: js/new_item.js:12
+msgid "it will added. it is ok with you?"
+msgstr "添加，可以吗？"
+
+#: js/register_at_once.js:25
+msgid "it will analyzed. it is ok with you?"
+msgstr "解析，可以吗？"
+
+#: js/reply.js:12
+msgid "you not modify status, it is ok with you?"
+msgstr "「状态」没有被修改，没问题吗？"
+
+#: js/reply.js:24
+msgid "it will replied. it is ok with you?"
+msgstr "回复，可以吗？"
+
+#: js/validate.js:61
+msgid "it is date column. please describe by yyyy-mm-dd format."
+msgstr "日期项目，请以yyyy-mm-dd的形式输入。"
+
+#: js/validate.js:79
+msgid "it is number column. please describe number."
+msgstr "数项目，请写数。"
+
+#, fuzzy
+#~ msgid "ticket count"
+#~ msgstr "按状态分类件数"
+
+#~ msgid "management tool"
+#~ msgstr "管理工具"
+
+#~ msgid "starbug1"
+#~ msgstr "Starbug1"

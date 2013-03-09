@@ -1,17 +1,16 @@
 {{define "content"}}
   {{$project := .project}}
   <div id="ticket_list">
-    <h3>Search Tickets</h3>
-    <div class="description">search tickets.</div>
+    <h3>{{_ "search tickets"}}</h3>
     {{$elementTypes := .elementTypes}}
 
-    <h3>search condition</h3>
+    <h3>{{_ "search condition"}}</h3>
     <div class="description">
-      Input search conditions and push 'search'.
+      {{_ "input search conditions and push 'search'."}}
       <form class="form-horizontal">
         <table class="table table-bordered">
           <tr>
-            <th>キーワード検索</th>
+            <th>{{_ "keyword search"}}</th>
             <td>
               <input type="text" class="" id="q" name="q" />
             </td>
@@ -20,13 +19,13 @@
             </td>
           </tr>
           <tr class="detail-condition">
-            <th>登録日時</th>
+            <th>{{_ "register date"}}</th>
             <td>
               <input type="text" class="span4 calendar" id="registerdate.from" name="registerdate.from" value="" maxlength="19" />
               〜
               <input type="text" class="span4 calendar" id="registerdate.to" name="registerdate.to" value="" maxlength="19" />
             </td>
-            <th>更新日時</th>
+            <th>{{_ "update date"}}</th>
             <td>
               <input type="text" class="span4 calendar" id="lastregisterdate.from" name="lastregisterdate.from" value="" maxlength="19" />
               〜
@@ -53,7 +52,7 @@
     </div>
 
     <h3>search result</h3>
-    {{.searchResult.HitCount}} tickets hits.
+    {{_f "%d tickets hits." .searchResult.HitCount}}
     {{range .searchResult.States}}
       {{.Name}} ({{.Count}})
     {{end}}
@@ -66,9 +65,9 @@
               <th>{{.Name}}</th>
             {{end}}
           {{end}}
-          <th>registered</th>
-          <th>modified</th>
-          <th>passed days</th>
+          <th>{{_ "register date"}}</th>
+          <th>{{_ "update date"}}</th>
+          <th>{{_ "leaved days"}}</th>
         </tr>
       </thead>
       <tbody>
