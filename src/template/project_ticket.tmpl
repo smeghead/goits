@@ -2,9 +2,9 @@
   <h3>#{{.ticket.Id}} {{.ticket.Title}}</h3>
 
   <div id="ticket_newest">
-    <h4>ticket info</h4>
+    <h4>{{_ "what's new"}}</h4>
     <div class="description">
-      This is latest updated tickets.
+      {{_ "this is latest updated tickets."}}
     </div>
 
     <table class="table table-striped">
@@ -19,7 +19,7 @@
         {{end}}
       {{end}}
       <tr>
-        <th>all attachments</th>
+        <th>{{_ "all attachments"}}</th>
         <td>
           {{range .ticket.Messages}}
             {{range .Elements}}
@@ -35,9 +35,9 @@
     </table>
   </div>
   <div id="ticket_newest">
-    <h4>ticket history</h4>
+    <h4>{{_ "ticket history"}}</h4>
     <div class="description">
-      this is ticket histories.
+      {{_ "this is ticket histories."}}
     </div>
     {{$messages := .ticket.Messages}}
     {{range $index, $message := $messages}}
@@ -60,7 +60,5 @@
       </table>
     {{end}}
   </div>
-yyy
-
 {{end}}
 <!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
