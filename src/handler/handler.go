@@ -2,6 +2,7 @@ package handler
 
 import (
     logger "code.google.com/p/log4go"
+    "github.com/gosexy/gettext"
     "os"
     "fmt"
     "net/http"
@@ -10,7 +11,6 @@ import (
     "regexp"
     "math"
     "./data"
-    "github.com/gosexy/gettext"
 )
 
 type Route struct {

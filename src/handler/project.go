@@ -11,7 +11,7 @@ import (
 func RegisterRoutesProject() {
     RegisterRoute("^/([^/]+)$", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        logger.Debug("project", projectName)
+        logger.Debug("project: %s", projectName)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
@@ -25,7 +25,7 @@ func RegisterRoutesProject() {
 
     RegisterRoute("^/([^/]+)/list", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        logger.Debug("project list", projectName)
+        logger.Debug("project list: %s", projectName)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
@@ -49,7 +49,7 @@ func RegisterRoutesProject() {
 
     RegisterRoute("^/([^/]+)/search", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
-        logger.Debug("project search", projectName)
+        logger.Debug("project search %s", projectName)
 
         r.ParseForm()
         params := make(map[string]interface{})
@@ -80,7 +80,7 @@ func RegisterRoutesProject() {
     RegisterRoute("^/([^/]+)/ticket/(\\d+)", func(w http.ResponseWriter, r *http.Request, captures []string) {
         projectName := captures[0]
         ticketId, _ := strconv.Atoi(captures[1])
-        logger.Debug("ticket ", ticketId)
+        logger.Debug("ticket %d", ticketId)
 
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
