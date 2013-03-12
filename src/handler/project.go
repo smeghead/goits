@@ -93,6 +93,21 @@ func RegisterRoutesProject() {
         params["elementTypes"] = elementTypes
         TmplProject(w, "project_ticket", params)
     })
+
+    RegisterRoute("^/([^/]+)/register$", func(w http.ResponseWriter, r *http.Request, captures []string) {
+        projectName := captures[0]
+        logger.Debug("project: %s", projectName)
+
+        params := make(map[string]interface{})
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = data.GetProject(projectName)
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
+        elementTypes := data.GetElementTypes(projectName)
+        params["elementTypes"] = elementTypes
+
+        TmplProject(w, "project_register", params)
+    })
 }
 
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

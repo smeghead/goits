@@ -1,0 +1,39 @@
+{{define "content"}}
+<div id="input_form">
+  <h3>{{_ "register ticket"}}</h3>
+  <div class="description">{{_ "input below form and push register button."}}</div>
+  <noscript><div class="description">{{_ "note: they are checked by only javascript."}}</div></noscript>
+  <form id="register_form" class="changed_check" name="register_form" action="%s/%s/register_submit" method="post" enctype="multipart/form-data">
+    <table class="table table-striped" summary="input information">
+      {{range .elementTypes}}
+        {{if .TicketProperty}}
+          {{if not .ReplyProperty}}
+          <tr>
+            <th>{{.Name}}</th>
+            <td>
+              {{if eq .Type 0}}
+                <input type="text" name="" />
+              {{end}}
+              {{if eq .Type 1}}
+                <textarea name=""></textarea>
+              {{end}}
+              {{if eq .Type 3}}
+                <label class="checkbox">
+                  {{range .ListItems}}
+                    <input id="" name="" type="radio" value=""/>
+                  {{.Name}}
+                  {{end}}
+                </label>
+              {{end}}
+            </td>
+          </tr>
+          {{end}}
+        {{end}}
+      {{end}}
+    </table>
+  </form>
+
+
+
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
