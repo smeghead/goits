@@ -37,8 +37,8 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    gettext.BindTextdomain("starbug1", "locale")
-    gettext.Textdomain("starbug1")
+    gettext.BindTextdomain("multivac", "locale")
+    gettext.Textdomain("multivac")
     os.Setenv("LANGUAGE", "ja_JP.utf8")
     gettext.SetLocale(gettext.LC_ALL, "")
 
