@@ -6,3 +6,10 @@
 .detail-condition {
         display: none;
 }
+
+form > .required label.control-label {
+    border-left: 2px solid #DE1439 !important;
+}
+span.required {
+    color: #ff0000;
+}

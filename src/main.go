@@ -2,12 +2,17 @@ package main
 
 import (
     logger "code.google.com/p/log4go"
+    "runtime"
     "net/http"
     "./handler"
 )
 func main() {
     logger.LoadConfiguration("logging.xml")
     logger.Trace("main start")
+
+    logger.Trace("CPU NUM: %d", runtime.NumCPU())
+    runtime.GOMAXPROCS(runtime.NumCPU())
+
     //static directories
     http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css/"))))
     http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./js/"))))

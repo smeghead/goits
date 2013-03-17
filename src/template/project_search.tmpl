@@ -51,7 +51,7 @@
       </form>
     </div>
 
-    <h3>search result</h3>
+    <h3>{{_ "search result"}}</h3>
     {{_f "%d tickets hits." .searchResult.HitCount}}
     {{range .searchResult.States}}
       {{.Name}} ({{.Count}})
