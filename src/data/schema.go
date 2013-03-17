@@ -14,6 +14,7 @@ type ProjectInfo struct {
     Id int
     Name string
     Sort int
+    Project Project
 }
 func (p *ProjectInfo) IsManage() bool {
     return p.Name == "top"

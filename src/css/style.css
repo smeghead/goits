@@ -1,3 +1,4 @@
+.nav-list-projects > li > a,
 .nav-list-tickets > li > a {
 	white-space: nowrap;
 	overflow: hidden;

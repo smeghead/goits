@@ -21,7 +21,7 @@ func GetProjectInfos() []ProjectInfo {
         var name string
         var sort int
         rows.Scan(&id, &name, &sort)
-        return ProjectInfo{id, name, sort}
+        return ProjectInfo{id, name, sort, GetProject(name)}
     })
     if err != nil {
         logger.Error(err)
