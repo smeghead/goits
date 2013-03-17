@@ -1,25 +1,34 @@
 VERSION = 0.0.01
 COPYRIGHT = Copyright\ smeghead\ 2013\ -\ 2013
-CC = 6g
-LINKER = 6l
+ifeq ($(shell getconf LONG_BIT), 64)
+	# do 64 bit stuff here, like set some CFLAGS
+	CC = 6g
+	LINKER = 6l
+	EXT = 6
+else
+	# do 32 bit stuff here
+	CC = 8g
+	LINKER = 8l
+	EXT = 8
+endif
 
 PROGRAM = multivac
 
-$(PROGRAM): data.6 handler.6 main.6 compileresource
-	$(LINKER) -o $@ main.6
+$(PROGRAM): data.$(EXT) handler.$(EXT) main.$(EXT) compileresource
+	$(LINKER) -o $@ main.$(EXT)
 
-handler.6: handler/*.go
+handler.$(EXT): handler/*.go
 	$(CC) -o $@ $^
 
-data.6: data/*.go
+data.$(EXT): data/*.go
 	$(CC) -o $@ $^
 
-main.6: *.go
+main.$(EXT): *.go
 	$(CC) -o $@ $^
 
 .PHONY: clean run mergeresource compileresource
 clean:
-	rm -f $(PROGRAM) *.6
+	rm -f $(PROGRAM) *.$(EXT)
 	rm -rf ./locale/ja
 	rm -rf ./locale/en
 	rm -rf ./locale/zh
