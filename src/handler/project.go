@@ -4,7 +4,7 @@ import (
     logger "code.google.com/p/log4go"
     "fmt"
     "net/http"
-    "./data"
+    "../data"
     "strconv"
 )
 

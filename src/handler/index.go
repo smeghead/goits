@@ -3,7 +3,7 @@ package handler
 import (
     logger "code.google.com/p/log4go"
     "net/http"
-    "./data"
+    "../data"
     "html/template"
 )
 

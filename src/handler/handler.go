@@ -10,7 +10,7 @@ import (
     "html/template"
     "regexp"
     "math"
-    "./data"
+    "../data"
 )
 
 type Route struct {
