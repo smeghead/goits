@@ -57,9 +57,9 @@ func query(projectName string, statement string, params []interface{}, callback 
         if os.IsNotExist(err) {
             logger.Warn("create project table.")
             CreateProjectTables(projectName, databaseId)
+            logger.Warn("created project table.")
         }
     }
-    logger.Warn("created project table.")
     db, err := sql.Open("sqlite3", projectDbFile)
     if err != nil {
         logger.Error(err)

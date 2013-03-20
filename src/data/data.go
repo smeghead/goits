@@ -2,6 +2,7 @@ package data
 
 import (
     logger "code.google.com/p/log4go"
+    "github.com/gosexy/gettext"
     "database/sql"
     "fmt"
     _ "github.com/mattn/go-sqlite3"
@@ -757,4 +758,24 @@ func SearchTickets(projectName string, form url.Values, cookies []*http.Cookie, 
 
     return SearchResult{hitCount, 0, tickets, states, sums}
 }
+
+func ValidateTicket(projectName string, form url.Values, elementTypes []ElementType) map[string]string {
+    logger.Debug("======field2: [%s]\n", form.Encode())
+
+    messages := make(map[string]string)
+    for _, e := range elementTypes {
+        fieldName := fmt.Sprintf("field%d", e.Id)
+        formVal := form.Get(fieldName)
+        logger.Debug("field%d: %s", e.Id, formVal)
+        if e.Required && len(strings.TrimSpace(formVal)) == 0 {
+            messages[fieldName] = gettext.Gettext("it will required. please describe.")
+        }
+    }
+    return messages
+}
+
+func RegisterTicket(projectName string, form url.Values, elementTypes []ElementType) int {
+    return -1
+}
+
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

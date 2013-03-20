@@ -85,6 +85,14 @@ func getFuncs() template.FuncMap {
         "ne": func(a, b interface{}) bool {
             return a != b
         },
+        "contains": func(a string, arr []string) bool {
+            for _, e := range arr {
+                if e == a {
+                    return true
+                }
+            }
+            return false
+        },
         "odd": func(a int) bool {
             return math.Mod(float64(a), 2) != 0
         },
@@ -111,6 +119,29 @@ func getFuncs() template.FuncMap {
                 }
             }
             return true
+        },
+        "haserror": func(errors map[string]string, elementType data.ElementType) bool {
+            if len(errors) == 0 {
+                return false
+            }
+            _, exists := errors[fmt.Sprintf("field%d", elementType.Id)]
+            return exists
+        },
+        "geterror": func(errors map[string]string, elementType data.ElementType) string {
+            if len(errors) == 0 {
+                return ""
+            }
+            error, _ := errors[fmt.Sprintf("field%d", elementType.Id)]
+            return error
+        },
+        "getvalue": func(elementType data.ElementType, params url.Values, elements []data.Element) string {
+            fieldName := fmt.Sprintf("field%d", elementType.Id)
+            paramVal := params.Get(fieldName)
+            return paramVal
+        },
+        "getvalues": func(elementType data.ElementType, params url.Values, elements []data.Element) []string {
+            fieldName := fmt.Sprintf("field%d", elementType.Id)
+            return params[fieldName]
         },
     }
 }

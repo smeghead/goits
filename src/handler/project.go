@@ -98,12 +98,28 @@ func RegisterRoutesProject() {
         projectName := captures[0]
         logger.Debug("project: %s", projectName)
 
+        project := data.GetProject(projectName)
+        elementTypes := data.GetElementTypes(projectName)
         params := make(map[string]interface{})
+
+        if r.Method == "POST" {
+            logger.Debug("post")
+            r.ParseMultipartForm(int64(project.UploadMaxSize))
+
+            errors := data.ValidateTicket(projectName, r.Form, elementTypes)
+            if len(errors) == 0 {
+                data.RegisterTicket(projectName, r.Form, elementTypes)
+                http.Redirect(w, r, fmt.Sprintf("/%s/register", projectName), 302)
+                return
+            }
+            logger.Warn("validate failed.")
+            params["params"] = r.Form
+            params["errors"] = errors
+        }
         params["topProject"] = data.GetProject("manage")
-        params["project"] = data.GetProject(projectName)
+        params["project"] = project
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
         params["states"] = data.GetStates(projectName, false)
-        elementTypes := data.GetElementTypes(projectName)
         params["elementTypes"] = elementTypes
 
         TmplProject(w, "project_register", params)

@@ -14,3 +14,14 @@ form > .required label.control-label {
 span.required {
     color: #ff0000;
 }
+.error {
+    color: #ff0000;
+    font-weight: bold;
+}
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  color: #555555;
+}
