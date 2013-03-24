@@ -109,7 +109,7 @@ func RegisterRoutesProject() {
             errors := data.ValidateTicket(projectName, r.Form, elementTypes)
             if len(errors) == 0 {
                 data.RegisterTicket(projectName, r.Form, elementTypes)
-                http.Redirect(w, r, fmt.Sprintf("/%s/register", projectName), 302)
+                http.Redirect(w, r, fmt.Sprintf("/%s/list", projectName), 302)
                 return
             }
             logger.Warn("validate failed.")

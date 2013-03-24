@@ -8,6 +8,7 @@
     {{$params := .params}}
     {{$errors := .errors}}
     {{range .elementTypes}}
+      {{$element := .}}
       {{if not .ReplyProperty}}
         <div class="control-group {{if .Required}}required{{end}} {{if haserror $errors .}}error{{end}}">
           <label class="control-label" for="field{{.Id}}">
@@ -65,7 +66,7 @@
               {{$val := getvalue . $params $elements}}
               {{range .ListItems}}
                 <label class="radio">
-                  <input id="field{{.Id}}" name="field{{.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
+                  <input id="field{{$element.Id}}" name="field{{$element.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
                   {{.Name}}
                 </label>
               {{end}}

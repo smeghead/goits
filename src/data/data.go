@@ -7,6 +7,7 @@ import (
     "fmt"
     _ "github.com/mattn/go-sqlite3"
     "strconv"
+    "reflect"
     "strings"
     "net/url"
     "net/http"
@@ -774,8 +775,149 @@ func ValidateTicket(projectName string, form url.Values, elementTypes []ElementT
     return messages
 }
 
+func createMessageInsertSql(ticket_id int, elementTypes []ElementType, form url.Values) (string, []interface{}) {
+    cols := []string{}
+    phs := []string{}
+    params := []interface{}{ticket_id, GetLocalTime()}
+    for _, e := range elementTypes {
+        cols = append(cols, fmt.Sprintf("field%d", e.Id))
+        phs = append(phs, "?")
+
+        fieldName := fmt.Sprintf("field%d", e.Id)
+        value := ""
+        if len(e.ListItems) > 0 {
+            value = strings.Join(form[fieldName], "\t")
+        } else {
+            value = form.Get(fieldName)
+        }
+        params = append(params, value)
+    }
+
+    return fmt.Sprintf(
+        "insert into message(ticket_id, registerdate, %s) values (?, ?, %s)",
+        strings.Join(cols, ", "),
+        strings.Join(phs, ", ")), params
+}
+
+func registerOrUpdateTicket(projectName string, id int, form url.Values, elementTypes []ElementType) int {
+    mode := "update"
+    if id == -1 {
+        mode = "create"
+    }
+
+    err := tran(projectName, func(db *sql.DB, tx *sql.Tx) error {
+        if (mode == "create") {
+            /* 新規の場合は、ticketテーブルにレコードを挿入する。 */
+            result, err := db.Exec("insert into ticket(id, registerdate, closed) values (NULL, ?, 0)", GetLocalTime())
+            if err != nil {
+                logger.Error(err)
+                panic(err)
+            }
+            id64, _ := result.LastInsertId()
+            id = int(id64)
+        }
+        /* クローズの状態に変更されたかどうかを判定する。 */
+        doClose := 0
+        ET: for _, e := range elementTypes {
+            if len(e.ListItems) == 0 {
+                break
+            }
+            fieldName := fmt.Sprintf("field%d", e.Id)
+            vs, _ := form[fieldName]
+            for _, v := range vs {
+                for _, item := range e.ListItems {
+                    if v == item.Name && item.Close {
+                        doClose = 1
+                        break ET
+                    }
+                }
+            }
+        }
+        /* クローズ状態に変更されていた場合は、closedに1を設定する。 */
+        result, err := db.Exec("update ticket set closed = ? where id = ?", doClose, id)
+        if err != nil {
+            logger.Error(err)
+            panic(err)
+        }
+        if count, _ := result.RowsAffected(); count != 1 {
+            logger.Error("update ticket failed to close.")
+            panic("update ticket failed to close.")
+        }
+        statement, params := createMessageInsertSql(id, elementTypes, form)
+        stmt, err := db.Prepare(statement)
+        if err != nil {
+            logger.Error(err)
+            panic(err)
+        }
+        defer stmt.Close()
+
+        values := []reflect.Value{}
+        for _, p := range params {
+            logger.Debug("[%s]", p)
+            values = append(values, reflect.ValueOf(p))
+        }
+        returnValues := reflect.ValueOf(stmt).MethodByName("Exec").Call(values)
+        result2, _ := returnValues[0].Interface().(sql.Result)
+        if !returnValues[1].IsNil() {
+            err = returnValues[1].Interface().(error)
+        }
+        if err != nil {
+            logger.Error(err)
+            panic(err)
+        }
+        message_id, _ := result2.LastInsertId()
+
+        /* message_id を更新する。 */
+        if mode == "create" {
+            db.Exec("update ticket set original_message_id = ?, last_message_id = ? where id = ?",
+                    message_id, message_id, id)
+        } else {
+            db.Exec("update ticket set last_message_id = ? where id = ?",
+                    message_id, id)
+        }
+
+//        elements = ticket->elements;
+//        /* register attachment file. */
+//        foreach (it, elements) {
+//            Element* e = it->element;
+//            if (e->is_file) {
+//                int size;
+//                char filename[DEFAULT_LENGTH];
+//                char mime_type[DEFAULT_LENGTH];
+//                char* fname;
+//                char* ctype;
+//                ElementFile* content_a;
+//                fname = get_upload_filename(e->element_type_id, filename);
+//                size = get_upload_size(e->element_type_id);
+//                ctype = get_upload_content_type(e->element_type_id, mime_type);
+//                content_a = get_upload_content(e->element_type_id);
+//                if (exec_query(
+//                            db,
+//                            "insert into element_file("
+//                            " id, message_id, element_type_id, filename, size, mime_type, content"
+//                            ") values (NULL, ?, ?, ?, ?, ?, ?) ",
+//                            COLUMN_TYPE_INT, message_id,
+//                            COLUMN_TYPE_INT, e->element_type_id,
+//                            COLUMN_TYPE_TEXT, fname,
+//                            COLUMN_TYPE_INT, size,
+//                            COLUMN_TYPE_TEXT, mime_type,
+//                            COLUMN_TYPE_BLOB_ELEMENT_FILE, content_a,
+//                            COLUMN_TYPE_END) == 0)
+//                    die("insert failed.");
+//                element_file_free(content_a);
+//            }
+//        }
+        return nil
+    })
+    if err != nil {
+        logger.Error(err)
+        panic(err)
+    }
+    return id
+}
+
 func RegisterTicket(projectName string, form url.Values, elementTypes []ElementType) int {
-    return -1
+    return registerOrUpdateTicket(projectName, -1, form, elementTypes)
 }
 
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

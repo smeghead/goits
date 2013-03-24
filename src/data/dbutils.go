@@ -4,6 +4,7 @@ import (
     logger "code.google.com/p/log4go"
     "github.com/gosexy/gettext"
     "os"
+    "time"
     "fmt"
     "database/sql"
     _ "github.com/mattn/go-sqlite3"
@@ -208,7 +209,7 @@ func scanDynamicRows(rows *sql.Rows) ([]string, error) {
     return values, nil
 }
 
-func tran(projectName string, callback func(tx *sql.Tx) error) error {
+func tran(projectName string, callback func(db *sql.DB, tx *sql.Tx) error) error {
     databaseId, err := getDatabaseId(projectName)
     if err != nil {
         logger.Error(err)
@@ -226,7 +227,7 @@ func tran(projectName string, callback func(tx *sql.Tx) error) error {
         logger.Error(err)
         return err
     }
-    err = callback(tx)
+    err = callback(db, tx)
     if err != nil {
         logger.Error(err)
         tx.Rollback()
@@ -236,15 +237,15 @@ func tran(projectName string, callback func(tx *sql.Tx) error) error {
     return nil
 }
 
-func exec(tx *sql.Tx, statement string, params []interface{}) sql.Result {
-    result, err := tx.Exec(statement, params)
-    if err != nil {
-        logger.Error(err)
-        tx.Rollback()
-        panic(err)
-    }
-    return result
-}
+//func exec(db *sql.DB, statement string, params []interface{}) sql.Result {
+//    result, err := db.Exec(statement, params)
+//    if err != nil {
+//        logger.Error(err)
+//        tx.Rollback()
+//        panic(err)
+//    }
+//    return result
+//}
 
 func CreateTopTables() {
     logger.Debug("create_top_tables")
@@ -627,5 +628,9 @@ func CreateProjectTables(projectName string, id int) {
             "insert into wiki(id, name, content, registerdate) values (NULL, 'adminhelp', ?, current_timestamp);",
             gettext.Gettext("[admin help content]"))
     tx.Commit()
+}
+
+func GetLocalTime() string {
+    return time.Now().Local().Format("2006-01-02 15:04:05")
 }
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
