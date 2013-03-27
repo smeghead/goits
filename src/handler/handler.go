@@ -73,7 +73,7 @@ func TmplTop(w http.ResponseWriter, templateName string, params map[string]inter
 func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
     t, _ := template.New("layout_project.tmpl").
         Funcs(getFuncs()).
-        ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+        ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/project/%s.tmpl", templateName))
     t.Execute(w, params)
 }
 

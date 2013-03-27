@@ -44,7 +44,7 @@ func RegisterRoutesProject() {
         params["notClosedStates"] = notClosedStates
         params["ticketsByStatus"] = ticketsByStatus
         params["elementTypes"] = data.GetElementTypes(projectName)
-        TmplProject(w, "project_list", params)
+        TmplProject(w, "list", params)
     })
 
     RegisterRoute("^/([^/]+)/search", func(w http.ResponseWriter, r *http.Request, captures []string) {
@@ -61,7 +61,7 @@ func RegisterRoutesProject() {
         elementTypes := data.GetElementTypes(projectName)
         params["searchResult"] = data.SearchTickets(projectName, r.Form, r.Cookies(), elementTypes)
         params["elementTypes"] = elementTypes
-        TmplProject(w, "project_search", params)
+        TmplProject(w, "search", params)
     })
 
     RegisterRoute("^/([^/]+)/setting_file/([^/]+)", func(w http.ResponseWriter, r *http.Request, captures []string) {
@@ -91,7 +91,7 @@ func RegisterRoutesProject() {
         elementTypes := data.GetElementTypes(projectName)
         params["ticket"] = data.GetTicket(projectName, ticketId, elementTypes)
         params["elementTypes"] = elementTypes
-        TmplProject(w, "project_ticket", params)
+        TmplProject(w, "ticket", params)
     })
 
     RegisterRoute("^/([^/]+)/register$", func(w http.ResponseWriter, r *http.Request, captures []string) {
@@ -122,7 +122,7 @@ func RegisterRoutesProject() {
         params["states"] = data.GetStates(projectName, false)
         params["elementTypes"] = elementTypes
 
-        TmplProject(w, "project_register", params)
+        TmplProject(w, "register", params)
     })
 }
 

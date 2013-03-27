@@ -1,11 +1,14 @@
+h4 {
+    font-size: 120%;
+}
 .nav-list-projects > li > a,
 .nav-list-tickets > li > a {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .detail-condition {
-        display: none;
+    display: none;
 }
 
 form > .required label.control-label {
@@ -23,5 +26,18 @@ span.required {
 .control-group.error input,
 .control-group.error select,
 .control-group.error textarea {
-  color: #555555;
+    color: #555555;
 }
+
+#ticket_newest table {
+    background-color: #ffffe6;
+}
+#ticket_history table {
+    background-color: #eeeeee;
+}
+div.date {
+    float: right;
+    color: #333;
+    font-size: 80%;
+}
+/* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

@@ -1,0 +1,156 @@
+{{define "content"}}
+  {{$project := .project}}
+  <h3>#{{.ticket.Id}} {{.ticket.Title}}</h3>
+
+  <div id="ticket_newest">
+    <h4>{{_ "what's new"}}</h4>
+    <div class="description">
+      {{_ "this is latest updated tickets."}}
+    </div>
+
+    <table class="table">
+      {{range .ticket.LastMessage.Elements}}
+        {{if .ElementType.TicketProperty}}
+          <tr>
+            <th class="span3">{{.ElementType.Name}}</th>
+            <td>
+            {{.StrVal}}
+            </td>
+          </tr>
+        {{end}}
+      {{end}}
+      <tr>
+        <th>{{_ "all attachments"}}</th>
+        <td>
+          {{range .ticket.Messages}}
+            {{range .Elements}}
+              {{if .IsFile}}
+                <span>
+                    <a href="%s/%s/download/{{.ElementFile.Id}}/{{.ElementFile.Filename}}" target="_blank">{{.ElementFile.Filename}}</a> 
+                </span>
+              {{end}}
+            {{end}}
+          {{end}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="ticket_history">
+    <h4>{{_ "ticket history"}}</h4>
+    <div class="description">
+      {{_ "this is ticket histories."}}
+    </div>
+    {{$messages := .ticket.Messages}}
+    {{range $index, $message := $messages}}
+      <h4 class="title">
+        {{inc $index}}: {{$message.GetSender}} <div class="date">({{$message.RegisterDate}})</div>
+        <p class="clearfix"></p>
+      </h4>
+      <table class="table">
+        {{range $message.Elements}}
+          {{if ne .ElementType.Id 2}}
+            {{if defferelementwith . $messages $index}}
+              <tr>
+                <th class="span3">{{.ElementType.Name}}</th>
+                <td>
+                {{.StrVal}}
+                </td>
+              </tr>
+            {{end}}
+          {{end}}
+        {{end}}
+      </table>
+    {{end}}
+  </div>
+
+  <div id="input_form">
+    <h4>{{_ "reply ticket"}}</h4>
+    <form id="register_form" class="changed_check form-horizontal" name="register_form" action="" method="post" enctype="multipart/form-data">
+      {{$elements := .elements}}
+      {{$params := .params}}
+      {{$errors := .errors}}
+
+      <div class="description">{{_ "input form and push reply."}}</div>
+      {{range .elementTypes}}
+        {{$element := .}}
+        {{if not .ReplyProperty}}
+          <div class="control-group {{if .Required}}required{{end}} {{if haserror $errors .}}error{{end}}">
+            <label class="control-label" for="field{{.Id}}">
+              {{.Name}}
+              {{if .Required}}<span class="required">{{_ "*"}}</span>{{end}}
+            </label>
+            <div class="controls">
+              {{if eq .Type 0}}
+                <!--ELEM_TYPE_TEXT -->
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements}}" />
+              {{end}}
+              {{if eq .Type 1}}
+                <!-- ELEM_TYPE_TEXTAREA -->
+                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements}}</textarea>
+              {{end}}
+              {{if eq .Type 2}}
+                <!-- ELEM_TYPE_CHECKBOX -->
+                <label class="checkbox" for="field{{.Id}}">
+                  <input type="checkbox" id="field{{.Id}}" class="checkbox" name="field{{.Id}}" value="" />
+                  {{.Name}}
+                </label>
+              {{end}}
+              {{if eq .Type 3}}
+                <!-- ELEM_TYPE_LIST_SINGLE -->
+                {{$val := getvalue . $params $elements}}
+                <select id="field{{.Id}}" name="field{{.Id}}" class="span8">
+                  {{range .ListItems}}
+                    <option value="{{.Name}}" {{if eq .Name $val}}selected="selected"{{end}}>{{.Name}}</option>
+                  {{end}}
+                </select>
+              {{end}}
+              {{if eq .Type 4}}
+                <!-- ELEM_TYPE_LIST_MULTI -->
+                {{$vals := getvalues . $params $elements}}
+                <select id="field{{.Id}}" name="field{{.Id}}" multiple="multiple" class="span8">
+                  {{range .ListItems}}
+                    <option value="{{.Name}}" {{if contains .Name $vals}}selected="selected"{{end}}>{{.Name}}</option>
+                  {{end}}
+                </select>
+              {{end}}
+              {{if eq .Type 5}}
+                <!-- ELEM_TYPE_UPLOADFILE -->
+                <input type="file" class="element" id="field{{.Id}}" name="field{{.Id}}" />
+                <div class="description">{{_ "file size must below"}} {{$project.UploadMaxSize}} {{_ "kb(file size)"}}</div>
+              {{end}}
+              {{if eq .Type 6}}
+                <!-- ELEM_TYPE_DATE -->
+                <span>
+                  <input type="text" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="" />
+                </span>
+                <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
+              {{end}}
+              {{if eq .Type 7}}
+                <!-- ELEM_TYPE_LIST_SINGLE_RADIO -->
+                {{$val := getvalue . $params $elements}}
+                {{range .ListItems}}
+                  <label class="radio">
+                    <input id="field{{$element.Id}}" name="field{{$element.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
+                    {{.Name}}
+                  </label>
+                {{end}}
+              {{end}}
+              {{if eq .Type 8}}
+                <!-- ELEM_TYPE_NUM -->
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" />
+              {{end}}
+
+              {{if haserror $errors .}}
+                <div class="error">{{geterror $errors .}}</div>
+              {{end}}
+            </div>
+          </div>
+        {{end}}
+      {{end}}
+      <div class="form-actions">
+        <input type="submit" value="{{_ "register"}}" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
