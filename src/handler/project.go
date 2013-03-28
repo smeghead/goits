@@ -20,7 +20,7 @@ func RegisterRoutesProject() {
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
         params["states"] = data.GetStates(projectName, false)
 
-        TmplProject(w, "project", params)
+        TmplProject(w, "index", params)
     })
 
     RegisterRoute("^/([^/]+)/list", func(w http.ResponseWriter, r *http.Request, captures []string) {

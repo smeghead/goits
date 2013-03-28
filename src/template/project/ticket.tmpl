@@ -71,9 +71,10 @@
       {{$errors := .errors}}
 
       <div class="description">{{_ "input form and push reply."}}</div>
+      <div id="ticket-elements">
       {{range .elementTypes}}
         {{$element := .}}
-        {{if not .ReplyProperty}}
+        {{if .TicketProperty}}
           <div class="control-group {{if .Required}}required{{end}} {{if haserror $errors .}}error{{end}}">
             <label class="control-label" for="field{{.Id}}">
               {{.Name}}
@@ -147,6 +148,85 @@
           </div>
         {{end}}
       {{end}}
+      </div>
+      <div id="reply-elements">
+      {{range .elementTypes}}
+        {{$element := .}}
+        {{if not .TicketProperty}}
+          <div class="control-group {{if .Required}}required{{end}} {{if haserror $errors .}}error{{end}}">
+            <label class="control-label" for="field{{.Id}}">
+              {{.Name}}
+              {{if .Required}}<span class="required">{{_ "*"}}</span>{{end}}
+            </label>
+            <div class="controls">
+              {{if eq .Type 0}}
+                <!--ELEM_TYPE_TEXT -->
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements}}" />
+              {{end}}
+              {{if eq .Type 1}}
+                <!-- ELEM_TYPE_TEXTAREA -->
+                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements}}</textarea>
+              {{end}}
+              {{if eq .Type 2}}
+                <!-- ELEM_TYPE_CHECKBOX -->
+                <label class="checkbox" for="field{{.Id}}">
+                  <input type="checkbox" id="field{{.Id}}" class="checkbox" name="field{{.Id}}" value="" />
+                  {{.Name}}
+                </label>
+              {{end}}
+              {{if eq .Type 3}}
+                <!-- ELEM_TYPE_LIST_SINGLE -->
+                {{$val := getvalue . $params $elements}}
+                <select id="field{{.Id}}" name="field{{.Id}}" class="span8">
+                  {{range .ListItems}}
+                    <option value="{{.Name}}" {{if eq .Name $val}}selected="selected"{{end}}>{{.Name}}</option>
+                  {{end}}
+                </select>
+              {{end}}
+              {{if eq .Type 4}}
+                <!-- ELEM_TYPE_LIST_MULTI -->
+                {{$vals := getvalues . $params $elements}}
+                <select id="field{{.Id}}" name="field{{.Id}}" multiple="multiple" class="span8">
+                  {{range .ListItems}}
+                    <option value="{{.Name}}" {{if contains .Name $vals}}selected="selected"{{end}}>{{.Name}}</option>
+                  {{end}}
+                </select>
+              {{end}}
+              {{if eq .Type 5}}
+                <!-- ELEM_TYPE_UPLOADFILE -->
+                <input type="file" class="element" id="field{{.Id}}" name="field{{.Id}}" />
+                <div class="description">{{_ "file size must below"}} {{$project.UploadMaxSize}} {{_ "kb(file size)"}}</div>
+              {{end}}
+              {{if eq .Type 6}}
+                <!-- ELEM_TYPE_DATE -->
+                <span>
+                  <input type="text" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="" />
+                </span>
+                <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
+              {{end}}
+              {{if eq .Type 7}}
+                <!-- ELEM_TYPE_LIST_SINGLE_RADIO -->
+                {{$val := getvalue . $params $elements}}
+                {{range .ListItems}}
+                  <label class="radio">
+                    <input id="field{{$element.Id}}" name="field{{$element.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
+                    {{.Name}}
+                  </label>
+                {{end}}
+              {{end}}
+              {{if eq .Type 8}}
+                <!-- ELEM_TYPE_NUM -->
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" />
+              {{end}}
+
+              {{if haserror $errors .}}
+                <div class="error">{{geterror $errors .}}</div>
+              {{end}}
+            </div>
+          </div>
+        {{end}}
+      {{end}}
+      </div>
       <div class="form-actions">
         <input type="submit" value="{{_ "register"}}" class="btn btn-primary" />
       </div>

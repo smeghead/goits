@@ -40,4 +40,12 @@ div.date {
     color: #333;
     font-size: 80%;
 }
+#ticket-elements {
+    background-color: #ffffcc;
+    padding: 5px 0px;
+}
+#reply-elements {
+    background-color: #eeeeee;
+    padding: 5px 0px;
+}
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
