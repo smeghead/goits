@@ -30,7 +30,7 @@ span.required {
 }
 
 #ticket_newest table {
-    background-color: #ffffe6;
+    background-color: #ffff99;
 }
 #ticket_history table {
     background-color: #eeeeee;
@@ -41,7 +41,7 @@ div.date {
     font-size: 80%;
 }
 #ticket-elements {
-    background-color: #ffffcc;
+    background-color: #ffff99;
     padding: 5px 0px;
 }
 #reply-elements {

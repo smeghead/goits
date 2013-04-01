@@ -5,10 +5,11 @@
   <div class="description">{{_ "input below form and push register button."}}</div>
   <form id="register_form" class="changed_check form-horizontal" name="register_form" action="" method="post" enctype="multipart/form-data">
     {{$elements := .elements}}
+    {{$sender := .sender}}
     {{$params := .params}}
     {{$errors := .errors}}
     {{range .elementTypes}}
-      {{$element := .}}
+      {{$elementType := .}}
       {{if not .ReplyProperty}}
         <div class="control-group {{if .Required}}required{{end}} {{if haserror $errors .}}error{{end}}">
           <label class="control-label" for="field{{.Id}}">
@@ -18,11 +19,11 @@
           <div class="controls">
             {{if eq .Type 0}}
               <!--ELEM_TYPE_TEXT -->
-              <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements}}" />
+              <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements $sender}}" />
             {{end}}
             {{if eq .Type 1}}
               <!-- ELEM_TYPE_TEXTAREA -->
-              <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements}}</textarea>
+              <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements $sender}}</textarea>
             {{end}}
             {{if eq .Type 2}}
               <!-- ELEM_TYPE_CHECKBOX -->
@@ -33,8 +34,9 @@
             {{end}}
             {{if eq .Type 3}}
               <!-- ELEM_TYPE_LIST_SINGLE -->
-              {{$val := getvalue . $params $elements}}
+              {{$val := getvalue . $params $elements $sender}}
               <select id="field{{.Id}}" name="field{{.Id}}" class="span8">
+                <option value=""></option>
                 {{range .ListItems}}
                   <option value="{{.Name}}" {{if eq .Name $val}}selected="selected"{{end}}>{{.Name}}</option>
                 {{end}}
@@ -63,10 +65,10 @@
             {{end}}
             {{if eq .Type 7}}
               <!-- ELEM_TYPE_LIST_SINGLE_RADIO -->
-              {{$val := getvalue . $params $elements}}
+              {{$val := getvalue . $params $elements $sender}}
               {{range .ListItems}}
                 <label class="radio">
-                  <input id="field{{$element.Id}}" name="field{{$element.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
+                  <input id="field{{$elementType.Id}}" name="field{{$elementType.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
                   {{.Name}}
                 </label>
               {{end}}

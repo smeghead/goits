@@ -64,16 +64,17 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TmplTop(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-    t, _ := template.New("layout_top.tmpl").
+    t, _ := template.New("layout.tmpl").
         Funcs(getFuncs()).
-        ParseFiles("template/layout_top.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
+        ParseFiles("template/layout.tmpl", fmt.Sprintf("template/%s.tmpl", templateName))
     t.Execute(w, params)
 }
 
 func TmplProject(w http.ResponseWriter, templateName string, params map[string]interface{}) {
-    t, _ := template.New("layout_project.tmpl").
+    t, err := template.New("layout.tmpl").
         Funcs(getFuncs()).
-        ParseFiles("template/layout_project.tmpl", fmt.Sprintf("template/project/%s.tmpl", templateName))
+        ParseFiles("template/project/layout.tmpl", fmt.Sprintf("template/project/%s.tmpl", templateName))
+    logger.Debug(err)
     t.Execute(w, params)
 }
 
@@ -134,10 +135,22 @@ func getFuncs() template.FuncMap {
             error, _ := errors[fmt.Sprintf("field%d", elementType.Id)]
             return error
         },
-        "getvalue": func(elementType data.ElementType, params url.Values, elements []data.Element) string {
+        "getvalue": func(elementType data.ElementType, params url.Values, elements []data.Element, sender string) string {
             fieldName := fmt.Sprintf("field%d", elementType.Id)
-            paramVal := params.Get(fieldName)
-            return paramVal
+            if _, ok := params[fieldName]; ok {
+                return params.Get(fieldName)
+            } else {
+                if elementType.Id == data.ELEM_ID_SENDER {
+                    return sender
+                } else {
+                    for _, e := range elements {
+                        if e.ElementType.Id == elementType.Id {
+                            return e.StrVal
+                        }
+                    }
+                }
+            }
+            return ""
         },
         "getvalues": func(elementType data.ElementType, params url.Values, elements []data.Element) []string {
             fieldName := fmt.Sprintf("field%d", elementType.Id)

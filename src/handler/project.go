@@ -82,15 +82,44 @@ func RegisterRoutesProject() {
         ticketId, _ := strconv.Atoi(captures[1])
         logger.Debug("ticket %d", ticketId)
 
+        project := data.GetProject(projectName)
+        elementTypes := data.GetElementTypes(projectName)
         params := make(map[string]interface{})
+
+        if r.Method == "POST" {
+            logger.Debug("post")
+            r.ParseMultipartForm(int64(project.UploadMaxSize))
+
+            errors := data.ValidateTicket(projectName, r.Form, elementTypes)
+            if len(errors) == 0 {
+                //save sender to cookie.
+                http.SetCookie(w, &http.Cookie{
+                    Name: "sender",
+                    Value: r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER)),
+                    Path: "/",
+                    Domain: r.Host,
+                    MaxAge: 86400,
+                })
+                data.ReplyTicket(projectName, ticketId, r.Form, elementTypes)
+                http.Redirect(w, r, fmt.Sprintf("/%s/list", projectName), 302)
+                return
+            }
+            logger.Warn("validate failed.")
+            params["params"] = r.Form
+            params["errors"] = errors
+        }
         params["topProject"] = data.GetProject("manage")
-        params["project"] = data.GetProject(projectName)
+        params["project"] = project
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
         params["states"] = data.GetStates(projectName, false)
 
-        elementTypes := data.GetElementTypes(projectName)
         params["ticket"] = data.GetTicket(projectName, ticketId, elementTypes)
         params["elementTypes"] = elementTypes
+        if sender, _ := r.Cookie("sender"); sender != nil {
+            params["sender"] = sender
+        } else {
+            params["sender"] = ""
+        }
         TmplProject(w, "ticket", params)
     })
 
@@ -108,6 +137,14 @@ func RegisterRoutesProject() {
 
             errors := data.ValidateTicket(projectName, r.Form, elementTypes)
             if len(errors) == 0 {
+                //save sender to cookie.
+                http.SetCookie(w, &http.Cookie{
+                    Name: "sender",
+                    Value: r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER)),
+                    Path: "/",
+                    Domain: r.Host,
+                    MaxAge: 86400,
+                })
                 data.RegisterTicket(projectName, r.Form, elementTypes)
                 http.Redirect(w, r, fmt.Sprintf("/%s/list", projectName), 302)
                 return
@@ -121,6 +158,11 @@ func RegisterRoutesProject() {
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
         params["states"] = data.GetStates(projectName, false)
         params["elementTypes"] = elementTypes
+        if sender, _ := r.Cookie("sender"); sender != nil {
+            params["sender"] = sender
+        } else {
+            params["sender"] = ""
+        }
 
         TmplProject(w, "register", params)
     })
