@@ -6,6 +6,8 @@ import (
     "net/http"
     "../data"
     "strconv"
+    "regexp"
+    "encoding/base64"
 )
 
 func RegisterRoutesProject() {
@@ -93,11 +95,12 @@ func RegisterRoutesProject() {
             errors := data.ValidateTicket(projectName, r.Form, elementTypes)
             if len(errors) == 0 {
                 //save sender to cookie.
+                portExp, _ := regexp.Compile(":.*")
                 http.SetCookie(w, &http.Cookie{
                     Name: "sender",
-                    Value: r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER)),
+                    Value: convbase64(r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER))),
                     Path: "/",
-                    Domain: r.Host,
+                    Domain: portExp.ReplaceAllString(r.Host, ""),
                     MaxAge: 86400,
                 })
                 data.ReplyTicket(projectName, ticketId, r.Form, elementTypes)
@@ -115,11 +118,7 @@ func RegisterRoutesProject() {
 
         params["ticket"] = data.GetTicket(projectName, ticketId, elementTypes)
         params["elementTypes"] = elementTypes
-        if sender, _ := r.Cookie("sender"); sender != nil {
-            params["sender"] = sender
-        } else {
-            params["sender"] = ""
-        }
+        params["sender"] = getSenderFromCookie(r)
         TmplProject(w, "ticket", params)
     })
 
@@ -138,11 +137,12 @@ func RegisterRoutesProject() {
             errors := data.ValidateTicket(projectName, r.Form, elementTypes)
             if len(errors) == 0 {
                 //save sender to cookie.
+                portExp, _ := regexp.Compile(":.*")
                 http.SetCookie(w, &http.Cookie{
                     Name: "sender",
-                    Value: r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER)),
+                    Value: convbase64(r.Form.Get(fmt.Sprintf("field%d", data.ELEM_ID_SENDER))),
                     Path: "/",
-                    Domain: r.Host,
+                    Domain: portExp.ReplaceAllString(r.Host, ""),
                     MaxAge: 86400,
                 })
                 data.RegisterTicket(projectName, r.Form, elementTypes)
@@ -158,14 +158,32 @@ func RegisterRoutesProject() {
         params["newestTickets"] = data.GetNewestTickets(projectName, 10)
         params["states"] = data.GetStates(projectName, false)
         params["elementTypes"] = elementTypes
-        if sender, _ := r.Cookie("sender"); sender != nil {
-            params["sender"] = sender
-        } else {
-            params["sender"] = ""
-        }
+        params["sender"] = getSenderFromCookie(r)
 
         TmplProject(w, "register", params)
     })
 }
 
+func convbase64(src string) string {
+    srcBytes := []byte(src)
+    enc := base64.StdEncoding 
+    buf := make([]byte, enc.EncodedLen(len(srcBytes))) 
+    enc.Encode(buf, srcBytes) 
+    logger.Debug(buf)
+    return string(buf)
+}
+func getSenderFromCookie(r *http.Request) string {
+
+    if sender, err := r.Cookie("sender"); err == nil {
+        srcBytes := []byte(sender.Value)
+        logger.Debug(srcBytes)
+        enc := base64.StdEncoding 
+        buf := make([]byte, enc.DecodedLen(len(srcBytes))) 
+        enc.Decode(buf, srcBytes) 
+        return string(buf)
+    } else {
+        logger.Error(err)
+    }
+    return ""
+}
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
