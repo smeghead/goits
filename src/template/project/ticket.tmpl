@@ -94,11 +94,11 @@
             <div class="controls">
               {{if eq .Type 0}}
                 <!--ELEM_TYPE_TEXT -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements $sender}}" />
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements}}" />
               {{end}}
               {{if eq .Type 1}}
                 <!-- ELEM_TYPE_TEXTAREA -->
-                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements $sender}}</textarea>
+                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements}}</textarea>
               {{end}}
               {{if eq .Type 2}}
                 <!-- ELEM_TYPE_CHECKBOX -->
@@ -109,7 +109,7 @@
               {{end}}
               {{if eq .Type 3}}
                 <!-- ELEM_TYPE_LIST_SINGLE -->
-                {{$val := getvalue . $params $elements $sender}}
+                {{$val := getvalue . $params $elements}}
                 <select id="field{{.Id}}" name="field{{.Id}}" class="span8">
                   <option value=""></option>
                   {{range .ListItems}}
@@ -134,13 +134,13 @@
               {{if eq .Type 6}}
                 <!-- ELEM_TYPE_DATE -->
                 <span>
-                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="{{getvalue . $params $elements $sender}}" />
+                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="{{getvalue . $params $elements}}" />
                 </span>
                 <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
               {{end}}
               {{if eq .Type 7}}
                 <!-- ELEM_TYPE_LIST_SINGLE_RADIO -->
-                {{$val := getvalue . $params $elements $sender}}
+                {{$val := getvalue . $params $elements}}
                 {{range .ListItems}}
                   <label class="radio">
                     <input id="field{{$elementType.Id}}" name="field{{$elementType.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
@@ -150,7 +150,7 @@
               {{end}}
               {{if eq .Type 8}}
                 <!-- ELEM_TYPE_NUM -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="{{getvalue . $params $elements $sender}}" />
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="{{getvalue . $params $elements}}" />
               {{end}}
 
               {{if haserror $errors .}}
@@ -173,11 +173,16 @@
             <div class="controls">
               {{if eq .Type 0}}
                 <!--ELEM_TYPE_TEXT -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{getvalue . $params $elements $sender}}" />
+                {{if ne .Id 2}}
+                  <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="" />
+                {{end}}
+                {{if eq .Id 2}}
+                  <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="text element span8" value="{{$sender}}" />
+                {{end}}
               {{end}}
               {{if eq .Type 1}}
                 <!-- ELEM_TYPE_TEXTAREA -->
-                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8">{{getvalue . $params $elements $sender}}</textarea>
+                <textarea id="field{{.Id}}" name="field{{.Id}}" class="span8"></textarea>
               {{end}}
               {{if eq .Type 2}}
                 <!-- ELEM_TYPE_CHECKBOX -->
@@ -188,20 +193,18 @@
               {{end}}
               {{if eq .Type 3}}
                 <!-- ELEM_TYPE_LIST_SINGLE -->
-                {{$val := getvalue . $params $elements $sender}}
                 <select id="field{{.Id}}" name="field{{.Id}}" class="span8">
                   <option value=""></option>
                   {{range .ListItems}}
-                    <option value="{{.Name}}" {{if eq .Name $val}}selected="selected"{{end}}>{{.Name}}</option>
+                    <option value="{{.Name}}">{{.Name}}</option>
                   {{end}}
                 </select>
               {{end}}
               {{if eq .Type 4}}
                 <!-- ELEM_TYPE_LIST_MULTI -->
-                {{$vals := getvalues . $params $elements}}
                 <select id="field{{.Id}}" name="field{{.Id}}" multiple="multiple" class="span8">
                   {{range .ListItems}}
-                    <option value="{{.Name}}" {{if contains .Name $vals}}selected="selected"{{end}}>{{.Name}}</option>
+                    <option value="{{.Name}}">{{.Name}}</option>
                   {{end}}
                 </select>
               {{end}}
@@ -213,23 +216,22 @@
               {{if eq .Type 6}}
                 <!-- ELEM_TYPE_DATE -->
                 <span>
-                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="{{getvalue . $params $elements $sender}}" />
+                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="" />
                 </span>
                 <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
               {{end}}
               {{if eq .Type 7}}
                 <!-- ELEM_TYPE_LIST_SINGLE_RADIO -->
-                {{$val := getvalue . $params $elements $sender}}
                 {{range .ListItems}}
                   <label class="radio">
-                    <input id="field{{$elementType.Id}}" name="field{{$elementType.Id}}" type="radio" value="{{.Name}}" {{if eq .Name $val}}checked="checked"{{end}}/>
+                    <input id="field{{$elementType.Id}}" name="field{{$elementType.Id}}" type="radio" value="{{.Name}}"/>
                     {{.Name}}
                   </label>
                 {{end}}
               {{end}}
               {{if eq .Type 8}}
                 <!-- ELEM_TYPE_NUM -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="{{getvalue . $params $elements $sender}}" />
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="" />
               {{end}}
 
               {{if haserror $errors .}}

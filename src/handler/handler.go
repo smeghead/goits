@@ -139,18 +139,14 @@ func getFuncs() template.FuncMap {
             error, _ := errors[fmt.Sprintf("field%d", elementType.Id)]
             return error
         },
-        "getvalue": func(elementType data.ElementType, params url.Values, elements []data.Element, sender string) string {
+        "getvalue": func(elementType data.ElementType, params url.Values, elements []data.Element) string {
             fieldName := fmt.Sprintf("field%d", elementType.Id)
             if _, ok := params[fieldName]; ok {
                 return params.Get(fieldName)
             } else {
-                if elementType.Id == data.ELEM_ID_SENDER {
-                    return sender
-                } else {
-                    for _, e := range elements {
-                        if e.ElementType.Id == elementType.Id {
-                            return e.StrVal
-                        }
+                for _, e := range elements {
+                    if e.ElementType.Id == elementType.Id {
+                        return e.StrVal
                     }
                 }
             }
