@@ -3,8 +3,12 @@ package handler
 import (
     logger "code.google.com/p/log4go"
     "github.com/gosexy/gettext"
+    "github.com/knieriem/markdown"
     "os"
     "fmt"
+    "strings"
+    "bytes"
+    "bufio"
     "net/http"
     "net/url"
     "html/template"
@@ -154,7 +158,25 @@ func getFuncs() template.FuncMap {
         },
         "getvalues": func(elementType data.ElementType, params url.Values, elements []data.Element) []string {
             fieldName := fmt.Sprintf("field%d", elementType.Id)
-            return params[fieldName]
+            if _, ok := params[fieldName]; ok {
+                return params[fieldName]
+            } else {
+                for _, e := range elements {
+                    if e.ElementType.Id == elementType.Id {
+                        return strings.Split(e.StrVal, "\t")
+                    }
+                }
+            }
+            return []string{""}
+        },
+        "markdown": func(content interface{}) template.HTML {
+            str := content.(string)
+            p := markdown.NewParser(&markdown.Extensions{Smart: true})
+            buf := bytes.NewBufferString("")
+            w := bufio.NewWriter(buf)
+            p.Markdown(bufio.NewReader(bytes.NewBufferString(str)), markdown.ToHTML(w))
+            w.Flush()
+            return template.HTML(buf.String())
         },
     }
 }

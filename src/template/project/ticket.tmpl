@@ -14,7 +14,12 @@
           <tr>
             <th class="span3">{{.ElementType.Name}}</th>
             <td>
-            {{.StrVal}}
+              {{if ne .ElementType.Type 1}}
+                {{.StrVal}}
+              {{end}}
+              {{if eq .ElementType.Type 1}}
+                {{markdown .StrVal}}
+              {{end}}
             </td>
           </tr>
         {{end}}
@@ -53,7 +58,12 @@
               <tr>
                 <th class="span3">{{.ElementType.Name}}</th>
                 <td>
-                {{.StrVal}}
+                  {{if ne .ElementType.Type 1}}
+                    {{.StrVal}}
+                  {{end}}
+                  {{if eq .ElementType.Type 1}}
+                    {{markdown .StrVal}}
+                  {{end}}
                 </td>
               </tr>
             {{end}}
@@ -124,7 +134,7 @@
               {{if eq .Type 6}}
                 <!-- ELEM_TYPE_DATE -->
                 <span>
-                  <input type="text" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="" />
+                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="{{getvalue . $params $elements $sender}}" />
                 </span>
                 <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
               {{end}}
@@ -140,7 +150,7 @@
               {{end}}
               {{if eq .Type 8}}
                 <!-- ELEM_TYPE_NUM -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" />
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="{{getvalue . $params $elements $sender}}" />
               {{end}}
 
               {{if haserror $errors .}}
@@ -203,7 +213,7 @@
               {{if eq .Type 6}}
                 <!-- ELEM_TYPE_DATE -->
                 <span>
-                  <input type="text" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="" />
+                  <input type="date" class="calendar" id="field{{.Id}}" name="field{{.Id}}" value="{{getvalue . $params $elements $sender}}" />
                 </span>
                 <div class="description">{{_ "input format: yyyy-mm-dd"}}</div>
               {{end}}
@@ -219,7 +229,7 @@
               {{end}}
               {{if eq .Type 8}}
                 <!-- ELEM_TYPE_NUM -->
-                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" />
+                <input type="text" id="field{{.Id}}" name="field{{.Id}}" class="number element span2" value="{{getvalue . $params $elements $sender}}" />
               {{end}}
 
               {{if haserror $errors .}}

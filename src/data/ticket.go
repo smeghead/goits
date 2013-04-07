@@ -751,6 +751,7 @@ func registerOrUpdateTicket(projectName string, id int, form url.Values, element
         }
         defer stmt.Close()
 
+        logger.Debug("sql", statement)
         values := []reflect.Value{}
         for _, p := range params {
             logger.Debug("[%s]", p)

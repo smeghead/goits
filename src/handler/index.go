@@ -4,7 +4,6 @@ import (
     logger "code.google.com/p/log4go"
     "net/http"
     "../data"
-    "html/template"
 )
 
 func RegisterRoutesIndex() {
@@ -12,7 +11,7 @@ func RegisterRoutesIndex() {
         logger.Debug("index")
         params := make(map[string]interface{})
         params["topProject"] = data.GetProject("manage")
-        params["wikiContent"] = template.HTML(data.GetWiki("manage", "top").Content)
+        params["wikiContent"] = data.GetWiki("manage", "top").Content
         params["projectInfos"] = data.GetProjectInfos()
 
         TmplTop(w, "index", params)

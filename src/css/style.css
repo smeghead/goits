@@ -1,6 +1,15 @@
+#footer {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+#footer .links a {
+    margin-right: 10px;
+}
 h4 {
     font-size: 120%;
 }
+
 .nav-list-projects > li > a,
 .nav-list-tickets > li > a {
     white-space: nowrap;
