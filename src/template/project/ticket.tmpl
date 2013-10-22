@@ -1,3 +1,6 @@
+{{define "title"}}
+    <title>#{{.ticket.Id}} {{.ticket.Title}} {{.topProject.Name}} {{.project.Name}} | Multivac</title>
+{{end}}
 {{define "content"}}
   {{$project := .project}}
   <h3>#{{.ticket.Id}} {{.ticket.Title}}</h3>
