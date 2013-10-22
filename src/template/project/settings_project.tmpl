@@ -1,0 +1,39 @@
+{{define "content"}}
+    {{$errors := .errors}}
+
+    <h2>{{.project.Name}} {{_ "management of sub project"}}</h2>
+    <div id="setting_form">
+      <form id="management_form" method="post" enctype="multipart/form-data">
+        <h3>{{_ "sub project settings"}}</h3>
+        <table class="table" summary="project table">
+          <tr>
+            <th>{{_ "sub project name"}}</th>
+            <td>
+              <input type="text" name="name" value="{{.params.Get "name"}}" maxlength="1000" />
+              {{if $errors.name}}
+                <div class="error">{{$errors.name}}</div>
+              {{end}}
+            </td>
+          </tr>
+    <!--
+          <tr>
+            <th>{{_ "icon"}}</th>
+            <td><input type="file" name="project.file" /></td>
+          </tr>
+    -->
+          <tr>
+            <th>{{_ "file upload max size(kb)"}}</th>
+            <td>
+              <input type="text" name="upload_max_size" value="{{.params.Get "upload_max_size"}}" />
+              {{if $errors.upload_max_size}}
+                <div class="error">{{$errors.upload_max_size}}</div>
+              {{end}}
+            </td>
+          </tr>
+        </table>
+        <input class="btn btn-primary" type="submit" value="{{_ "update"}}" />
+      </form>
+    </div>
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->
+

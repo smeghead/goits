@@ -29,6 +29,11 @@ type Project struct {
     Locale string
 }
 
+type SubProject struct {
+    Name string
+    UploadMaxSize int
+}
+
 type Element struct {
     ElementType ElementType
     StrVal string

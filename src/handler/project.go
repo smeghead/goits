@@ -4,6 +4,7 @@ import (
     logger "code.google.com/p/log4go"
     "fmt"
     "net/http"
+    "net/url"
     "../data"
     "strconv"
     "regexp"
@@ -174,6 +175,40 @@ func RegisterRoutesProject() {
         params["states"] = data.GetStates(projectName, false)
 
         TmplProject(w, "settings", params)
+    })
+
+    RegisterRoute("^/([^/]+)/settings/project$", func(w http.ResponseWriter, r *http.Request, captures []string) {
+        projectName := captures[0]
+        logger.Debug("project: %s", projectName)
+        project := data.GetProject(projectName)
+        params := make(map[string]interface{})
+
+        values := url.Values{}
+        values.Set("name", project.Name)
+        values.Set("upload_max_size", fmt.Sprintf("%d", project.UploadMaxSize))
+        params["params"] = values
+
+        if r.Method == "POST" {
+            logger.Debug("post")
+            r.ParseMultipartForm(int64(project.UploadMaxSize))
+
+            errors := data.ValidateSubProject(projectName, r.Form)
+            if len(errors) == 0 {
+                data.RegisterSubProject(projectName, r.Form)
+                http.Redirect(w, r, fmt.Sprintf("/%s/settings", projectName), 302)
+                return
+            }
+            logger.Warn("validate failed.")
+            params["params"] = r.Form
+            params["errors"] = errors
+        }
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = project
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
+        logger.Debug("params: %s", params["params"])
+
+        TmplProject(w, "settings_project", params)
     })
 }
 

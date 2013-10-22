@@ -2,10 +2,11 @@ package data
 
 import (
     logger "code.google.com/p/log4go"
-    _ "github.com/gosexy/gettext"
+    gettext "github.com/gosexy/gettext"
     "database/sql"
     "fmt"
     _ "github.com/mattn/go-sqlite3"
+    "strings"
     "strconv"
     "net/url"
 )
@@ -108,6 +109,63 @@ func GetSettingFile(projectName string, name string) SettingFile {
         panic(err)
     }
     return settingFile
+}
+
+func ValidateSubProject(projectName string, form url.Values) map[string]string {
+    logger.Debug("======ValidateSubProject: [%s]\n", form.Encode())
+
+    messages := make(map[string]string)
+
+    name := form.Get("name")
+    logger.Debug("name: %s", name)
+    if len(strings.TrimSpace(name)) == 0 {
+        messages["name"] = gettext.Gettext("it will required. please describe.")
+    }
+    size := form.Get("upload_max_size")
+    logger.Debug("upload_max_size: %s", size)
+    if len(strings.TrimSpace(size)) == 0 {
+        messages["upload_max_size"] = gettext.Gettext("it will required. please describe.")
+    } else if _, err := strconv.Atoi(strings.TrimSpace(size)); err != nil {
+        messages["upload_max_size"] = gettext.Gettext("it must be number.")
+    }
+    return messages
+}
+
+func RegisterSubProject(projectName string, form url.Values) error {
+    logger.Debug("RegisterSubProject")
+    err := tran(projectName, func(db *sql.DB, tx *sql.Tx) error {
+        logger.Debug("RegisterSubProject name: %s", form["name"])
+        result, err := db.Exec(
+                "update setting set value = ? where name = 'project_name'",
+                form.Get("name"))
+        if err != nil {
+            logger.Error("RegisterSubProject err: %s", err)
+            logger.Error("RegisterSubProject name update failed: %s", form["name"])
+            panic("update setting failed");
+        }
+        if count, _ := result.RowsAffected(); count != 1 {
+            logger.Error("RegisterSubProject name update failed: %s", form["name"])
+            panic("update setting failed. afeected rows is not 1.");
+        }
+
+        result, err = db.Exec(
+                "update setting set value = ? where name = 'upload_max_size'",
+                form.Get("upload_max_size"))
+        if err != nil {
+            logger.Error("RegisterSubProject size update failed: %s", form["upload_max_size"])
+            panic("update setting failed");
+        }
+        if count, _ := result.RowsAffected(); count != 1 {
+            logger.Error("RegisterSubProject size update failed: %s", form["upload_max_size"])
+            panic("update setting failed. afeected rows is not 1.");
+        }
+        return nil
+    })
+    if err != nil {
+        logger.Error(err)
+        panic(err)
+    }
+    return nil
 }
 
 
