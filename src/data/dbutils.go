@@ -296,7 +296,7 @@ func CreateTopTables() {
             ");")
     db.Exec("insert into wiki(id, name, content, registerdate) " +
             "values (NULL, 'top', ?, current_timestamp);", gettext.Gettext("[wiki syntax example]"))
-logger.Debug("wiki content: %s", gettext.Gettext("[wiki syntax example]"))
+    logger.Debug("wiki content: %s", gettext.Gettext("[wiki syntax example]"))
     logger.Debug("create_top_tables commit")
     tx.Commit()
     logger.Debug("create_top_tables commited")
@@ -506,7 +506,7 @@ func CreateProjectTables(projectName string, id int) {
             "create index index_element_type_0 on element_type (id, type, display_in_list, sort)")
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (1, ?, 1, 0, 1, ?, ?, 0, '', 1, 1);", 
+            "values (1, ?, 1, 0, 1, ?, ?, 0, '', 1, 1);",
             ELEM_TYPE_TEXT, gettext.Gettext("title"), gettext.Gettext("please input title that means content correctly."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
@@ -514,15 +514,15 @@ func CreateProjectTables(projectName string, id int) {
             ELEM_TYPE_TEXT, gettext.Gettext("registerer"), gettext.Gettext("please input your name."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (3, ?, 1, 0, 1, ?, ?, 0, ?, 1, 3);", 
+            "values (3, ?, 1, 0, 1, ?, ?, 0, ?, 1, 3);",
             ELEM_TYPE_LIST_SINGLE_RADIO, gettext.Gettext("status"), gettext.Gettext("please select status."), gettext.Gettext("new"))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (4, ?, 1, 0, 0, ?, ?, 1, '', 1, 4);", 
+            "values (4, ?, 1, 0, 0, ?, ?, 1, '', 1, 4);",
             ELEM_TYPE_LIST_MULTI, gettext.Gettext("category"), gettext.Gettext("please select category."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (5, ?, 1, 0, 0, ?, ?, 0, '', 1, 5);", 
+            "values (5, ?, 1, 0, 0, ?, ?, 0, '', 1, 5);",
             ELEM_TYPE_LIST_SINGLE, gettext.Gettext("priority"), gettext.Gettext("please select priority."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
@@ -530,11 +530,11 @@ func CreateProjectTables(projectName string, id int) {
             ELEM_TYPE_TEXTAREA, gettext.Gettext("detail"), gettext.Gettext("please describe the detail."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (7, ?, 1, 0, 0, ?, ?, 0, '', 0, 7);", 
+            "values (7, ?, 1, 0, 0, ?, ?, 0, '', 0, 7);",
             ELEM_TYPE_TEXTAREA, gettext.Gettext("reproduction procedure"), gettext.Gettext("please describe the condition and the procedure to reproduce the problem."))
     db.Exec(
             "insert into element_type(id, type, ticket_property, reply_property, required, name, description, auto_add_item, default_value, display_in_list, sort) " +
-            "values (8, ?, 0, 1, 0, ?, ?, 0, '', 0, 8);", 
+            "values (8, ?, 0, 1, 0, ?, ?, 0, '', 0, 8);",
             ELEM_TYPE_TEXTAREA, gettext.Gettext("comment"), gettext.Gettext("please describe the comment."))
     db.Exec(
             "create table list_item( " +

@@ -1,0 +1,11 @@
+{{define "content"}}
+    <dl>
+      <dt><a href="{{.project.Url}}/settings/project">{{_ "sub project settings"}}</a></dt><dd>{{_ "this is basic sub projects settings."}}</dd>
+      <dt><a href="{{.project.Url}}/settings/items">{{_ "columns settings"}}</a></dt><dd>{{_ "this is columns settings of tickets."}}</dd>
+      <dt><a href="{{.project.Url}}/settings/style">{{_ "style settings"}}</a></dt><dd>{{_ "this is stylesheet settings."}}</dd>
+      <!--
+      <dt><a href="{{.project.Url}}/settings/export">{{_ "export settings"}}</a></dt><dd>{{_ "this is export settings."}}</dd>
+      -->
+    </dl>
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->

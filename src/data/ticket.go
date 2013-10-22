@@ -217,7 +217,7 @@ func GetStates(projectName string, notClose bool) []State {
             "inner join message as m " +
             " on m.id = t.last_message_id " +
             "inner join list_item as l " +
-            " on l.element_type_id = %d and l.name = m.m.field%d " +
+            " on l.element_type_id = %d and l.name = m.field%d " +
             "%s " +
             "group by m.field%d " +
             "order by l.sort ", ELEM_ID_STATUS, ELEM_ID_STATUS, ELEM_ID_STATUS, condition, ELEM_ID_STATUS)

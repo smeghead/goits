@@ -162,6 +162,19 @@ func RegisterRoutesProject() {
 
         TmplProject(w, "register", params)
     })
+
+    RegisterRoute("^/([^/]+)/settings$", func(w http.ResponseWriter, r *http.Request, captures []string) {
+        projectName := captures[0]
+        logger.Debug("project: %s", projectName)
+
+        params := make(map[string]interface{})
+        params["topProject"] = data.GetProject("manage")
+        params["project"] = data.GetProject(projectName)
+        params["newestTickets"] = data.GetNewestTickets(projectName, 10)
+        params["states"] = data.GetStates(projectName, false)
+
+        TmplProject(w, "settings", params)
+    })
 }
 
 func convbase64(src string) string {

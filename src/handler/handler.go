@@ -11,6 +11,7 @@ import (
     "bufio"
     "net/http"
     "net/url"
+    "html"
     "html/template"
     "regexp"
     "math"
@@ -166,7 +167,7 @@ func getFuncs() template.FuncMap {
             return []string{""}
         },
         "markdown": func(content interface{}) template.HTML {
-            str := content.(string)
+            str := html.EscapeString(content.(string))
             p := markdown.NewParser(&markdown.Extensions{Smart: true})
             buf := bytes.NewBufferString("")
             w := bufio.NewWriter(buf)
