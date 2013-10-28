@@ -1,0 +1,30 @@
+{{define "title"}}
+    <title>{{.topProject.Name}} {{.project.Name}} | Multivac</title>
+{{end}}
+{{define "content"}}
+  <h2>{{.project.Name}} {{_ "management of sub project"}}</h2>
+  <h3>{{_ "columns settings"}}</h3>
+  {{$project := .project}}
+
+  <div id="columns">
+    <table class="table">
+      <tr>
+        <th>{{_ "column name"}}</th>
+        <th>{{_ "edit"}}</th>
+      </tr>
+    {{range .elementTypes}}
+      <tr>
+        <td>{{.Name}}</td>
+        <th>
+          <a class="cursor-grab sort" title="{{_ "sort"}}"><i class="icon-hand-up"></i></a>
+          <a class="cursor-link edit" title="{{_ "edit"}}"><i class="icon-edit"></i></a>
+          <a class="cursor-link delete" title="{{_ "delete"}}"><i class="icon-trash"></i></a>
+        </th>
+      </tr>
+    {{end}}
+    </table>
+  </div>
+  <script type="text/javascript" src="/js/jquery.tablednd.js"></script>
+  <script type="text/javascript" src="/js/settings_items.js"></script>
+{{end}}
+<!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->

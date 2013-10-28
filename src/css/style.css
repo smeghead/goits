@@ -57,4 +57,14 @@ div.date {
     background-color: #eeeeee;
     padding: 5px 0px;
 }
+
+.cursor-grab {
+    cursor: grab;
+}
+.cursor-link {
+    cursor: pointer;
+}
+tr.dragging {
+    background-color: #ccc;
+}
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */
