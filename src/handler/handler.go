@@ -15,6 +15,7 @@ import (
     "html/template"
     "regexp"
     "math"
+    "encoding/json"
     "../data"
 )
 
@@ -107,6 +108,13 @@ func getFuncs() template.FuncMap {
         },
         "inc": func(a int) int {
             return a + 1
+        },
+        "json": func(o interface{}) string {
+            str, err := json.Marshal(o)
+            if err != nil {
+                return ""
+            }
+            return string(str)
         },
         "_": func(messageId string) string {
             return gettext.Gettext(messageId)
