@@ -2,12 +2,12 @@ VERSION = 0.0.01
 COPYRIGHT = Copyright\ smeghead\ 2013\ -\ 2013
 
 SRCS = **/*.go
-PROGRAM = multivac
+PROGRAM = goits
 
 .PHONY: $(PROGRAM) clean run mergeresource compileresource
 
 $(PROGRAM): compileresource
-	go build multivac.go
+	go build goits.go
 
 clean:
 	rm -f $(PROGRAM)

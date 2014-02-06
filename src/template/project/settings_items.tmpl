@@ -1,5 +1,5 @@
 {{define "title"}}
-    <title>{{.topProject.Name}} {{.project.Name}} | Multivac</title>
+    <title>settei {{.topProject.Name}} {{.project.Name}} | Goits</title>
 {{end}}
 {{define "content"}}
   <h2>{{.project.Name}} {{_ "management of sub project"}}</h2>
@@ -14,7 +14,7 @@
       </tr>
     {{range .elementTypes}}
       <tr data-item="{{.|json}}">
-        <td>{{.Name}}</td>
+        <td><a class="edit">{{.Name}}</a></td>
         <td>
           <a class="cursor-grab sort" title="{{_ "sort"}}"><i class="icon-hand-up"></i></a>
           <a class="cursor-link edit" title="{{_ "edit"}}"><i class="icon-edit"></i></a>
@@ -27,8 +27,8 @@
   <script type="text/javascript" src="/js/jquery.tablednd.js"></script>
   <script type="text/javascript" src="/js/settings_items.js"></script>
 
-  <script id="item-edit-block-tmpl" type="text/x-jquery-tmpl"> 
-    <div id="item-edit-block" class="hide fade">
+  <div id="item-edit-block-tmpl"> 
+    <div id="item-edit-block" class="hide fade modal modal-large">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>${Name}</h3>
@@ -38,7 +38,7 @@
           <div class="control-group">
             <label class="control-label" for="name">{{_ "column name"}}</label>
             <div class="controls">
-              <input type="text" id="name" name="name" value="${Name}" placeholder="Type something…">
+              <input type="text" id="name" name="name" value="${Name}" placeholder="Type something">
               {{_ "this is name of ticket column."}}
             </div>
           </div>
@@ -93,245 +93,6 @@
           </div>
         </form>
 
-<!--
-        o("\t\t<table class=\"item_table\" summary=\"item table\">\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th class=\"required\">%s<span class=\"required\">%s</span></th>\n"
-          "\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input class=\"text required\" id=\"field%d.name\" type=\"text\" name=\"field%d.name\" ", _("column name"), _("*"), et->id, et->id);
-        o(                  "value=\"");hs(et->name);o("\" maxlength=\"1000\" />\n"
-          "\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.name\">%s</div>\n"
-          "\t\t\t\t\t<div id=\"field%d.name.required\" class=\"error\"></div>\n", et->id, _("this is name of ticket column."), et->id);
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.name', 'description%d.name');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n"
-          "\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input type=\"text\" class=\"text\" id=\"field%d.description\" name=\"field%d.description\" ", _("column description"), et->id, et->id);
-        o(                  "value=\"");hs(et->description);o("\" maxlength=\"1000\" />\n"
-          "\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.description\">%s</div>\n", et->id, _("this is description of ticket column. when register or replay, it is displayed.")); 
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.description', 'description%d.description');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n"
-          "\t\t\t\t<td>\n", _("required"));
-        o("\t\t\t\t\t<input id=\"field%d.required\" class=\"checkbox\" type=\"checkbox\" name=\"field%d.required\" ", et->id, et->id);
-        o(                  "value=\"1\" %s />\n", et->required == 1 ? "checked=\"checked\"" : "");
-        o("\t\t\t\t\t<label for=\"field%d.required\">%s</label>\n", et->id, _("this column must not be empty."));
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.required\">%s</div>\n", et->id, _("[require description]"));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.required', 'description%d.required');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n"
-          "\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input id=\"field%d.ticket_property\" class=\"checkbox\" type=\"checkbox\" name=\"field%d.ticket_property\" ",
-          _("attribute of ticket"), et->id, et->id);
-        o(                  "value=\"1\" %s %s />\n", et->ticket_property == 1 ? "checked=\"checked\"" : "", et->id <= BASIC_ELEMENT_MAX ? "disabled=\"disabled\"" : "");
-        o("\t\t\t\t\t<label for=\"field%d.ticket_property\">%s</label>\n", et->id, _("this column will be attribute of ticket."));
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.ticket_property\">\n"
-          "\t\t\t\t\t\t%s\n"
-          "\t\t\t\t\t\t%s\n"
-          "\t\t\t\t\t\t%s\n"
-          "\t\t\t\t\t</div>\n",
-          et->id,
-          _("[attribute of ticket description1]"),
-          _("[attribute of ticket description2]"),
-          _("[attribute of ticket description3]"));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.ticket_property', 'description%d.ticket_property');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n", _("reply only"));
-        o("\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input id=\"field%d.reply_property\" class=\"checkbox\" type=\"checkbox\" name=\"field%d.reply_property\" ", et->id, et->id);
-        o(                  "value=\"1\" %s %s />\n", et->reply_property == 1 ? "checked=\"checked\"" : "", et->id <= BASIC_ELEMENT_MAX ? "disabled=\"disabled\"" : "");
-        o("\t\t\t\t\t<label for=\"field%d.reply_property\">%s</label>\n", et->id, _("this column will be reply only."));
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.reply_property\">\n"
-          "\t\t\t\t\t\t%s\n"
-          "\t\t\t\t\t\t%s\n"
-          "\t\t\t\t\t</div>\n",
-          et->id,
-          _("[reply only description1]"),
-          _("[reply only description2]"));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.reply_property', 'description%d.reply_property');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n", _("column type"));
-        o("\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input type=\"hidden\" name=\"field%d.element_type_id\" value=\"%d\" />\n", et->id, et->type);
-        switch (et->type) {
-            case ELEM_TYPE_TEXT:
-                o(_("one line text(input[type=text])"));
-                break;
-            case ELEM_TYPE_TEXTAREA:
-                o(_("multi line text(textarea)"));
-                break;
-            case ELEM_TYPE_NUM:
-                o(_("number(input[type=text])"));
-                break;
-            case ELEM_TYPE_CHECKBOX:
-                o(_("boolean(input[type=checkbox])"));
-                break;
-            case ELEM_TYPE_LIST_SINGLE:
-                o(_("selection list(select)"));
-                break;
-            case ELEM_TYPE_LIST_SINGLE_RADIO:
-                o(_("selection list(input[type=radio])"));
-                break;
-            case ELEM_TYPE_LIST_MULTI:
-                o(_("multi selection list(select[multiple=multiple])"));
-                break;
-            case ELEM_TYPE_UPLOADFILE:
-                o(_("file(input[type=file])"));
-                break;
-            case ELEM_TYPE_DATE:
-                o(_("date(input[type=text])"));
-                break;
-        }
-        o("\t\t\t\t</td>\n");
-        o("\t\t\t</tr>\n");
-        switch (et->type) {
-            case ELEM_TYPE_LIST_SINGLE:
-            case ELEM_TYPE_LIST_SINGLE_RADIO:
-            case ELEM_TYPE_LIST_MULTI:
-                o("\t\t\t<tr>\n"
-                  "\t\t\t\t<th>%s</th>\n"
-                  "\t\t\t\t<td>\n"
-                  "\t\t\t\t\t<table class=\"list_item\">\n"
-                  "\t\t\t\t\t\t<tr>\n"
-                  "\t\t\t\t\t\t\t<th>%s</th>\n"
-                  "\t\t\t\t\t\t\t<th class=\"close\">%s</th>\n"
-                  "\t\t\t\t\t\t\t<th>%s</th>\n"
-                  "\t\t\t\t\t\t\t<th class=\"delete\">%s</th>\n"
-                  "\t\t\t\t\t\t</tr>\n", _("selection element"), _("element name"), _("means closed"), _("sort"), _("delete"));
-                foreach (it, items_a) {
-                    ListItem* item = it->element;
-                    o("\t\t\t\t\t\t<tr id=\"row%d.list_item%d\">\n"
-                      "\t\t\t\t\t\t\t<td>\n"
-                      "\t\t\t\t\t\t\t\t<input class=\"text\" type=\"text\" name=\"field%d.list_item%d.name\" ", et->id, item->id, et->id, item->id);
-                    o(                       "value=\"");hs(item->name);o("\" maxlength=\"1000\" />\n"
-                      "\t\t\t\t\t\t\t</td>\n"
-                      "\t\t\t\t\t\t\t<td class=\"center\">\n"
-                      "\t\t\t\t\t\t\t\t<input class=\"checkbox\" type=\"checkbox\" name=\"field%d.list_item%d.close\" value=\"1\" %s />\n", et->id, item->id, (item->close == 1) ? "checked=\"checked\"" : "");
-                    o("\t\t\t\t\t\t\t</td>\n"
-                      "\t\t\t\t\t\t\t<td>\n"
-                      "\t\t\t\t\t\t\t\t<input class=\"number\" type=\"text\" name=\"field%d.list_item%d.sort\" value=\"%d\" maxlength=\"1000\" />\n", et->id, item->id, item->sort);
-                    o("\t\t\t\t\t\t\t</td>\n"
-                      "\t\t\t\t\t\t\t<td class=\"center\">\n"
-                      "\t\t\t\t\t\t\t\t<input class=\"checkbox item-delete-checkbox\" type=\"checkbox\" id=\"field%d.list_item%d.delete\" name=\"field%d.list_item%d.delete\" value=\"1\" />\n", et->id, item->id, et->id, item->id);
-                    o("\t\t\t\t\t\t\t</td>\n"
-                      "\t\t\t\t\t\t</tr>\n");
-                }
-                o("\t\t\t\t\t\t<tr>\n"
-                  "\t\t\t\t\t\t\t<td>\n"
-                  "\t\t\t\t\t\t\t\t<input class=\"text\" type=\"text\" name=\"field%d.list_item_new.name0\" value=\"\" maxlength=\"1000\" />\n", et->id);
-                o("\t\t\t\t\t\t\t</td>\n"
-                  "\t\t\t\t\t\t\t<td class=\"center\">\n"
-                  "\t\t\t\t\t\t\t\t<input class=\"checkbox\" type=\"checkbox\" name=\"field%d.list_item_new.close0\" value=\"\" />\n", et->id);
-                o("\t\t\t\t\t\t\t</td>\n"
-                  "\t\t\t\t\t\t\t<td>\n"
-                  "\t\t\t\t\t\t\t\t<input class=\"number\" type=\"text\" name=\"field%d.list_item_new.sort0\" value=\"\" />\n", et->id);
-                o("\t\t\t\t\t\t\t</td>\n"
-                  "\t\t\t\t\t\t\t<td class=\"center\">\n"
-                  "\t\t\t\t\t\t\t\t<script type=\"text/javascript\">\n"
-                  "\t\t\t\t\t\t\t\t\t<! - -\n"
-                  "\t\t\t\t\t\t\t\t\tdocument.write('<input type=\"button\" value=\"%s\" id=\"add_new_row.field%d\" class=\"add_new_row\" />');\n"
-                  "\t\t\t\t\t\t\t\t\t//- - >\n"
-                  "\t\t\t\t\t\t\t\t</script>\n", _("add line"), et->id);
-                o("\t\t\t\t\t\t\t</td>\n"
-                  "\t\t\t\t\t\t</tr>\n"
-                  "\t\t\t\t\t</table>\n"
-                  "\t\t\t\t\t<div class=\"description\">%s</div>\n"
-                  "\t\t\t\t\t<input id=\"field%d.auto_add_item\" class=\"checkbox\" type=\"checkbox\" name=\"field%d.auto_add_item\" ",
-                  _("selection element when this column is selection list."),
-                  et->id, et->id);
-                o(                  "value=\"1\" %s />\n", et->auto_add_item == 1 ? "checked=\"checked\"" : "");
-                o("\t\t\t\t\t<label for=\"field%d.auto_add_item\">%s</label>\n", et->id, _("when register, you can input new selection element."));
-                o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.auto_add_item\">%s</div>\n", et->id, _("[add line description]"));
-                o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-                  "\t\t\t\t\t\tnew Tooltip('field%d.auto_add_item', 'description%d.auto_add_item');\n"
-                  "\t\t\t\t\t</script>\n", et->id, et->id);
-                o("\t\t\t\t</td>\n"
-                  "\t\t\t</tr>\n");
-                break;
-        }
-        o("\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n"
-          "\t\t\t\t<td>\n", _("default value"));
-        if (et->type == ELEM_TYPE_TEXTAREA) {
-            o("\t\t\t\t\t<textarea id=\"field%d.default_value\" name=\"field%d.default_value\" rows=\"2\" cols=\"10\" >", et->id, et->id);hs(et->default_value);o("</textarea>\n");
-        } else {
-            o("\t\t\t\t\t<input class=\"text\" type=\"text\" id=\"field%d.default_value\" name=\"field%d.default_value\" value=\"%s\" maxlength=\"1000\" />\n", et->id, et->id, string_rawstr(et->default_value));
-        }
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.default_value\">%s</div>\n", et->id, _("this is default value."));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.default_value', 'description%d.default_value');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n");
-        o("\t\t\t\t<th>%s</th>\n", _("display in ticket list"));
-        o("\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input id=\"field%d.display_in_list\" class=\"checkbox\" type=\"checkbox\" name=\"field%d.display_in_list\" ", et->id, et->id);
-        o(                  "value=\"1\" %s maxlength=\"1000\" />\n", et->display_in_list == 1 ? "checked=\"checked\"" : "");
-        o("\t\t\t\t\t<label for=\"field%d.display_in_list\">%s</label>\n", et->id, _("display this column in ticket list."));
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.display_in_list\">%s</div>\n", et->id, _("[display in ticket list description]"));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.display_in_list', 'description%d.display_in_list');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<th>%s</th>\n", _("sort"));
-        o("\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input class=\"number\" type=\"text\" id=\"field%d.sort\" name=\"field%d.sort\" value=\"%d\" maxlength=\"5\" />\n", et->id, et->id, et->sort);
-        o("\t\t\t\t\t<div class=\"description tooltip\" id=\"description%d.sort\">%s</div>\n", et->id, _("sort no in ticket lists."));
-        o("\t\t\t\t\t<script type=\"text/javascript\">\n"
-          "\t\t\t\t\t\tnew Tooltip('field%d.sort', 'description%d.sort');\n"
-          "\t\t\t\t\t</script>\n", et->id, et->id);
-        o("\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t</table>\n");
-        o("\t\t<table style=\"display:none\">\n"
-          "\t\t\t<tbody id=\"row_template\">\n"
-          "\t\t\t<tr>\n"
-          "\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input class=\"text\" type=\"text\" name=\"field[id].list_item_new.name[no]\" value=\"\" maxlength=\"1000\" />\n"
-          "\t\t\t\t</td>\n"
-          "\t\t\t\t<td class=\"center\">\n"
-          "\t\t\t\t\t<input class=\"checkbox\" type=\"checkbox\" name=\"field[id].list_item_new.close[no]\" value=\"\" />\n"
-          "\t\t\t\t</td>\n"
-          "\t\t\t\t<td>\n"
-          "\t\t\t\t\t<input class=\"number\" type=\"text\" name=\"field[id].list_item_new.sort[no]\" value=\"\" />\n"
-          "\t\t\t\t</td>\n"
-          "\t\t\t\t<td class=\"center\">\n"
-          "\t\t\t\t\t&nbsp;\n"
-          "\t\t\t\t</td>\n"
-          "\t\t\t</tr>\n"
-          "\t\t\t</tbody>\n"
-          "\t\t</table>\n");
-        if (et->id > BASIC_ELEMENT_MAX) {
-            /* basic item must not delete.  */
-            o("\t\t<div class=\"delete_item\"><a href=\"%s/%s/delete_item/%d\">", cgiScriptName, g_project_code_4_url, et->id);o(_("delete this column("));hs(et->name);o("%s</a></div>\n", _(")(delete this column)"));
-        }
-        list_free(items_a);
-        o("\t\t<input class=\"button\" type=\"submit\" value=\"%s\" />\n", _("update"));
--->
-
 
       </div>
       <div class="modal-footer">
@@ -339,7 +100,6 @@
         <a href="#" class="btn btn-primary">Save changes</a>
       </div>
     </div>
-  </script>
-
+  </div>
 {{end}}
 <!-- vim: set ts=2 sw=2 sts=2 expandtab fenc=utf-8: -->

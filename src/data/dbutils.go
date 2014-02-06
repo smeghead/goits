@@ -250,6 +250,13 @@ func tran(projectName string, callback func(db *sql.DB, tx *sql.Tx) error) error
 func CreateTopTables() {
     logger.Debug("create_top_tables")
 
+    if _, err := os.Stat("./db"); err != nil {
+        logger.Warn("create db dir.")
+        if os.Mkdir("./db", 0775) != nil {
+            panic(err);
+        }
+    }
+
     db, err := sql.Open("sqlite3", "./db/1.db")
     if err != nil {
         logger.Error(err)

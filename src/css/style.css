@@ -67,4 +67,9 @@ div.date {
 tr.dragging {
     background-color: #ccc;
 }
+.modal-large {
+    width: 800px;
+    margin-left: -400px;
+}
+
 /* vim: set ts=4 sw=4 sts=4 expandtab fenc=utf-8: */

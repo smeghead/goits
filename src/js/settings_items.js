@@ -6,7 +6,9 @@ $(function(){
 
   $('#columns').on('click', '.edit', function(){
     var item = $(this).parents('tr').data('item');
-    var win = $('#item-edit-block-tmpl').tmpl(item).addClass('modal').appendTo($('body'));
+    //var win = $('#item-edit-block-tmpl').tmpl(item).find('#item-edit-block').css('width', '800px').end().addClass('modal').appendTo($('body'));
+    var win = $('#item-edit-block-tmpl').tmpl(item)
+      .appendTo($('body')).find('.modal').css({'width': '800px', 'color': 'red'}).end();
     win.on('hidden', function(){
       win.remove();
     });
