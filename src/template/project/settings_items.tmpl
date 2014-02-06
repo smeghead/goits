@@ -34,20 +34,66 @@
         <h3>${Name}</h3>
       </div>
       <div class="modal-body">
-      <form>
-        <fieldset>
-        <label>{{_ "column name"}}</label>
-          <input type="text" value="${Name}" placeholder="Type something…">
-          <span class="help-block">Example block-level help text here.</span>
-          <label class="checkbox">
-          <input type="checkbox"> Check me out
-        </label>
-        </fieldset>
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="name">{{_ "column name"}}</label>
+            <div class="controls">
+              <input type="text" id="name" name="name" value="${Name}" placeholder="Type something…">
+              {{_ "this is name of ticket column."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="description">{{_ "description"}}</label>
+            <div class="controls">
+              <input type="text" id="description" name="description" value="${Description}">
+              {{_ "this is description of ticket column. when register or replay, it is displayed."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="required">{{_ "required"}}</label>
+            <div class="controls">
+              <input type="text" id="required" name="required" value="${Required}">
+              {{_ "this column must not be empty."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="ticket_property">{{_ "attribute of ticket"}}</label>
+            <div class="controls">
+              <input type="text" id="ticket_property" name="ticket_property" value="${TicketProperty}">
+              {{_ "this column will be attribute of ticket."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="reply_property">{{_ "reply_property"}}</label>
+            <div class="controls">
+              <input type="text" id="reply_property" name="reply_property" value="${reply_property}">
+              {{_ "this column will be reply only."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="element_type_id">{{_ "column type"}}</label>
+            <div class="controls">
+              <input type="text" id="element_type_id" name="element_type_id" value="${element_type_id}">
+              {{_ "this is description of ticket column. when register or replay, it is displayed."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="description">{{_ "selection element"}}</label>
+            <div class="controls">
+              <input type="text" id="description" name="description" value="${Description}">
+              {{_ "this is description of ticket column. when register or replay, it is displayed."}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="description">{{_ "description"}}</label>
+            <div class="controls">
+              <input type="text" id="description" name="description" value="${Description}">
+              {{_ "this is description of ticket column. when register or replay, it is displayed."}}
+            </div>
+          </div>
+        </form>
 
 <!--
-        o("\t\t<a name=\"field%d\"></a>\n", et->id);
-        o("\t\t<h4>"); hs(et->name); o("&nbsp;<a href=\"#top\">↑</a></h4>\n");
-        o("\t\t<input type=\"hidden\" name=\"field_ids\" value=\"%d\" />\n", et->id);
         o("\t\t<table class=\"item_table\" summary=\"item table\">\n"
           "\t\t\t<tr>\n"
           "\t\t\t\t<th class=\"required\">%s<span class=\"required\">%s</span></th>\n"
@@ -202,9 +248,9 @@
                 o("\t\t\t\t\t\t\t</td>\n"
                   "\t\t\t\t\t\t\t<td class=\"center\">\n"
                   "\t\t\t\t\t\t\t\t<script type=\"text/javascript\">\n"
-                  "\t\t\t\t\t\t\t\t\t<!--\n"
+                  "\t\t\t\t\t\t\t\t\t<! - -\n"
                   "\t\t\t\t\t\t\t\t\tdocument.write('<input type=\"button\" value=\"%s\" id=\"add_new_row.field%d\" class=\"add_new_row\" />');\n"
-                  "\t\t\t\t\t\t\t\t\t//-->\n"
+                  "\t\t\t\t\t\t\t\t\t//- - >\n"
                   "\t\t\t\t\t\t\t\t</script>\n", _("add line"), et->id);
                 o("\t\t\t\t\t\t\t</td>\n"
                   "\t\t\t\t\t\t</tr>\n"
@@ -287,7 +333,6 @@
 -->
 
 
-      </form>
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
