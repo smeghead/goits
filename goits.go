@@ -12,7 +12,6 @@ func main() {
 	logger.Trace("main start")
 
 	logger.Trace("CPU NUM: %d", runtime.NumCPU())
-	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	//static directories
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css/"))))
