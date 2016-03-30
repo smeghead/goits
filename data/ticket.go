@@ -1,16 +1,17 @@
 package data
 
 import (
-	logger "code.google.com/p/log4go"
 	"database/sql"
 	"fmt"
-	"github.com/gosexy/gettext"
-	_ "github.com/mattn/go-sqlite3"
 	"net/http"
 	"net/url"
 	"reflect"
 	"strconv"
 	"strings"
+
+	logger "code.google.com/p/log4go"
+	"github.com/gosexy/gettext"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func GetElementTypes(projectName string) []ElementType {

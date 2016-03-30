@@ -3,12 +3,8 @@ package handler
 import (
 	"bufio"
 	"bytes"
-	logger "code.google.com/p/log4go"
 	"encoding/json"
 	"fmt"
-	"github.com/gosexy/gettext"
-	"github.com/knieriem/markdown"
-	"github.com/smeghead/goits/data"
 	"html"
 	"html/template"
 	"math"
@@ -17,6 +13,11 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	logger "code.google.com/p/log4go"
+	"github.com/gosexy/gettext"
+	"github.com/knieriem/markdown"
+	"github.com/smeghead/goits/data"
 )
 
 type Route struct {

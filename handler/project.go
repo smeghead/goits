@@ -1,14 +1,15 @@
 package handler
 
 import (
-	logger "code.google.com/p/log4go"
 	"encoding/base64"
 	"fmt"
-	"github.com/smeghead/goits/data"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strconv"
+
+	logger "code.google.com/p/log4go"
+	"github.com/smeghead/goits/data"
 )
 
 func RegisterRoutesProject() {

@@ -1,14 +1,15 @@
 package data
 
 import (
-	logger "code.google.com/p/log4go"
 	"database/sql"
 	"fmt"
-	gettext "github.com/gosexy/gettext"
-	_ "github.com/mattn/go-sqlite3"
 	"net/url"
 	"strconv"
 	"strings"
+
+	logger "code.google.com/p/log4go"
+	gettext "github.com/gosexy/gettext"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func GetProjectInfos() []ProjectInfo {

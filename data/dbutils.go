@@ -1,14 +1,15 @@
 package data
 
 import (
-	logger "code.google.com/p/log4go"
 	"database/sql"
 	"fmt"
-	"github.com/gosexy/gettext"
-	_ "github.com/mattn/go-sqlite3"
 	"os"
 	"reflect"
 	"time"
+
+	logger "code.google.com/p/log4go"
+	"github.com/gosexy/gettext"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func getDatabaseId(projectName string) (int, error) {

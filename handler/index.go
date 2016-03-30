@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"net/http"
+
 	logger "code.google.com/p/log4go"
 	"github.com/smeghead/goits/data"
-	"net/http"
 )
 
 func RegisterRoutesIndex() {
