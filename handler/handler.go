@@ -15,7 +15,7 @@ import (
 	"strings"
 
 	logger "github.com/alecthomas/log4go"
-	"github.com/gosexy/gettext"
+	"github.com/chai2010/gettext-go/gettext"
 	"github.com/knieriem/markdown"
 	"github.com/smeghead/goits/data"
 )
@@ -44,10 +44,10 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gettext.BindTextdomain("goits", "locale")
+	gettext.BindTextdomain("goits", "locale", nil)
 	gettext.Textdomain("goits")
 	os.Setenv("LANGUAGE", "ja_JP.utf8")
-	gettext.SetLocale(gettext.LC_ALL, "")
+	gettext.SetLocale(gettext.DefaultLocale)
 
 	for _, route := range _routes {
 		matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())
@@ -121,7 +121,7 @@ func getFuncs() template.FuncMap {
 			return gettext.Gettext(messageId)
 		},
 		"_f": func(messageId string, args ...interface{}) string {
-			return gettext.Sprintf(gettext.Gettext(messageId), args...)
+			return fmt.Sprintf(gettext.Gettext(messageId), args...)
 		},
 		"defferelementwith": func(element data.Element, messages []data.Message, messageIndex int) bool {
 			logger.Debug(element)

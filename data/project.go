@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	logger "github.com/alecthomas/log4go"
-	gettext "github.com/gosexy/gettext"
+	"github.com/chai2010/gettext-go/gettext"
 	_ "github.com/mattn/go-sqlite3"
 )
 
