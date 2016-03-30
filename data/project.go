@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	logger "code.google.com/p/log4go"
+	logger "github.com/alecthomas/log4go"
 	gettext "github.com/gosexy/gettext"
 	_ "github.com/mattn/go-sqlite3"
 )

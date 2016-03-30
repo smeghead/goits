@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strconv"
 
-	logger "code.google.com/p/log4go"
+	logger "github.com/alecthomas/log4go"
 	"github.com/smeghead/goits/data"
 )
 

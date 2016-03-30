@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	logger "code.google.com/p/log4go"
+	logger "github.com/alecthomas/log4go"
 	"github.com/gosexy/gettext"
 	_ "github.com/mattn/go-sqlite3"
 )
