@@ -1,13 +1,21 @@
 package main
 
 import (
-	logger "code.google.com/p/log4go"
-	"github.com/smeghead/goits/handler"
 	"net/http"
+	"os"
 	"runtime"
+
+	logger "code.google.com/p/log4go"
+	"github.com/chai2010/gettext-go/gettext"
+	"github.com/smeghead/goits/handler"
 )
 
 func main() {
+	gettext.BindTextdomain("goits", "locale", nil)
+	gettext.Textdomain("goits")
+	os.Setenv("LANGUAGE", "ja_JP.utf8")
+	gettext.SetLocale(gettext.DefaultLocale)
+
 	logger.LoadConfiguration("logging.xml")
 	logger.Trace("main start")
 

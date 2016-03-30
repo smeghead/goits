@@ -10,7 +10,6 @@ import (
 	"math"
 	"net/http"
 	"net/url"
-	"os"
 	"regexp"
 	"strings"
 
@@ -43,11 +42,6 @@ func RouteHandler(w http.ResponseWriter, r *http.Request) {
 	if path == "/favicon.ico" {
 		return
 	}
-
-	gettext.BindTextdomain("goits", "locale", nil)
-	gettext.Textdomain("goits")
-	os.Setenv("LANGUAGE", "ja_JP.utf8")
-	gettext.SetLocale(gettext.DefaultLocale)
 
 	for _, route := range _routes {
 		matches := route.pattern.FindStringSubmatch(r.URL.RequestURI())
