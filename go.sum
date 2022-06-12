@@ -1,0 +1,8 @@
+github.com/alecthomas/log4go v0.0.0-20180109082532-d146e6b86faa h1:0zdYOLyuQ3TWIgWNgEH+LnmZNMmkO1ze3wriQt093Mk=
+github.com/alecthomas/log4go v0.0.0-20180109082532-d146e6b86faa/go.mod h1:iCVmQ9g4TfaRX5m5jq5sXY7RXYWPv9/PynM/GocbG3w=
+github.com/chai2010/gettext-go v1.0.2 h1:1Lwwip6Q2QGsAdl/ZKPCwTe9fe0CjlUbqj5bFNSjIRk=
+github.com/chai2010/gettext-go v1.0.2/go.mod h1:y+wnP2cHYaVj19NZhYKAwEMH2CI1gNHeQQ+5AjwawxA=
+github.com/knieriem/markdown v0.0.0-20140730233915-325ec6c40dd4 h1:eOcXTzexQIqS5zu/S1PBRo1PiSeFmOBHlkzfGsVfyhI=
+github.com/knieriem/markdown v0.0.0-20140730233915-325ec6c40dd4/go.mod h1:H4COpl46xonSuXrYDppXj3iFCs1wrv6gu1Vn6G0nfXw=
+github.com/mattn/go-sqlite3 v1.14.13 h1:1tj15ngiFfcZzii7yd82foL+ks+ouQcj8j/TPq3fk1I=
+github.com/mattn/go-sqlite3 v1.14.13/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=

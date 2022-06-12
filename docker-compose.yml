@@ -1,0 +1,11 @@
+version: "3"
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/go/src/app
+    tty: true
+    working_dir: /go/src/app
+    command: /go/src/app/goits
+    ports:
+      - 8080:8080

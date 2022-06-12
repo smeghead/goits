@@ -5,16 +5,16 @@ import (
 	"os"
 	"runtime"
 
-	logger "code.google.com/p/log4go"
-	"github.com/chai2010/gettext-go/gettext"
+	logger "github.com/alecthomas/log4go"
+	"github.com/chai2010/gettext-go"
 	"github.com/smeghead/goits/handler"
 )
 
 func main() {
-	gettext.BindTextdomain("goits", "locale", nil)
-	gettext.Textdomain("goits")
+	gettext.BindLocale(gettext.New("goits", "locale"))
+	gettext.SetDomain("goits")
 	os.Setenv("LANGUAGE", "ja_JP.utf8")
-	gettext.SetLocale(gettext.DefaultLocale)
+	gettext.SetLanguage(gettext.DefaultLanguage)
 
 	logger.LoadConfiguration("logging.xml")
 	logger.Trace("main start")

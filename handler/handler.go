@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	logger "github.com/alecthomas/log4go"
-	"github.com/chai2010/gettext-go/gettext"
+	"github.com/chai2010/gettext-go"
 	"github.com/knieriem/markdown"
 	"github.com/smeghead/goits/data"
 )
